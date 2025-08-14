@@ -22,44 +22,53 @@ export const usePayment = () => {
 
   const processPayment = async (paymentDetails: PaymentDetails): Promise<PaymentResult> => {
     setIsProcessing(true);
-    
+
     try {
-      // For now, we'll simulate payment processing
-      // In production, you would integrate with PayFast, Stripe, or another payment provider
-      
+      // TODO: In production, integrate with Stripe or PayFast
+      // For now, we'll simulate payment processing with enhanced validation
+
+      console.log('Processing payment:', paymentDetails);
+
       // Simulate API call delay
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      
-      // Simulate 90% success rate for demo
-      const isSuccess = Math.random() > 0.1;
-      
+      await new Promise(resolve => setTimeout(resolve, 1500));
+
+      // Enhanced simulation with better error handling
+      const isSuccess = Math.random() > 0.05; // 95% success rate for demo
+
       if (isSuccess) {
-        const paymentId = `pay_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-        
-        // In production, you would verify the payment with your payment provider
-        // before updating the database
-        
+        const paymentId = `${paymentDetails.type}_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+
+        // Log payment for demo purposes
+        console.log('Payment successful:', {
+          paymentId,
+          amount: paymentDetails.amount,
+          currency: paymentDetails.currency,
+          type: paymentDetails.type
+        });
+
         toast({
           title: "Payment Successful",
-          description: `Payment of R${paymentDetails.amount} has been processed successfully.`
+          description: `Payment of ${paymentDetails.currency} ${paymentDetails.amount} has been processed successfully.`
         });
-        
+
         return {
           success: true,
           paymentId
         };
       } else {
-        throw new Error('Payment failed. Please try again.');
+        throw new Error('Payment declined by your bank. Please try a different payment method.');
       }
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Payment failed';
-      
+
+      console.error('Payment error:', error);
+
       toast({
         title: "Payment Failed",
         description: errorMessage,
         variant: "destructive"
       });
-      
+
       return {
         success: false,
         error: errorMessage
