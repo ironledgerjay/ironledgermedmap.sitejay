@@ -234,7 +234,7 @@ const Membership = () => {
                   </div>
 
                   <Button type="submit" className="w-full" size="lg">
-                    Proceed to Payment
+                    {selectedPlanDetails?.price === 0 ? 'Activate Basic Plan' : 'Proceed to Payment'}
                   </Button>
                 </form>
               </CardContent>
