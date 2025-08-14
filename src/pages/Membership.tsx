@@ -17,6 +17,7 @@ const membershipPlans = [
     features: [
       'Access to general practitioners',
       'Basic appointment booking',
+      'R10 booking convenience fee per appointment',
       'Email support',
       'Health record storage',
       'Find nearby doctors'
@@ -31,6 +32,7 @@ const membershipPlans = [
     period: 'quarterly',
     features: [
       'Unlimited appointments',
+      'First 5 bookings FREE after renewal',
       'Specialist consultations',
       'Priority booking',
       '24/7 phone support',
