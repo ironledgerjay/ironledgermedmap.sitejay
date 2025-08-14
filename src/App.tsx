@@ -6,6 +6,7 @@ import Login from './pages/Login';
 import Membership from './pages/Membership';
 import DoctorPortal from './pages/DoctorPortal';
 import AdminDashboard from './pages/AdminDashboard';
+import BookAppointment from './pages/BookAppointment';
 import NotFound from './pages/NotFound';
 
 function App() {
