@@ -12,13 +12,14 @@ const membershipPlans = [
   {
     id: 'basic',
     name: 'Basic Plan',
-    price: 29.99,
-    period: 'month',
+    price: 0,
+    period: 'Free',
     features: [
-      'Up to 2 appointments per month',
-      'Basic health tracking',
+      'Access to general practitioners',
+      'Basic appointment booking',
       'Email support',
-      'Access to general practitioners'
+      'Health record storage',
+      'Find nearby doctors'
     ],
     icon: Shield,
     popular: false
@@ -26,34 +27,20 @@ const membershipPlans = [
   {
     id: 'premium',
     name: 'Premium Plan',
-    price: 59.99,
-    period: 'month',
+    price: 39,
+    period: 'quarterly',
     features: [
       'Unlimited appointments',
       'Specialist consultations',
       'Priority booking',
       '24/7 phone support',
       'Advanced health analytics',
-      'Prescription management'
+      'Prescription management',
+      'Telemedicine consultations',
+      'Health reports & insights'
     ],
     icon: Star,
     popular: true
-  },
-  {
-    id: 'family',
-    name: 'Family Plan',
-    price: 99.99,
-    period: 'month',
-    features: [
-      'Coverage for up to 4 family members',
-      'All Premium features',
-      'Family health dashboard',
-      'Pediatric care included',
-      'Emergency consultations',
-      'Health insurance coordination'
-    ],
-    icon: Users,
-    popular: false
   }
 ];
 
