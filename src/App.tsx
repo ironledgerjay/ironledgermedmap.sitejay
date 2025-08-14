@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Toaster } from '@/components/ui/toaster';
+import ProtectedRoute from './components/ProtectedRoute';
 import Index from './pages/Index';
 import Signup from './pages/Signup';
 import Login from './pages/Login';
