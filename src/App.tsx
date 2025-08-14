@@ -19,6 +19,7 @@ function App() {
         <Route path="/membership" element={<Membership />} />
         <Route path="/doctor-portal" element={<DoctorPortal />} />
         <Route path="/admin-dashboard" element={<AdminDashboard />} />
+        <Route path="/book-appointment" element={<BookAppointment />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
       <Toaster />
