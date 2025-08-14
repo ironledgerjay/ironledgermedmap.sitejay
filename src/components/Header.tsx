@@ -58,7 +58,7 @@ const Header = () => {
             <Link to="/membership" className="text-foreground hover:text-primary transition-colors">
               Membership
             </Link>
-            <Link to="/#about" className="text-foreground hover:text-primary transition-colors">
+            <Link to="/about" className="text-foreground hover:text-primary transition-colors">
               About
             </Link>
             <Link to="/#contact" className="text-foreground hover:text-primary transition-colors">
