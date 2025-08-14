@@ -15,6 +15,26 @@ import {
 import heroImage from "@/assets/medical-hero.jpg";
 
 const HeroSection = () => {
+  const navigate = useNavigate();
+  const [searchTerm, setSearchTerm] = useState("");
+  const [location, setLocation] = useState("");
+  const [medicalAid, setMedicalAid] = useState("");
+
+  const handleSearch = () => {
+    const params = new URLSearchParams();
+    if (searchTerm) params.append('specialty', searchTerm);
+    if (location) params.append('location', location);
+    if (medicalAid) params.append('medical_aid', medicalAid);
+
+    navigate(`/search?${params.toString()}`);
+  };
+
+  const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      handleSearch();
+    }
+  };
+
   return (
     <section className="relative min-h-[90vh] flex items-center bg-gradient-subtle overflow-hidden">
       {/* Background Image */}
