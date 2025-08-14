@@ -53,6 +53,20 @@ export default function Login() {
       if (error) throw error;
 
       if (data.user) {
+        // Check if this is the admin user and handle specially
+        if (data.user.email === 'admin@ironledgermedmap.com') {
+          localStorage.setItem('isAdmin', 'true');
+          localStorage.setItem('userEmail', data.user.email);
+
+          toast({
+            title: "Welcome back, Admin!",
+            description: "You have been successfully logged in as administrator"
+          });
+
+          navigate('/admin-dashboard');
+          return;
+        }
+
         // Get user profile to determine role-based navigation
         const { data: profile, error: profileError } = await supabase
           .from('user_profiles')
@@ -67,6 +81,10 @@ export default function Login() {
           // If user_profiles table doesn't exist or user has no profile, treat as regular user
           if (profileError.code === 'PGRST116' || profileError.message?.includes('relation "public.user_profiles" does not exist')) {
             console.log('user_profiles table not found, treating as regular user');
+            toast({
+              title: "Welcome back!",
+              description: "You have been successfully logged in"
+            });
             navigate('/');
             return;
           }
