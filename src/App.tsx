@@ -33,6 +33,7 @@ function App() {
           </ProtectedRoute>
         } />
         <Route path="/book-appointment" element={<BookAppointment />} />
+        <Route path="/search" element={<SearchResults />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
       <Toaster />
