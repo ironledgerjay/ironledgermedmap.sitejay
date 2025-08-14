@@ -54,7 +54,19 @@ export default function ProtectedRoute({ children, requiredRole }: ProtectedRout
 
       if (error || !profile) {
         console.error('Error fetching user profile:', error);
-        setIsAuthorized(false);
+        console.error('Profile error details:', JSON.stringify(error, null, 2));
+
+        // If user_profiles table doesn't exist, allow access for non-admin routes
+        if (error && (error.code === 'PGRST116' || error.message?.includes('relation "public.user_profiles" does not exist'))) {
+          console.log('user_profiles table not found');
+          if (requiredRole === 'admin') {
+            setIsAuthorized(false);
+          } else {
+            setIsAuthorized(true); // Allow access for non-admin routes
+          }
+        } else {
+          setIsAuthorized(false);
+        }
       } else {
         const hasAccess = profile.role === requiredRole;
         setIsAuthorized(hasAccess);
