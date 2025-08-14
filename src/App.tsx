@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Toaster } from '@/components/ui/toaster';
 import ProtectedRoute from './components/ProtectedRoute';
 import Index from './pages/Index';
+import About from './pages/About';
 import Signup from './pages/Signup';
 import Login from './pages/Login';
 import Membership from './pages/Membership';
