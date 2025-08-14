@@ -68,27 +68,54 @@ const Header = () => {
 
           {/* Action Buttons */}
           <div className="flex items-center space-x-4">
-            <Badge variant="secondary" className="hidden sm:flex">
-              <Phone className="h-3 w-3 mr-1" />
-              24/7 Support
-            </Badge>
-            <Link to="/doctor-portal">
-              <Button variant="outline" className="hidden sm:inline-flex">
-                <Users className="h-4 w-4 mr-2" />
-                For Doctors
-              </Button>
-            </Link>
-            <Link to="/login">
-              <Button variant="ghost" className="hidden sm:inline-flex">
-                Sign In
-              </Button>
-            </Link>
-            <Link to="/signup">
-              <Button variant="hero">
-                <Calendar className="h-4 w-4 mr-2" />
-                Get Started
-              </Button>
-            </Link>
+            {isAdmin ? (
+              // Admin-specific buttons
+              <>
+                <Badge variant="default" className="bg-red-100 text-red-800 hidden sm:flex">
+                  <Shield className="h-3 w-3 mr-1" />
+                  Administrator
+                </Badge>
+                <Link to="/admin-dashboard">
+                  <Button variant="outline" className="hidden sm:inline-flex">
+                    <Users className="h-4 w-4 mr-2" />
+                    Dashboard
+                  </Button>
+                </Link>
+                <Button
+                  variant="ghost"
+                  onClick={handleLogout}
+                  className="hidden sm:inline-flex"
+                >
+                  <LogOut className="h-4 w-4 mr-2" />
+                  Logout
+                </Button>
+              </>
+            ) : (
+              // Regular user buttons
+              <>
+                <Badge variant="secondary" className="hidden sm:flex">
+                  <Phone className="h-3 w-3 mr-1" />
+                  24/7 Support
+                </Badge>
+                <Link to="/doctor-portal">
+                  <Button variant="outline" className="hidden sm:inline-flex">
+                    <Users className="h-4 w-4 mr-2" />
+                    For Doctors
+                  </Button>
+                </Link>
+                <Link to="/login">
+                  <Button variant="ghost" className="hidden sm:inline-flex">
+                    Sign In
+                  </Button>
+                </Link>
+                <Link to="/signup">
+                  <Button variant="hero">
+                    <Calendar className="h-4 w-4 mr-2" />
+                    Get Started
+                  </Button>
+                </Link>
+              </>
+            )}
             <Button variant="ghost" size="sm" className="md:hidden">
               <Menu className="h-4 w-4" />
             </Button>
