@@ -227,7 +227,9 @@ const Membership = () => {
                     <h3 className="font-semibold mb-2">Order Summary</h3>
                     <div className="flex justify-between items-center">
                       <span>{selectedPlanDetails?.name}</span>
-                      <span className="font-semibold">${selectedPlanDetails?.price}/{selectedPlanDetails?.period}</span>
+                      <span className="font-semibold">
+                        {selectedPlanDetails?.price === 0 ? 'Free' : `R${selectedPlanDetails?.price}/${selectedPlanDetails?.period}`}
+                      </span>
                     </div>
                   </div>
 
