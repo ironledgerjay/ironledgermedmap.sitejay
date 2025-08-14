@@ -19,8 +19,16 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/membership" element={<Membership />} />
         <Route path="/doctor-portal" element={<DoctorPortal />} />
-        <Route path="/admin-dashboard" element={<AdminDashboard />} />
-        <Route path="/AdminDashboard" element={<AdminDashboard />} />
+        <Route path="/admin-dashboard" element={
+          <ProtectedRoute requiredRole="admin">
+            <AdminDashboard />
+          </ProtectedRoute>
+        } />
+        <Route path="/AdminDashboard" element={
+          <ProtectedRoute requiredRole="admin">
+            <AdminDashboard />
+          </ProtectedRoute>
+        } />
         <Route path="/book-appointment" element={<BookAppointment />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
