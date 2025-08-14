@@ -8,47 +8,44 @@
 3. Copy and paste the contents of `database-setup.sql`
 4. Execute the script
 
-### 2. Create Test Users
-Since the database requires actual user IDs from Supabase Auth, you need to:
+### 2. Add Comprehensive Test Data
+For a fully populated database with realistic test data:
 
-1. **Create Test Doctor Account:**
-   - Go to your app's signup page
-   - Create account with email: `dr.test.smith@example.com`
-   - Full name: `Dr. Test Smith`
-   - Role: `Doctor`
-   - Phone: `+27 82 123 4567`
+1. **Execute the comprehensive test data script:**
+   - Copy and paste the contents of `test-data-complete.sql`
+   - Execute in your Supabase SQL Editor
 
-2. **Create Test Patient Accounts:**
-   - Email: `test.patient1@example.com`, Name: `Test Patient One`
-   - Email: `test.patient2@example.com`, Name: `Test Patient Two`
-   - Role: `Patient` for both
+**This will create:**
+- **18 Test Doctors** (2 per province across all 9 South African provinces)
+- **18 Medical Practices** (covering Western Cape, Gauteng, KwaZulu-Natal, Eastern Cape, Limpopo, Mpumalanga, North West, Free State, Northern Cape)
+- **5 Test Patients** with different membership types
+- **1 Admin User** for testing admin functionality
+- **Sample Bookings** showing completed and upcoming appointments
+- **Realistic Data** with proper South African addresses, phone numbers, and medical specialties
 
-3. **Create Admin Account:**
-   - Email: `admin@ironledgermedmap.com`, Name: `Test Admin`
-   - Role: `Admin` (you'll need to manually update this in the database)
+**Test Data Includes:**
 
-### 3. Complete Test Data Setup
-After creating the users above, get their UUIDs from the `auth.users` table and run:
+**Doctors by Province:**
+- **Western Cape**: Dr. Test Williams (General Practice), Dr. Test Adams (Cardiology)
+- **Gauteng**: Dr. Test Johnson (Neurology), Dr. Test Brown (Pediatrics)
+- **KwaZulu-Natal**: Dr. Test Davis (General Practice), Dr. Test Wilson (Gynecology)
+- **Eastern Cape**: Dr. Test Miller (Emergency Medicine), Dr. Test Moore (Psychiatry)
+- **Limpopo**: Dr. Test Taylor (General Practice), Dr. Test Anderson (Family Medicine)
+- **Mpumalanga**: Dr. Test Thomas (General Practice), Dr. Test Jackson (Occupational Health)
+- **North West**: Dr. Test White (General Practice), Dr. Test Harris (Pediatrics)
+- **Free State**: Dr. Test Martin (Cardiology), Dr. Test Clark (General Practice)
+- **Northern Cape**: Dr. Test Rodriguez (General Practice), Dr. Test Lewis (Family Medicine)
 
-```sql
--- Get user IDs first
-SELECT id, email FROM auth.users;
+**Test Patients:**
+- Test Patient One (Basic membership)
+- Test Patient Two (Premium membership with 5 free bookings)
+- Test Patient Three (Basic membership)
+- Test Patient Four (Premium membership with 3 remaining bookings)
+- Test Patient Five (Basic membership)
 
--- Insert doctor profile (replace UUID with actual doctor's UUID)
-INSERT INTO public.doctors (user_id, practice_id, license_number, specialty, years_of_experience, bio, is_verified) VALUES
-('YOUR-DOCTOR-UUID-HERE', 
- (SELECT id FROM public.medical_practices WHERE name = 'Test Family Medical Center' LIMIT 1), 
- 'TEST123456', 
- 'General Practice', 
- 10, 
- 'Test doctor specializing in family medicine with over 10 years of experience', 
- true);
-
--- Insert patient memberships (replace UUIDs with actual patient UUIDs)
-INSERT INTO public.memberships (user_id, membership_type, status) VALUES
-('YOUR-PATIENT-1-UUID-HERE', 'basic', 'active'),
-('YOUR-PATIENT-2-UUID-HERE', 'premium', 'active');
-```
+**Admin Access:**
+- Email: `admin@ironledgermedmap.com`
+- Name: `Test Admin User`
 
 ## 💳 Payment Integration
 
