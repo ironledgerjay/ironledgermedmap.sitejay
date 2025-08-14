@@ -60,6 +60,45 @@ const Membership = () => {
     emergencyContact: '',
     emergencyPhone: ''
   });
+  const [currentUser, setCurrentUser] = useState<any>(null);
+
+  const navigate = useNavigate();
+  const { processMembershipPayment, isProcessing } = usePayment();
+  const { toast } = useToast();
+
+  // Check if user is logged in
+  useState(() => {
+    const checkUser = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        toast({
+          title: "Please sign in",
+          description: "You need to be logged in to purchase a membership",
+          variant: "destructive"
+        });
+        navigate('/login');
+        return;
+      }
+      setCurrentUser(user);
+
+      // Pre-fill form with user data if available
+      const { data: profile } = await supabase
+        .from('user_profiles')
+        .select('*')
+        .eq('id', user.id)
+        .single();
+
+      if (profile) {
+        setFormData(prev => ({
+          ...prev,
+          fullName: profile.full_name || '',
+          email: profile.email || '',
+          phone: profile.phone || ''
+        }));
+      }
+    };
+    checkUser();
+  });
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData(prev => ({
@@ -68,10 +107,55 @@ const Membership = () => {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: Implement payment processing and membership creation
-    console.log('Membership signup:', { selectedPlan, formData });
+
+    if (!currentUser) {
+      toast({
+        title: "Authentication required",
+        description: "Please log in to continue",
+        variant: "destructive"
+      });
+      navigate('/login');
+      return;
+    }
+
+    try {
+      // Update user profile with additional information
+      const { error: profileError } = await supabase
+        .from('user_profiles')
+        .upsert({
+          id: currentUser.id,
+          email: formData.email,
+          full_name: formData.fullName,
+          phone: formData.phone,
+          address: formData.address,
+          emergency_contact_name: formData.emergencyContact,
+          emergency_contact_phone: formData.emergencyPhone
+        });
+
+      if (profileError) {
+        console.error('Profile update error:', profileError);
+      }
+
+      // Process payment
+      const paymentResult = await processMembershipPayment(selectedPlan, currentUser.id);
+
+      if (paymentResult.success) {
+        toast({
+          title: "Membership activated!",
+          description: `Your ${selectedPlan} membership has been activated successfully.`
+        });
+        navigate('/');
+      }
+    } catch (error) {
+      console.error('Membership signup error:', error);
+      toast({
+        title: "Error",
+        description: "Failed to process membership. Please try again.",
+        variant: "destructive"
+      });
+    }
   };
 
   const selectedPlanDetails = membershipPlans.find(plan => plan.id === selectedPlan);
