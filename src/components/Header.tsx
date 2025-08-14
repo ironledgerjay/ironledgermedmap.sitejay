@@ -1,15 +1,40 @@
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
 import {
   Stethoscope,
   Calendar,
   Users,
   Phone,
-  Menu
+  Menu,
+  LogOut,
+  Shield
 } from "lucide-react";
 
 const Header = () => {
+  const [isAdmin, setIsAdmin] = useState(false);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const checkAdminStatus = () => {
+      const adminStatus = localStorage.getItem('isAdmin') === 'true';
+      const adminEmail = localStorage.getItem('userEmail');
+      setIsAdmin(adminStatus && adminEmail === 'admin@ironledgermedmap.com');
+    };
+
+    checkAdminStatus();
+    // Listen for storage changes
+    window.addEventListener('storage', checkAdminStatus);
+    return () => window.removeEventListener('storage', checkAdminStatus);
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem('isAdmin');
+    localStorage.removeItem('userEmail');
+    setIsAdmin(false);
+    navigate('/');
+  };
   return (
     <header className="sticky top-0 z-50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b border-border">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
