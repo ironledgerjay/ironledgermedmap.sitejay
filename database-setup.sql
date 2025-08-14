@@ -185,32 +185,21 @@ CREATE TRIGGER update_bookings_updated_at
 -- Insert Test Data
 -- =====================================================
 
--- Insert test medical practices
+-- IMPORTANT: For comprehensive test data including:
+-- - 18 test doctors (2 per province across all 9 SA provinces)
+-- - 5 test patients with different membership types
+-- - 1 admin user
+-- - Sample bookings and realistic data
+--
+-- Please execute the separate file: test-data-complete.sql
+--
+-- This provides a fully populated database for testing and demonstration
+
+-- Basic test practices (minimal - use test-data-complete.sql for full data)
 INSERT INTO public.medical_practices (name, description, address, phone, email, specialties, is_verified) VALUES
 ('Test Family Medical Center', 'Comprehensive family healthcare services', '123 Test Street, Cape Town, 8001', '+27 21 123 4567', 'info@testfamilymed.co.za', ARRAY['General Practice', 'Family Medicine'], true),
 ('Test Specialist Clinic', 'Specialized medical consultations', '456 Test Avenue, Johannesburg, 2000', '+27 11 987 6543', 'contact@testspecialist.co.za', ARRAY['Cardiology', 'Neurology'], true),
 ('Test Pediatric Care', 'Dedicated children healthcare', '789 Test Road, Durban, 4000', '+27 31 555 0123', 'hello@testpediatric.co.za', ARRAY['Pediatrics', 'Child Development'], true);
-
--- Note: The following inserts for doctors and patients require actual user IDs from auth.users
--- You'll need to create these users through the signup process first, then update the queries below with real UUIDs
-
--- Example structure for test doctors (replace UUIDs with actual ones after user creation):
-/*
-INSERT INTO public.user_profiles (id, email, full_name, phone, role) VALUES
-('your-actual-user-uuid-here', 'dr.test.smith@example.com', 'Dr. Test Smith', '+27 82 123 4567', 'doctor');
-
-INSERT INTO public.doctors (user_id, practice_id, license_number, specialty, years_of_experience, bio, is_verified) VALUES
-('your-actual-user-uuid-here', (SELECT id FROM public.medical_practices WHERE name = 'Test Family Medical Center' LIMIT 1), 'TEST123456', 'General Practice', 10, 'Test doctor specializing in family medicine', true);
-*/
-
--- Example structure for test patients (replace UUIDs with actual ones after user creation):
-/*
-INSERT INTO public.user_profiles (id, email, full_name, phone, role) VALUES
-('your-actual-patient-uuid-here', 'test.patient@example.com', 'Test Patient One', '+27 82 987 6543', 'patient');
-
-INSERT INTO public.memberships (user_id, membership_type, status) VALUES
-('your-actual-patient-uuid-here', 'basic', 'active');
-*/
 
 -- =====================================================
 -- Final Notes
