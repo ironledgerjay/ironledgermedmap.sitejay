@@ -1,15 +1,40 @@
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
 import {
   Stethoscope,
   Calendar,
   Users,
   Phone,
-  Menu
+  Menu,
+  LogOut,
+  Shield
 } from "lucide-react";
 
 const Header = () => {
+  const [isAdmin, setIsAdmin] = useState(false);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const checkAdminStatus = () => {
+      const adminStatus = localStorage.getItem('isAdmin') === 'true';
+      const adminEmail = localStorage.getItem('userEmail');
+      setIsAdmin(adminStatus && adminEmail === 'admin@ironledgermedmap.com');
+    };
+
+    checkAdminStatus();
+    // Listen for storage changes
+    window.addEventListener('storage', checkAdminStatus);
+    return () => window.removeEventListener('storage', checkAdminStatus);
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem('isAdmin');
+    localStorage.removeItem('userEmail');
+    setIsAdmin(false);
+    navigate('/');
+  };
   return (
     <header className="sticky top-0 z-50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b border-border">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -33,7 +58,7 @@ const Header = () => {
             <Link to="/membership" className="text-foreground hover:text-primary transition-colors">
               Membership
             </Link>
-            <Link to="/#about" className="text-foreground hover:text-primary transition-colors">
+            <Link to="/about" className="text-foreground hover:text-primary transition-colors">
               About
             </Link>
             <Link to="/#contact" className="text-foreground hover:text-primary transition-colors">
@@ -43,27 +68,54 @@ const Header = () => {
 
           {/* Action Buttons */}
           <div className="flex items-center space-x-4">
-            <Badge variant="secondary" className="hidden sm:flex">
-              <Phone className="h-3 w-3 mr-1" />
-              24/7 Support
-            </Badge>
-            <Link to="/doctor-portal">
-              <Button variant="outline" className="hidden sm:inline-flex">
-                <Users className="h-4 w-4 mr-2" />
-                For Doctors
-              </Button>
-            </Link>
-            <Link to="/login">
-              <Button variant="ghost" className="hidden sm:inline-flex">
-                Sign In
-              </Button>
-            </Link>
-            <Link to="/signup">
-              <Button variant="hero">
-                <Calendar className="h-4 w-4 mr-2" />
-                Get Started
-              </Button>
-            </Link>
+            {isAdmin ? (
+              // Admin-specific buttons
+              <>
+                <Badge variant="default" className="bg-red-100 text-red-800 hidden sm:flex">
+                  <Shield className="h-3 w-3 mr-1" />
+                  Administrator
+                </Badge>
+                <Link to="/admin-dashboard">
+                  <Button variant="outline" className="hidden sm:inline-flex">
+                    <Users className="h-4 w-4 mr-2" />
+                    Dashboard
+                  </Button>
+                </Link>
+                <Button
+                  variant="ghost"
+                  onClick={handleLogout}
+                  className="hidden sm:inline-flex"
+                >
+                  <LogOut className="h-4 w-4 mr-2" />
+                  Logout
+                </Button>
+              </>
+            ) : (
+              // Regular user buttons
+              <>
+                <Badge variant="secondary" className="hidden sm:flex">
+                  <Phone className="h-3 w-3 mr-1" />
+                  24/7 Support
+                </Badge>
+                <Link to="/doctor-portal">
+                  <Button variant="outline" className="hidden sm:inline-flex">
+                    <Users className="h-4 w-4 mr-2" />
+                    For Doctors
+                  </Button>
+                </Link>
+                <Link to="/login">
+                  <Button variant="ghost" className="hidden sm:inline-flex">
+                    Sign In
+                  </Button>
+                </Link>
+                <Link to="/signup">
+                  <Button variant="hero">
+                    <Calendar className="h-4 w-4 mr-2" />
+                    Get Started
+                  </Button>
+                </Link>
+              </>
+            )}
             <Button variant="ghost" size="sm" className="md:hidden">
               <Menu className="h-4 w-4" />
             </Button>

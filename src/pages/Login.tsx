@@ -31,6 +31,20 @@ export default function Login() {
     setIsLoading(true);
 
     try {
+      // Check for hardcoded admin credentials first
+      if (formData.email === 'admin@ironledgermedmap.com' && formData.password === 'Medm@p2025') {
+        toast({
+          title: "Welcome back, Admin!",
+          description: "You have been successfully logged in as administrator"
+        });
+
+        // Store admin session
+        localStorage.setItem('isAdmin', 'true');
+        localStorage.setItem('userEmail', formData.email);
+        navigate('/admin-dashboard');
+        return;
+      }
+
       const { data, error } = await supabase.auth.signInWithPassword({
         email: formData.email,
         password: formData.password
@@ -39,6 +53,20 @@ export default function Login() {
       if (error) throw error;
 
       if (data.user) {
+        // Check if this is the admin user and handle specially
+        if (data.user.email === 'admin@ironledgermedmap.com') {
+          localStorage.setItem('isAdmin', 'true');
+          localStorage.setItem('userEmail', data.user.email);
+
+          toast({
+            title: "Welcome back, Admin!",
+            description: "You have been successfully logged in as administrator"
+          });
+
+          navigate('/admin-dashboard');
+          return;
+        }
+
         // Get user profile to determine role-based navigation
         const { data: profile, error: profileError } = await supabase
           .from('user_profiles')
@@ -48,6 +76,18 @@ export default function Login() {
 
         if (profileError) {
           console.error('Error fetching profile:', profileError);
+          console.error('Profile error details:', JSON.stringify(profileError, null, 2));
+
+          // If user_profiles table doesn't exist or user has no profile, treat as regular user
+          if (profileError.code === 'PGRST116' || profileError.message?.includes('relation "public.user_profiles" does not exist')) {
+            console.log('user_profiles table not found, treating as regular user');
+            toast({
+              title: "Welcome back!",
+              description: "You have been successfully logged in"
+            });
+            navigate('/');
+            return;
+          }
         }
 
         toast({
