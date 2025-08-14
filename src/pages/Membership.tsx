@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -7,6 +8,9 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Separator } from "@/components/ui/separator";
 import { Check, Star, Users, Phone, Shield } from "lucide-react";
 import Header from "@/components/Header";
+import { usePayment } from "@/hooks/usePayment";
+import { supabase } from "../superbaseClient";
+import { useToast } from "@/hooks/use-toast";
 
 const membershipPlans = [
   {
