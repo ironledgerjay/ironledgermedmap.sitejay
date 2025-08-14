@@ -62,6 +62,14 @@ export default function Login() {
 
         if (profileError) {
           console.error('Error fetching profile:', profileError);
+          console.error('Profile error details:', JSON.stringify(profileError, null, 2));
+
+          // If user_profiles table doesn't exist or user has no profile, treat as regular user
+          if (profileError.code === 'PGRST116' || profileError.message?.includes('relation "public.user_profiles" does not exist')) {
+            console.log('user_profiles table not found, treating as regular user');
+            navigate('/');
+            return;
+          }
         }
 
         toast({
