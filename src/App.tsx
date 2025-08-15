@@ -4,6 +4,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 import Index from './pages/Index';
 import About from './pages/About';
 import Contact from './pages/Contact';
+import SearchResults from './pages/SearchResults';
 import Signup from './pages/Signup';
 import Login from './pages/Login';
 import Membership from './pages/Membership';
