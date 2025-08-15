@@ -101,9 +101,21 @@ const SearchResults = () => {
 
       if (error) {
         console.error('Supabase search error:', error);
+        console.error('Supabase error details:', JSON.stringify(error, null, 2));
+
+        // Extract meaningful error message from Supabase error
+        let errorMessage = 'Failed to search doctors';
+        if (error.message) {
+          errorMessage = error.message;
+        } else if (error.details) {
+          errorMessage = error.details;
+        } else if (error.hint) {
+          errorMessage = error.hint;
+        }
+
         toast({
           title: "Search Error",
-          description: `Database error: ${error.message || 'Failed to search doctors'}`,
+          description: `Database error: ${errorMessage}`,
           variant: "destructive"
         });
       } else {
