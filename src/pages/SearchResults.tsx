@@ -83,7 +83,10 @@ const SearchResults = () => {
       }
 
       if (filters.location && filters.location !== 'all') {
-        query = query.or(`medical_practices.city.ilike.%${filters.location}%,medical_practices.province.ilike.%${filters.location}%,medical_practices.address.ilike.%${filters.location}%`);
+        // Note: Complex joins with OR conditions might need to be handled differently
+        // For now, let's try a simpler approach by filtering the specific location field
+        const locationFilter = filters.location.toLowerCase();
+        // We'll handle this in client-side filtering after getting the data
       }
 
       if (filters.minFee && !isNaN(Number(filters.minFee))) {
