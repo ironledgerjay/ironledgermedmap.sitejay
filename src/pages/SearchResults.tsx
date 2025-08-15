@@ -341,6 +341,7 @@ const SearchResults = () => {
               <Button onClick={() => {
                 setFilters({ specialty: '', location: '', medicalAid: '', minFee: '', maxFee: '', sortBy: 'rating' });
                 setSearchParams({});
+                searchDoctors();
               }}>
                 Clear Filters
               </Button>
