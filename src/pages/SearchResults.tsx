@@ -78,11 +78,11 @@ const SearchResults = () => {
         `);
 
       // Apply filters
-      if (filters.specialty) {
+      if (filters.specialty && filters.specialty !== 'all') {
         query = query.ilike('specialty', `%${filters.specialty}%`);
       }
 
-      if (filters.location) {
+      if (filters.location && filters.location !== 'all') {
         query = query.or(`medical_practices.city.ilike.%${filters.location}%,medical_practices.province.ilike.%${filters.location}%,medical_practices.address.ilike.%${filters.location}%`);
       }
 
