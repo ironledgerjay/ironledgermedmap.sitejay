@@ -134,9 +134,10 @@ const SearchResults = () => {
       }
     } catch (error) {
       console.error('Search error:', error);
+      const errorMessage = error instanceof Error ? error.message : 'An unexpected error occurred';
       toast({
         title: "Search Error",
-        description: "An unexpected error occurred. Please try again.",
+        description: `Failed to search doctors: ${errorMessage}`,
         variant: "destructive"
       });
     } finally {
