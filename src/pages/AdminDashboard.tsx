@@ -216,13 +216,55 @@ const AdminDashboard = () => {
   }, []);
 
   const handleApproveDoctor = async (doctorId: string) => {
-    console.log('Approving doctor:', doctorId);
-    // TODO: Implement doctor approval
+    try {
+      const { error } = await supabase
+        .from('doctors')
+        .update({ verification_status: 'verified' })
+        .eq('id', doctorId);
+
+      if (error) throw error;
+
+      toast({
+        title: "Doctor Approved",
+        description: "Doctor has been successfully verified and approved.",
+      });
+
+      // Refresh data
+      loadDashboardData();
+    } catch (error) {
+      console.error('Error approving doctor:', error);
+      toast({
+        title: "Approval Failed",
+        description: "Failed to approve doctor. Please try again.",
+        variant: "destructive"
+      });
+    }
   };
 
-  const handleRejectDoctor = (doctorId: number) => {
-    console.log('Rejecting doctor:', doctorId);
-    // TODO: Implement doctor rejection
+  const handleRejectDoctor = async (doctorId: string) => {
+    try {
+      const { error } = await supabase
+        .from('doctors')
+        .update({ verification_status: 'rejected' })
+        .eq('id', doctorId);
+
+      if (error) throw error;
+
+      toast({
+        title: "Doctor Rejected",
+        description: "Doctor application has been rejected.",
+      });
+
+      // Refresh data
+      loadDashboardData();
+    } catch (error) {
+      console.error('Error rejecting doctor:', error);
+      toast({
+        title: "Rejection Failed",
+        description: "Failed to reject doctor. Please try again.",
+        variant: "destructive"
+      });
+    }
   };
 
   const getStatusBadge = (status: string) => {
