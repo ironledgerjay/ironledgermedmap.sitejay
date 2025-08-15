@@ -109,6 +109,16 @@ const SearchResults = () => {
       } else {
         let results = data || [];
         
+        // Client-side filtering for location
+        if (filters.location && filters.location !== 'all') {
+          const locationFilter = filters.location.toLowerCase();
+          results = results.filter(doctor =>
+            doctor.medical_practices?.city?.toLowerCase().includes(locationFilter) ||
+            doctor.medical_practices?.province?.toLowerCase().includes(locationFilter) ||
+            doctor.medical_practices?.address?.toLowerCase().includes(locationFilter)
+          );
+        }
+
         // Client-side filtering for medical aid if needed
         if (filters.medicalAid && filters.medicalAid !== 'all') {
           results = results.filter(doctor =>
