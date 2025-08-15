@@ -596,6 +596,8 @@ const AdminDashboard = () => {
           </TabsContent>
 
           <TabsContent value="settings" className="space-y-6">
+            <DatabasePopulator />
+
             <Card>
               <CardHeader>
                 <CardTitle>Platform Settings</CardTitle>
