@@ -117,24 +117,29 @@ const SearchResults = () => {
         });
       } else {
         let results = data || [];
-        
-        // Client-side filtering for location
+        console.log('Raw results from database:', results.length, results[0]);
+
+        // Client-side filtering for location (will be skipped for now with mock data)
         if (filters.location && filters.location !== 'all') {
           const locationFilter = filters.location.toLowerCase();
-          results = results.filter(doctor =>
-            doctor.medical_practices?.city?.toLowerCase().includes(locationFilter) ||
-            doctor.medical_practices?.province?.toLowerCase().includes(locationFilter) ||
-            doctor.medical_practices?.address?.toLowerCase().includes(locationFilter)
-          );
+          results = results.filter(doctor => {
+            const practices = doctor.medical_practices;
+            if (!practices) return true; // Include if no practice data
+            return practices.city?.toLowerCase().includes(locationFilter) ||
+                   practices.province?.toLowerCase().includes(locationFilter) ||
+                   practices.address?.toLowerCase().includes(locationFilter);
+          });
         }
 
         // Client-side filtering for medical aid if needed
         if (filters.medicalAid && filters.medicalAid !== 'all') {
-          results = results.filter(doctor =>
-            doctor.medical_practices?.medical_aid_providers?.some(provider =>
+          results = results.filter(doctor => {
+            const practices = doctor.medical_practices;
+            if (!practices?.medical_aid_providers) return true; // Include if no medical aid data
+            return practices.medical_aid_providers.some(provider =>
               provider.toLowerCase().includes(filters.medicalAid.toLowerCase())
-            )
-          );
+            );
+          });
         }
 
         // Sort results with safety checks
