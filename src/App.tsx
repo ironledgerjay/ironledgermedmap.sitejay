@@ -3,6 +3,7 @@ import { Toaster } from '@/components/ui/toaster';
 import ProtectedRoute from './components/ProtectedRoute';
 import Index from './pages/Index';
 import About from './pages/About';
+import Contact from './pages/Contact';
 import Signup from './pages/Signup';
 import Login from './pages/Login';
 import Membership from './pages/Membership';
