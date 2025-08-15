@@ -71,12 +71,13 @@ const SearchResults = () => {
     try {
       console.log('Starting search with filters:', filters);
 
+      // Start with a simple query first
       let query = supabase
         .from('doctors')
         .select(`
           *,
-          user_profiles (full_name, email, phone),
-          medical_practices (id, name, address, city, province, medical_aid_providers)
+          user_profiles!doctors_user_id_fkey (full_name, email, phone),
+          medical_practices!doctors_practice_id_fkey (id, name, address, city, province, medical_aid_providers)
         `);
 
       // Apply filters
