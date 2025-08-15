@@ -107,9 +107,9 @@ const SearchResults = () => {
         let results = data || [];
         
         // Client-side filtering for medical aid if needed
-        if (filters.medicalAid) {
-          results = results.filter(doctor => 
-            doctor.medical_practices?.medical_aid_providers?.some(provider => 
+        if (filters.medicalAid && filters.medicalAid !== 'all') {
+          results = results.filter(doctor =>
+            doctor.medical_practices?.medical_aid_providers?.some(provider =>
               provider.toLowerCase().includes(filters.medicalAid.toLowerCase())
             )
           );
