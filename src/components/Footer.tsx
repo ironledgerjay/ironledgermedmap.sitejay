@@ -80,7 +80,7 @@ const Footer = () => {
               </div>
               <div className="flex items-center space-x-2 text-sm">
                 <Mail className="h-4 w-4 opacity-80" />
-                <span className="opacity-80">hello@ironledgermedmap.co.za</span>
+                <span className="opacity-80">ironledgermedmap@gmail.com</span>
               </div>
               <div className="flex items-center space-x-2 text-sm">
                 <MapPin className="h-4 w-4 opacity-80" />
