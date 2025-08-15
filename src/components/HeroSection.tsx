@@ -100,27 +100,41 @@ const HeroSection = () => {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
               <div className="relative">
                 <Search className="absolute left-3 top-3 h-5 w-5 text-muted-foreground" />
-                <Input 
-                  placeholder="Search for specialists..." 
+                <Input
+                  placeholder="Search for specialists..."
+                  value={searchData.specialty}
+                  onChange={(e) => handleInputChange('specialty', e.target.value)}
+                  onKeyPress={handleKeyPress}
                   className="pl-10 h-12 border-0 bg-background focus:ring-2 focus:ring-primary"
                 />
               </div>
               <div className="relative">
                 <MapPin className="absolute left-3 top-3 h-5 w-5 text-muted-foreground" />
-                <Input 
-                  placeholder="Enter your location..." 
+                <Input
+                  placeholder="Enter your location..."
+                  value={searchData.location}
+                  onChange={(e) => handleInputChange('location', e.target.value)}
+                  onKeyPress={handleKeyPress}
                   className="pl-10 h-12 border-0 bg-background focus:ring-2 focus:ring-primary"
                 />
               </div>
               <div className="relative">
                 <Shield className="absolute left-3 top-3 h-5 w-5 text-muted-foreground" />
-                <Input 
-                  placeholder="Medical aid provider..." 
+                <Input
+                  placeholder="Medical aid provider..."
+                  value={searchData.medicalAid}
+                  onChange={(e) => handleInputChange('medicalAid', e.target.value)}
+                  onKeyPress={handleKeyPress}
                   className="pl-10 h-12 border-0 bg-background focus:ring-2 focus:ring-primary"
                 />
               </div>
             </div>
-            <Button size="lg" variant="hero" className="w-full h-12">
+            <Button
+              size="lg"
+              variant="hero"
+              className="w-full h-12"
+              onClick={handleSearch}
+            >
               <Search className="h-5 w-5 mr-2" />
               Search Doctors
             </Button>
