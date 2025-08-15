@@ -326,8 +326,17 @@ const AdminDashboard = () => {
                   <Users className="h-4 w-4 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold">{stats.totalUsers.toLocaleString()}</div>
-                  <p className="text-xs text-muted-foreground">+12% from last month</p>
+                  {loading ? (
+                    <>
+                      <Skeleton className="h-8 w-20 mb-2" />
+                      <Skeleton className="h-4 w-32" />
+                    </>
+                  ) : (
+                    <>
+                      <div className="text-2xl font-bold">{stats.totalUsers.toLocaleString()}</div>
+                      <p className="text-xs text-muted-foreground">Real-time count</p>
+                    </>
+                  )}
                 </CardContent>
               </Card>
 
