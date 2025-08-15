@@ -143,11 +143,20 @@ const SearchResults = () => {
           }
         });
 
+        console.log('Final filtered results:', results.length);
         setDoctors(results);
       }
     } catch (error) {
-      console.error('Search error:', error);
-      const errorMessage = error instanceof Error ? error.message : 'An unexpected error occurred';
+      console.error('Caught search error:', error);
+      console.error('Error details:', JSON.stringify(error, null, 2));
+
+      let errorMessage = 'An unexpected error occurred';
+      if (error instanceof Error) {
+        errorMessage = error.message;
+      } else if (typeof error === 'object' && error !== null) {
+        errorMessage = (error as any).message || JSON.stringify(error);
+      }
+
       toast({
         title: "Search Error",
         description: `Failed to search doctors: ${errorMessage}`,
