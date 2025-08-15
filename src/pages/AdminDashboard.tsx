@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -6,20 +6,24 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { 
-  Users, 
-  UserCheck, 
-  Building, 
-  Calendar, 
-  DollarSign, 
+import { Skeleton } from "@/components/ui/skeleton";
+import {
+  Users,
+  UserCheck,
+  Building,
+  Calendar,
+  DollarSign,
   Activity,
   Search,
   Filter,
   CheckCircle,
   XCircle,
-  AlertTriangle
+  AlertTriangle,
+  RefreshCw
 } from "lucide-react";
 import Header from "@/components/Header";
+import { supabase } from "../superbaseClient";
+import { useToast } from "@/hooks/use-toast";
 
 const AdminDashboard = () => {
   const [activeTab, setActiveTab] = useState('overview');
