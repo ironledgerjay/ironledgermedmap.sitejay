@@ -235,12 +235,12 @@ const SearchResults = () => {
                   </SelectContent>
                 </Select>
                 
-                <Select value={filters.location} onValueChange={(value) => handleFilterChange('location', value)}>
+                <Select value={filters.location || 'all'} onValueChange={(value) => handleFilterChange('location', value === 'all' ? '' : value)}>
                   <SelectTrigger>
                     <SelectValue placeholder="Select province" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="">All Provinces</SelectItem>
+                    <SelectItem value="all">All Provinces</SelectItem>
                     {provinces.map(province => (
                       <SelectItem key={province} value={province}>{province}</SelectItem>
                     ))}
