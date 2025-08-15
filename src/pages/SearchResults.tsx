@@ -152,8 +152,26 @@ const SearchResults = () => {
           }
         });
 
-        console.log('Final filtered results:', results.length);
-        setDoctors(results);
+        // For now, create mock user_profiles and medical_practices data
+        const enhancedResults = results.map(doctor => ({
+          ...doctor,
+          user_profiles: doctor.user_profiles || {
+            full_name: `Dr. ${doctor.specialty} Specialist`,
+            email: 'contact@ironledgermedmap.com',
+            phone: '0800 MEDMAP'
+          },
+          medical_practices: doctor.medical_practices || {
+            id: doctor.id,
+            name: 'Medical Practice',
+            address: 'Cape Town',
+            city: 'Cape Town',
+            province: 'Western Cape',
+            medical_aid_providers: ['Discovery Health', 'Momentum Health']
+          }
+        }));
+
+        console.log('Final filtered results:', enhancedResults.length);
+        setDoctors(enhancedResults);
       }
     } catch (error) {
       console.error('Caught search error:', error);
