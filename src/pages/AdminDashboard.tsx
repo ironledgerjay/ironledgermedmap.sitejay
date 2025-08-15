@@ -22,6 +22,7 @@ import {
   RefreshCw
 } from "lucide-react";
 import Header from "@/components/Header";
+import DatabasePopulator from "@/components/DatabasePopulator";
 import { supabase } from "../superbaseClient";
 import { useToast } from "@/hooks/use-toast";
 
