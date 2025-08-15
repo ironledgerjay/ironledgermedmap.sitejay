@@ -31,18 +31,26 @@ const Footer = () => {
               South Africa's premier medical booking platform. Connecting patients with qualified healthcare professionals across the country.
             </p>
             <div className="flex space-x-3">
-              <Button size="sm" variant="outline" className="border-background/20 text-background hover:bg-background/10">
-                <Facebook className="h-4 w-4" />
-              </Button>
-              <Button size="sm" variant="outline" className="border-background/20 text-background hover:bg-background/10">
-                <Twitter className="h-4 w-4" />
-              </Button>
-              <Button size="sm" variant="outline" className="border-background/20 text-background hover:bg-background/10">
-                <Instagram className="h-4 w-4" />
-              </Button>
-              <Button size="sm" variant="outline" className="border-background/20 text-background hover:bg-background/10">
-                <Linkedin className="h-4 w-4" />
-              </Button>
+              <a href="https://facebook.com/ironledgermedmap" target="_blank" rel="noopener noreferrer">
+                <Button size="sm" variant="outline" className="border-background/20 text-background hover:bg-background/10">
+                  <Facebook className="h-4 w-4" />
+                </Button>
+              </a>
+              <a href="https://twitter.com/ironledgermedmap" target="_blank" rel="noopener noreferrer">
+                <Button size="sm" variant="outline" className="border-background/20 text-background hover:bg-background/10">
+                  <Twitter className="h-4 w-4" />
+                </Button>
+              </a>
+              <a href="https://instagram.com/ironledgermedmap" target="_blank" rel="noopener noreferrer">
+                <Button size="sm" variant="outline" className="border-background/20 text-background hover:bg-background/10">
+                  <Instagram className="h-4 w-4" />
+                </Button>
+              </a>
+              <a href="https://linkedin.com/company/ironledgermedmap" target="_blank" rel="noopener noreferrer">
+                <Button size="sm" variant="outline" className="border-background/20 text-background hover:bg-background/10">
+                  <Linkedin className="h-4 w-4" />
+                </Button>
+              </a>
             </div>
           </div>
 
