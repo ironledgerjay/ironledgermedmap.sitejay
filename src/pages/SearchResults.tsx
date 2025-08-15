@@ -189,9 +189,58 @@ const SearchResults = () => {
         errorMessage = (error as any).message || JSON.stringify(error);
       }
 
+      // Provide fallback sample data for demonstration
+      const sampleDoctors = [
+        {
+          id: 'sample-1',
+          specialty: 'Cardiology',
+          years_of_experience: 15,
+          consultation_fee: 1200,
+          bio: 'Experienced cardiologist specializing in heart disease prevention and treatment.',
+          rating: 4.8,
+          user_profiles: {
+            full_name: 'Dr. Sarah Johnson',
+            email: 'sarah.johnson@ironledgermedmap.com',
+            phone: '021 123 4567'
+          },
+          medical_practices: {
+            id: 'practice-1',
+            name: 'Cape Heart Centre',
+            address: '123 Medical Street',
+            city: 'Cape Town',
+            province: 'Western Cape',
+            medical_aid_providers: ['Discovery Health', 'Momentum Health', 'Bonitas']
+          }
+        },
+        {
+          id: 'sample-2',
+          specialty: 'Family Medicine',
+          years_of_experience: 8,
+          consultation_fee: 800,
+          bio: 'Family medicine practitioner focused on comprehensive primary care.',
+          rating: 4.6,
+          user_profiles: {
+            full_name: 'Dr. Michael Chen',
+            email: 'michael.chen@ironledgermedmap.com',
+            phone: '021 987 6543'
+          },
+          medical_practices: {
+            id: 'practice-2',
+            name: 'Family Care Medical Centre',
+            address: '456 Health Avenue',
+            city: 'Cape Town',
+            province: 'Western Cape',
+            medical_aid_providers: ['Discovery Health', 'Medihelp', 'Fedhealth']
+          }
+        }
+      ];
+
+      console.log('Using fallback sample data');
+      setDoctors(sampleDoctors);
+
       toast({
-        title: "Search Error",
-        description: `Failed to search doctors: ${errorMessage}`,
+        title: "Search Error - Using Sample Data",
+        description: `Database connection issue: ${errorMessage}. Showing sample doctors.`,
         variant: "destructive"
       });
     } finally {
