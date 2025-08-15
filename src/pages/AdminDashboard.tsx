@@ -48,7 +48,174 @@ const AdminDashboard = () => {
 
   const { toast } = useToast();
 
-  const handleApproveDoctor = (doctorId: number) => {
+  // Load real-time data
+  const loadDashboardData = async () => {
+    try {
+      setRefreshing(true);
+
+      // Get total users count
+      const { count: usersCount } = await supabase
+        .from('user_profiles')
+        .select('*', { count: 'exact', head: true });
+
+      // Get total doctors count
+      const { count: doctorsCount } = await supabase
+        .from('doctors')
+        .select('*', { count: 'exact', head: true });
+
+      // Get pending doctor applications
+      const { data: pendingData, count: pendingCount } = await supabase
+        .from('doctors')
+        .select(`
+          *,
+          user_profiles (full_name, email, phone)
+        `, { count: 'exact' })
+        .eq('verification_status', 'pending');
+
+      // Get total bookings count
+      const { count: bookingsCount } = await supabase
+        .from('bookings')
+        .select('*', { count: 'exact', head: true });
+
+      // Get this month's revenue
+      const currentMonth = new Date();
+      const firstDay = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), 1);
+      const { data: revenueData } = await supabase
+        .from('bookings')
+        .select('consultation_fee, convenience_fee')
+        .eq('payment_status', 'completed')
+        .gte('created_at', firstDay.toISOString());
+
+      const monthlyRevenue = revenueData?.reduce((total, booking) =>
+        total + (booking.consultation_fee || 0) + (booking.convenience_fee || 0), 0) || 0;
+
+      // Get active practices count
+      const { count: practicesCount } = await supabase
+        .from('medical_practices')
+        .select('*', { count: 'exact', head: true });
+
+      // Get all users for user management
+      const { data: usersData } = await supabase
+        .from('user_profiles')
+        .select(`
+          id, full_name, email, phone, created_at,
+          doctors (id, verification_status)
+        `)
+        .order('created_at', { ascending: false })
+        .limit(50);
+
+      // Get recent bookings
+      const { data: bookingsData } = await supabase
+        .from('bookings')
+        .select(`
+          id, appointment_date, appointment_time, status, created_at,
+          patient:user_profiles!patient_id (full_name),
+          doctor:doctors!doctor_id (
+            user_profiles (full_name)
+          )
+        `)
+        .order('created_at', { ascending: false })
+        .limit(10);
+
+      // Update state
+      setStats({
+        totalUsers: usersCount || 0,
+        verifiedDoctors: (doctorsCount || 0) - (pendingCount || 0),
+        pendingApplications: pendingCount || 0,
+        totalBookings: bookingsCount || 0,
+        monthlyRevenue: monthlyRevenue,
+        activePractices: practicesCount || 0
+      });
+
+      setPendingDoctors(pendingData?.map(doctor => ({
+        id: doctor.id,
+        name: doctor.user_profiles?.full_name || 'Unknown',
+        specialty: doctor.specialty,
+        license: doctor.license_number || 'N/A',
+        submittedDate: new Date(doctor.created_at).toLocaleDateString(),
+        status: doctor.verification_status
+      })) || []);
+
+      setAllUsers(usersData?.map(user => ({
+        id: user.id,
+        name: user.full_name,
+        email: user.email,
+        role: user.doctors?.length > 0 ? 'doctor' : 'patient',
+        joinDate: new Date(user.created_at).toLocaleDateString(),
+        status: user.doctors?.length > 0 ? user.doctors[0].verification_status || 'pending' : 'active'
+      })) || []);
+
+      setRecentBookings(bookingsData?.map(booking => ({
+        id: booking.id,
+        patient: booking.patient?.full_name || 'Unknown',
+        doctor: booking.doctor?.user_profiles?.full_name || 'Unknown',
+        date: new Date(booking.appointment_date).toLocaleDateString(),
+        time: booking.appointment_time,
+        status: booking.status
+      })) || []);
+
+    } catch (error) {
+      console.error('Error loading dashboard data:', error);
+      toast({
+        title: "Error Loading Data",
+        description: "Failed to load dashboard data. Please try again.",
+        variant: "destructive"
+      });
+    } finally {
+      setLoading(false);
+      setRefreshing(false);
+    }
+  };
+
+  // Set up real-time subscriptions
+  useEffect(() => {
+    // Initial data load
+    loadDashboardData();
+
+    // Set up real-time subscriptions
+    const subscriptions = [
+      // Users subscription
+      supabase
+        .channel('user_profiles_changes')
+        .on('postgres_changes', { event: '*', schema: 'public', table: 'user_profiles' }, () => {
+          loadDashboardData();
+        })
+        .subscribe(),
+
+      // Doctors subscription
+      supabase
+        .channel('doctors_changes')
+        .on('postgres_changes', { event: '*', schema: 'public', table: 'doctors' }, () => {
+          loadDashboardData();
+        })
+        .subscribe(),
+
+      // Bookings subscription
+      supabase
+        .channel('bookings_changes')
+        .on('postgres_changes', { event: '*', schema: 'public', table: 'bookings' }, () => {
+          loadDashboardData();
+        })
+        .subscribe(),
+
+      // Medical practices subscription
+      supabase
+        .channel('medical_practices_changes')
+        .on('postgres_changes', { event: '*', schema: 'public', table: 'medical_practices' }, () => {
+          loadDashboardData();
+        })
+        .subscribe()
+    ];
+
+    // Cleanup subscriptions
+    return () => {
+      subscriptions.forEach(subscription => {
+        supabase.removeChannel(subscription);
+      });
+    };
+  }, []);
+
+  const handleApproveDoctor = async (doctorId: string) => {
     console.log('Approving doctor:', doctorId);
     // TODO: Implement doctor approval
   };
