@@ -346,8 +346,17 @@ const AdminDashboard = () => {
                   <UserCheck className="h-4 w-4 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold">{stats.verifiedDoctors}</div>
-                  <p className="text-xs text-muted-foreground">{stats.pendingApplications} pending approval</p>
+                  {loading ? (
+                    <>
+                      <Skeleton className="h-8 w-16 mb-2" />
+                      <Skeleton className="h-4 w-28" />
+                    </>
+                  ) : (
+                    <>
+                      <div className="text-2xl font-bold">{stats.verifiedDoctors}</div>
+                      <p className="text-xs text-muted-foreground">{stats.pendingApplications} pending approval</p>
+                    </>
+                  )}
                 </CardContent>
               </Card>
 
@@ -357,8 +366,17 @@ const AdminDashboard = () => {
                   <Building className="h-4 w-4 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold">{stats.activePractices}</div>
-                  <p className="text-xs text-muted-foreground">Across 15 specialties</p>
+                  {loading ? (
+                    <>
+                      <Skeleton className="h-8 w-16 mb-2" />
+                      <Skeleton className="h-4 w-24" />
+                    </>
+                  ) : (
+                    <>
+                      <div className="text-2xl font-bold">{stats.activePractices}</div>
+                      <p className="text-xs text-muted-foreground">Real-time count</p>
+                    </>
+                  )}
                 </CardContent>
               </Card>
 
@@ -368,8 +386,17 @@ const AdminDashboard = () => {
                   <Calendar className="h-4 w-4 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold">{stats.totalBookings.toLocaleString()}</div>
-                  <p className="text-xs text-muted-foreground">+8% from last month</p>
+                  {loading ? (
+                    <>
+                      <Skeleton className="h-8 w-20 mb-2" />
+                      <Skeleton className="h-4 w-32" />
+                    </>
+                  ) : (
+                    <>
+                      <div className="text-2xl font-bold">{stats.totalBookings.toLocaleString()}</div>
+                      <p className="text-xs text-muted-foreground">All time bookings</p>
+                    </>
+                  )}
                 </CardContent>
               </Card>
 
@@ -379,8 +406,17 @@ const AdminDashboard = () => {
                   <DollarSign className="h-4 w-4 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold">${stats.monthlyRevenue.toLocaleString()}</div>
-                  <p className="text-xs text-muted-foreground">+15% from last month</p>
+                  {loading ? (
+                    <>
+                      <Skeleton className="h-8 w-24 mb-2" />
+                      <Skeleton className="h-4 w-28" />
+                    </>
+                  ) : (
+                    <>
+                      <div className="text-2xl font-bold">R{stats.monthlyRevenue.toLocaleString()}</div>
+                      <p className="text-xs text-muted-foreground">This month's revenue</p>
+                    </>
+                  )}
                 </CardContent>
               </Card>
 
