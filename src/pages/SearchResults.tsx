@@ -69,6 +69,8 @@ const SearchResults = () => {
   const searchDoctors = async () => {
     setLoading(true);
     try {
+      console.log('Starting search with filters:', filters);
+
       let query = supabase
         .from('doctors')
         .select(`
@@ -79,25 +81,23 @@ const SearchResults = () => {
 
       // Apply filters
       if (filters.specialty && filters.specialty !== 'all') {
+        console.log('Applying specialty filter:', filters.specialty);
         query = query.ilike('specialty', `%${filters.specialty}%`);
       }
 
-      if (filters.location && filters.location !== 'all') {
-        // Note: Complex joins with OR conditions might need to be handled differently
-        // For now, let's try a simpler approach by filtering the specific location field
-        const locationFilter = filters.location.toLowerCase();
-        // We'll handle this in client-side filtering after getting the data
-      }
-
       if (filters.minFee && !isNaN(Number(filters.minFee))) {
+        console.log('Applying min fee filter:', filters.minFee);
         query = query.gte('consultation_fee', Number(filters.minFee));
       }
 
       if (filters.maxFee && !isNaN(Number(filters.maxFee))) {
+        console.log('Applying max fee filter:', filters.maxFee);
         query = query.lte('consultation_fee', Number(filters.maxFee));
       }
 
+      console.log('Executing query...');
       const { data, error } = await query;
+      console.log('Query result:', { data: data?.length, error });
 
       if (error) {
         console.error('Supabase search error:', error);
