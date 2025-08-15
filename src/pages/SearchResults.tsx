@@ -100,10 +100,10 @@ const SearchResults = () => {
       const { data, error } = await query;
 
       if (error) {
-        console.error('Search error:', error);
+        console.error('Supabase search error:', error);
         toast({
           title: "Search Error",
-          description: "Failed to search doctors. Please try again.",
+          description: `Database error: ${error.message || 'Failed to search doctors'}`,
           variant: "destructive"
         });
       } else {
