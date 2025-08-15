@@ -283,12 +283,12 @@ const SearchResults = () => {
                   />
                 </div>
                 
-                <Select value={filters.medicalAid} onValueChange={(value) => handleFilterChange('medicalAid', value)}>
+                <Select value={filters.medicalAid || 'all'} onValueChange={(value) => handleFilterChange('medicalAid', value === 'all' ? '' : value)}>
                   <SelectTrigger>
                     <SelectValue placeholder="Select medical aid" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="">All Medical Aids</SelectItem>
+                    <SelectItem value="all">All Medical Aids</SelectItem>
                     {medicalAidProviders.map(provider => (
                       <SelectItem key={provider} value={provider}>{provider}</SelectItem>
                     ))}
