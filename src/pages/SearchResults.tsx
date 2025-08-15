@@ -128,15 +128,15 @@ const SearchResults = () => {
           );
         }
 
-        // Sort results
+        // Sort results with safety checks
         results.sort((a, b) => {
           switch (filters.sortBy) {
             case 'fee_low':
-              return a.consultation_fee - b.consultation_fee;
+              return (a.consultation_fee || 0) - (b.consultation_fee || 0);
             case 'fee_high':
-              return b.consultation_fee - a.consultation_fee;
+              return (b.consultation_fee || 0) - (a.consultation_fee || 0);
             case 'experience':
-              return b.years_of_experience - a.years_of_experience;
+              return (b.years_of_experience || 0) - (a.years_of_experience || 0);
             case 'rating':
             default:
               return (b.rating || 4.5) - (a.rating || 4.5);
