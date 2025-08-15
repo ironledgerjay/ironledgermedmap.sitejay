@@ -29,35 +29,24 @@ const AdminDashboard = () => {
   const [activeTab, setActiveTab] = useState('overview');
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
+  const [loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
 
-  // Mock data for demo
-  const stats = {
-    totalUsers: 1247,
-    verifiedDoctors: 89,
-    pendingApplications: 12,
-    totalBookings: 3456,
-    monthlyRevenue: 45780,
-    activePractices: 67
-  };
+  // Real-time data state
+  const [stats, setStats] = useState({
+    totalUsers: 0,
+    verifiedDoctors: 0,
+    pendingApplications: 0,
+    totalBookings: 0,
+    monthlyRevenue: 0,
+    activePractices: 0
+  });
 
-  const pendingDoctors = [
-    { id: 1, name: 'Dr. Sarah Johnson', specialty: 'Cardiology', license: 'MD123456', submittedDate: '2024-01-10', status: 'pending' },
-    { id: 2, name: 'Dr. Michael Chen', specialty: 'Neurology', license: 'MD789012', submittedDate: '2024-01-12', status: 'pending' },
-    { id: 3, name: 'Dr. Emily Rodriguez', specialty: 'Pediatrics', license: 'MD345678', submittedDate: '2024-01-14', status: 'pending' }
-  ];
+  const [pendingDoctors, setPendingDoctors] = useState<any[]>([]);
+  const [allUsers, setAllUsers] = useState<any[]>([]);
+  const [recentBookings, setRecentBookings] = useState<any[]>([]);
 
-  const allUsers = [
-    { id: 1, name: 'John Doe', email: 'john@example.com', role: 'patient', joinDate: '2024-01-01', status: 'active' },
-    { id: 2, name: 'Dr. Sarah Johnson', email: 'sarah@clinic.com', role: 'doctor', joinDate: '2024-01-05', status: 'pending' },
-    { id: 3, name: 'Jane Smith', email: 'jane@example.com', role: 'patient', joinDate: '2024-01-08', status: 'active' },
-    { id: 4, name: 'Dr. Michael Chen', email: 'michael@hospital.com', role: 'doctor', joinDate: '2024-01-10', status: 'active' }
-  ];
-
-  const recentBookings = [
-    { id: 1, patient: 'John Doe', doctor: 'Dr. Sarah Johnson', date: '2024-01-15', time: '09:00 AM', status: 'confirmed' },
-    { id: 2, patient: 'Jane Smith', doctor: 'Dr. Michael Chen', date: '2024-01-15', time: '10:30 AM', status: 'pending' },
-    { id: 3, patient: 'Bob Wilson', doctor: 'Dr. Emily Rodriguez', date: '2024-01-16', time: '02:00 PM', status: 'completed' }
-  ];
+  const { toast } = useToast();
 
   const handleApproveDoctor = (doctorId: number) => {
     console.log('Approving doctor:', doctorId);
