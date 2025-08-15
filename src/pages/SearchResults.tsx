@@ -223,12 +223,12 @@ const SearchResults = () => {
               </div>
               
               <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
-                <Select value={filters.specialty} onValueChange={(value) => handleFilterChange('specialty', value)}>
+                <Select value={filters.specialty || 'all'} onValueChange={(value) => handleFilterChange('specialty', value === 'all' ? '' : value)}>
                   <SelectTrigger>
                     <SelectValue placeholder="Select specialty" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="">All Specialties</SelectItem>
+                    <SelectItem value="all">All Specialties</SelectItem>
                     {specialties.map(specialty => (
                       <SelectItem key={specialty} value={specialty}>{specialty}</SelectItem>
                     ))}
