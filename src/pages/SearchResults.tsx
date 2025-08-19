@@ -219,11 +219,11 @@ const SearchResults = () => {
     try {
       console.log('Starting search with filters:', filters);
 
-      // First, try a simple query to check if the doctors table exists
+      // First, try a simple query to check if the doctors table exists and what columns it has
       let query = supabase
         .from('doctors')
         .select('*')
-        .eq('is_verified', true);
+        .limit(10);
 
       // Apply filters
       if (filters.specialty && filters.specialty !== 'all') {
