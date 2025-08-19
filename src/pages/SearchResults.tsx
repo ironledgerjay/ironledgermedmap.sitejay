@@ -32,7 +32,7 @@ interface Doctor {
   consultation_fee: number;
   bio: string;
   rating?: number;
-  verification_status?: string;
+  is_verified?: boolean;
   user_profiles: {
     full_name: string;
     email: string;
