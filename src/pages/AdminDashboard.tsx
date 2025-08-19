@@ -118,13 +118,7 @@ const AdminDashboard = () => {
       // Get recent bookings
       const { data: bookingsData, error: bookingsDataError } = await supabase
         .from('bookings')
-        .select(`
-          id, appointment_date, appointment_time, status, created_at,
-          patient:user_profiles!patient_id (full_name),
-          doctor:doctors!doctor_id (
-            user_profiles!user_id (full_name)
-          )
-        `)
+        .select('id, appointment_date, appointment_time, status, created_at, patient_id, doctor_id')
         .order('created_at', { ascending: false })
         .limit(10);
 
