@@ -92,11 +92,17 @@ export default function Signup() {
       }
 
       toast({
-        title: "Account created!",
-        description: "Please check your email for verification"
+        title: "Account created successfully! 🎉",
+        description: "Please check your email for a beautiful verification message. Click the link to activate your account.",
+        duration: 7000,
       });
 
-      navigate('/login');
+      navigate('/login', {
+        state: {
+          message: 'Account created! Please check your email and click the verification link to activate your account.',
+          email: formData.email
+        }
+      });
     } catch (error) {
       toast({
         title: "Error",
