@@ -54,7 +54,10 @@ export default function Signup() {
     }
 
     try {
-      // Sign up the user
+      // Get the base URL for email redirects
+      const baseUrl = import.meta.env.VITE_APP_URL || window.location.origin;
+
+      // Sign up the user with custom email redirect
       const { data: authData, error: authError } = await supabase.auth.signUp({
         email: formData.email,
         password: formData.password,
@@ -62,7 +65,8 @@ export default function Signup() {
           data: {
             full_name: formData.fullName,
             role: formData.role
-          }
+          },
+          emailRedirectTo: `${baseUrl}/auth/callback`
         }
       });
 
