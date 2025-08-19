@@ -219,25 +219,10 @@ const SearchResults = () => {
     try {
       console.log('Starting search with filters:', filters);
 
-      // Build query with proper JOINs to get all related data
+      // First, try a simple query to check if the doctors table exists
       let query = supabase
         .from('doctors')
-        .select(`
-          *,
-          user_profiles!user_id (
-            full_name,
-            email,
-            phone
-          ),
-          medical_practices!practice_id (
-            id,
-            name,
-            address,
-            city,
-            province,
-            medical_aid_providers
-          )
-        `)
+        .select('*')
         .eq('verification_status', 'verified');
 
       // Apply filters
