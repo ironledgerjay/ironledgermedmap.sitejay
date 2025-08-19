@@ -249,15 +249,27 @@ const SearchResults = () => {
         console.error('Supabase search error:', error);
         console.error('Supabase error details:', JSON.stringify(error, null, 2));
 
-        // If there's a database error, fall back to sample data for demo
-        console.log('Database query failed, using sample data for demonstration');
-        setDoctors(getSampleDoctors());
+        // Check if it's a missing table/column error
+        if (error.code === '42703' || error.code === '42P01') {
+          console.log('Database table/columns missing, using sample data');
+          setDoctors(getSampleDoctors());
 
-        toast({
-          title: "Using Sample Data",
-          description: "Connected to demo database. Some features may be limited.",
-          variant: "default"
-        });
+          toast({
+            title: "Database Setup Required",
+            description: "Database tables not found. Please run the database setup script. Showing sample data.",
+            variant: "default"
+          });
+        } else {
+          // Other errors, still show sample data
+          console.log('Database query failed, using sample data for demonstration');
+          setDoctors(getSampleDoctors());
+
+          toast({
+            title: "Using Sample Data",
+            description: "Database connection issue. Showing sample data.",
+            variant: "default"
+          });
+        }
       } else {
         let results = data || [];
         console.log('Raw results from database:', results.length, results[0]);
