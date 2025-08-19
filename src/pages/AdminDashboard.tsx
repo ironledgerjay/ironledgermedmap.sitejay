@@ -741,7 +741,10 @@ const AdminDashboard = () => {
           </TabsContent>
 
           <TabsContent value="settings" className="space-y-6">
-            <DatabasePopulator />
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <DatabasePopulator />
+              <TestUserRegistration />
+            </div>
 
             <Card>
               <CardHeader>
