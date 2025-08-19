@@ -74,7 +74,7 @@ const AdminDashboard = () => {
       const { data: pendingData, count: pendingCount, error: pendingError } = await supabase
         .from('doctors')
         .select('*', { count: 'exact' })
-        .eq('verification_status', 'pending');
+        .eq('is_verified', false);
 
       if (pendingError) console.log('Pending doctors error:', pendingError);
 
@@ -226,7 +226,7 @@ const AdminDashboard = () => {
           specialty: doctor.specialty,
           license: doctor.license_number || 'N/A',
           submittedDate: new Date(doctor.created_at).toLocaleDateString(),
-          status: doctor.verification_status
+          status: doctor.is_verified ? 'verified' : 'pending'
         })) || []);
 
         setAllUsers(usersData?.map(user => ({
@@ -235,7 +235,7 @@ const AdminDashboard = () => {
           email: user.email || 'No email',
           role: user.role || 'patient',
           joinDate: new Date(user.created_at).toLocaleDateString(),
-          status: user.role === 'doctor' ? 'pending' : 'active'
+          status: 'active'
         })) || []);
 
         setRecentBookings(bookingsData?.map(booking => ({
