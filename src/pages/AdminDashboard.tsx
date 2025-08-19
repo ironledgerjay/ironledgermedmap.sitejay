@@ -23,6 +23,7 @@ import {
 } from "lucide-react";
 import Header from "@/components/Header";
 import DatabasePopulator from "@/components/DatabasePopulator";
+import TestUserRegistration from "@/components/TestUserRegistration";
 import { supabase } from "../superbaseClient";
 import { useToast } from "@/hooks/use-toast";
 
