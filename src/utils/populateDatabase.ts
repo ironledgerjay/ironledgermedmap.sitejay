@@ -29,7 +29,7 @@ export const sampleDoctorsData: DoctorData[] = [
     consultation_fee: 1200,
     bio: 'Experienced cardiologist specializing in heart disease prevention and treatment.',
     license_number: 'MP123456',
-    verification_status: 'verified',
+    is_verified: true,
     user_profile: {
       full_name: 'Dr. Sarah Johnson',
       email: 'sarah.johnson@ironledgermedmap.com',
@@ -49,7 +49,7 @@ export const sampleDoctorsData: DoctorData[] = [
     consultation_fee: 800,
     bio: 'Family medicine practitioner focused on comprehensive primary care.',
     license_number: 'MP234567',
-    verification_status: 'verified',
+    is_verified: true,
     user_profile: {
       full_name: 'Dr. Michael Chen',
       email: 'michael.chen@ironledgermedmap.com',
@@ -71,7 +71,7 @@ export const sampleDoctorsData: DoctorData[] = [
     consultation_fee: 1100,
     bio: 'Neurologist specializing in brain and nervous system disorders.',
     license_number: 'MP345678',
-    verification_status: 'verified',
+    is_verified: true,
     user_profile: {
       full_name: 'Dr. Amina Patel',
       email: 'amina.patel@ironledgermedmap.com',
@@ -91,7 +91,7 @@ export const sampleDoctorsData: DoctorData[] = [
     consultation_fee: 900,
     bio: 'Pediatrician dedicated to children\'s health and development.',
     license_number: 'MP456789',
-    verification_status: 'verified',
+    is_verified: true,
     user_profile: {
       full_name: 'Dr. James Mthembu',
       email: 'james.mthembu@ironledgermedmap.com',
@@ -113,7 +113,7 @@ export const sampleDoctorsData: DoctorData[] = [
     consultation_fee: 1300,
     bio: 'Orthopedic surgeon specializing in joint replacement and sports injuries.',
     license_number: 'MP567890',
-    verification_status: 'verified',
+    is_verified: true,
     user_profile: {
       full_name: 'Dr. Robert Singh',
       email: 'robert.singh@ironledgermedmap.com',
@@ -133,7 +133,7 @@ export const sampleDoctorsData: DoctorData[] = [
     consultation_fee: 1050,
     bio: 'OB/GYN specialist providing comprehensive women\'s healthcare.',
     license_number: 'MP678901',
-    verification_status: 'verified',
+    is_verified: true,
     user_profile: {
       full_name: 'Dr. Lisa Naidoo',
       email: 'lisa.naidoo@ironledgermedmap.com',
@@ -155,7 +155,7 @@ export const sampleDoctorsData: DoctorData[] = [
     consultation_fee: 950,
     bio: 'Emergency medicine physician providing urgent and critical care.',
     license_number: 'MP789012',
-    verification_status: 'verified',
+    is_verified: true,
     user_profile: {
       full_name: 'Dr. Kevin Williams',
       email: 'kevin.williams@ironledgermedmap.com',
@@ -175,7 +175,7 @@ export const sampleDoctorsData: DoctorData[] = [
     consultation_fee: 850,
     bio: 'Dermatologist specializing in skin health and cosmetic procedures.',
     license_number: 'MP890123',
-    verification_status: 'verified',
+    is_verified: true,
     user_profile: {
       full_name: 'Dr. Michelle van der Merwe',
       email: 'michelle.vandermerwe@ironledgermedmap.com',
@@ -197,7 +197,7 @@ export const sampleDoctorsData: DoctorData[] = [
     consultation_fee: 750,
     bio: 'Internal medicine specialist focusing on adult disease prevention and treatment.',
     license_number: 'MP901234',
-    verification_status: 'verified',
+    is_verified: true,
     user_profile: {
       full_name: 'Dr. Thabo Molefe',
       email: 'thabo.molefe@ironledgermedmap.com',
@@ -217,7 +217,7 @@ export const sampleDoctorsData: DoctorData[] = [
     consultation_fee: 1000,
     bio: 'Psychiatrist providing mental health care and therapy services.',
     license_number: 'MP012345',
-    verification_status: 'verified',
+    is_verified: true,
     user_profile: {
       full_name: 'Dr. Sandra Kruger',
       email: 'sandra.kruger@ironledgermedmap.com',
@@ -239,7 +239,7 @@ export const sampleDoctorsData: DoctorData[] = [
     consultation_fee: 600,
     bio: 'Rural family medicine practitioner serving the Limpopo community.',
     license_number: 'MP123450',
-    verification_status: 'verified',
+    is_verified: true,
     user_profile: {
       full_name: 'Dr. Grace Mashaba',
       email: 'grace.mashaba@ironledgermedmap.com',
@@ -259,7 +259,7 @@ export const sampleDoctorsData: DoctorData[] = [
     consultation_fee: 1150,
     bio: 'General surgeon with extensive experience in various surgical procedures.',
     license_number: 'MP234561',
-    verification_status: 'verified',
+    is_verified: true,
     user_profile: {
       full_name: 'Dr. Peter Makwakwa',
       email: 'peter.makwakwa@ironledgermedmap.com',
