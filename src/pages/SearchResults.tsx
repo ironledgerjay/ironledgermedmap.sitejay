@@ -223,7 +223,7 @@ const SearchResults = () => {
       let query = supabase
         .from('doctors')
         .select('*')
-        .eq('verification_status', 'verified');
+        .eq('is_verified', true);
 
       // Apply filters
       if (filters.specialty && filters.specialty !== 'all') {
