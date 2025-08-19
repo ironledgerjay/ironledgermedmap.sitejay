@@ -24,6 +24,7 @@ function App() {
         <Route path="/search" element={<SearchResults />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/auth/callback" element={<AuthCallback />} />
         <Route path="/membership" element={<Membership />} />
         <Route path="/doctor-portal" element={<DoctorPortal />} />
         <Route path="/admin-dashboard" element={
