@@ -6,7 +6,7 @@ interface DoctorData {
   consultation_fee: number;
   bio: string;
   license_number: string;
-  verification_status: 'verified' | 'pending' | 'rejected';
+  is_verified: boolean;
   user_profile: {
     full_name: string;
     email: string;
