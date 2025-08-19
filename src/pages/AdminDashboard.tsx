@@ -73,10 +73,7 @@ const AdminDashboard = () => {
       // Get pending doctor applications
       const { data: pendingData, count: pendingCount, error: pendingError } = await supabase
         .from('doctors')
-        .select(`
-          *,
-          user_profiles!user_id (full_name, email, phone)
-        `, { count: 'exact' })
+        .select('*', { count: 'exact' })
         .eq('verification_status', 'pending');
 
       if (pendingError) console.log('Pending doctors error:', pendingError);
