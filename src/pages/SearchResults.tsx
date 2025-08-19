@@ -203,6 +203,17 @@ const SearchResults = () => {
     searchDoctors();
   }, [searchParams]);
 
+  // Real-time search when filters change
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      if (filters.specialty || filters.location || filters.medicalAid || filters.minFee || filters.maxFee) {
+        searchDoctors();
+      }
+    }, 500); // Debounce search by 500ms
+
+    return () => clearTimeout(timeoutId);
+  }, [filters.specialty, filters.location, filters.medicalAid, filters.minFee, filters.maxFee]);
+
   const searchDoctors = async () => {
     setLoading(true);
     try {
