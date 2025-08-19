@@ -122,7 +122,7 @@ const TestUserRegistration = () => {
             consultation_fee: Math.floor(Math.random() * 1000) + 500,
             bio: `Experienced ${randomSpecialty.toLowerCase()} specialist.`,
             license_number: `MP${Math.floor(Math.random() * 900000) + 100000}`,
-            verification_status: 'pending'
+            is_verified: false
           });
 
         if (doctorError) {
