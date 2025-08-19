@@ -339,7 +339,10 @@ const AdminDashboard = () => {
         .update({ verification_status: 'verified' })
         .eq('id', doctorId);
 
-      if (error) throw error;
+      if (error) {
+        console.error('Database error approving doctor:', error);
+        throw error;
+      }
 
       toast({
         title: "Doctor Approved",
@@ -350,6 +353,17 @@ const AdminDashboard = () => {
       loadDashboardData();
     } catch (error) {
       console.error('Error approving doctor:', error);
+
+      // In demo mode, simulate approval
+      if (doctorId.startsWith('sample-')) {
+        setPendingDoctors(prev => prev.filter(doc => doc.id !== doctorId));
+        toast({
+          title: "Demo: Doctor Approved",
+          description: "This is a demo action. Doctor removed from pending list.",
+        });
+        return;
+      }
+
       toast({
         title: "Approval Failed",
         description: "Failed to approve doctor. Please try again.",
@@ -365,7 +379,10 @@ const AdminDashboard = () => {
         .update({ verification_status: 'rejected' })
         .eq('id', doctorId);
 
-      if (error) throw error;
+      if (error) {
+        console.error('Database error rejecting doctor:', error);
+        throw error;
+      }
 
       toast({
         title: "Doctor Rejected",
@@ -376,6 +393,17 @@ const AdminDashboard = () => {
       loadDashboardData();
     } catch (error) {
       console.error('Error rejecting doctor:', error);
+
+      // In demo mode, simulate rejection
+      if (doctorId.startsWith('sample-')) {
+        setPendingDoctors(prev => prev.filter(doc => doc.id !== doctorId));
+        toast({
+          title: "Demo: Doctor Rejected",
+          description: "This is a demo action. Doctor removed from pending list.",
+        });
+        return;
+      }
+
       toast({
         title: "Rejection Failed",
         description: "Failed to reject doctor. Please try again.",
