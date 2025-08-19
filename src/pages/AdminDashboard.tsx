@@ -222,7 +222,7 @@ const AdminDashboard = () => {
 
         setPendingDoctors(pendingData?.map(doctor => ({
           id: doctor.id,
-          name: doctor.user_profiles?.full_name || 'Unknown',
+          name: doctor.full_name || `Dr. ${doctor.specialty}`,
           specialty: doctor.specialty,
           license: doctor.license_number || 'N/A',
           submittedDate: new Date(doctor.created_at).toLocaleDateString(),
@@ -233,15 +233,15 @@ const AdminDashboard = () => {
           id: user.id,
           name: user.full_name || 'Unknown User',
           email: user.email || 'No email',
-          role: user.role || (user.doctors?.length > 0 ? 'doctor' : 'patient'),
+          role: user.role || 'patient',
           joinDate: new Date(user.created_at).toLocaleDateString(),
-          status: user.doctors?.length > 0 ? user.doctors[0].verification_status || 'pending' : 'active'
+          status: user.role === 'doctor' ? 'pending' : 'active'
         })) || []);
 
         setRecentBookings(bookingsData?.map(booking => ({
           id: booking.id,
-          patient: booking.patient?.full_name || 'Unknown',
-          doctor: booking.doctor?.user_profiles?.full_name || 'Unknown',
+          patient: `Patient ${booking.patient_id?.substring(0, 8) || 'Unknown'}`,
+          doctor: `Doctor ${booking.doctor_id?.substring(0, 8) || 'Unknown'}`,
           date: new Date(booking.appointment_date).toLocaleDateString(),
           time: booking.appointment_time,
           status: booking.status
