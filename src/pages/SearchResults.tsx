@@ -57,7 +57,7 @@ const getSampleDoctors = (): Doctor[] => [
     consultation_fee: 1200,
     bio: 'Experienced cardiologist specializing in heart disease prevention and treatment.',
     rating: 4.8,
-    verification_status: 'verified',
+    is_verified: true,
     user_profiles: {
       full_name: 'Dr. Sarah Johnson',
       email: 'sarah.johnson@ironledgermedmap.com',
@@ -79,7 +79,7 @@ const getSampleDoctors = (): Doctor[] => [
     consultation_fee: 800,
     bio: 'Family medicine practitioner focused on comprehensive primary care.',
     rating: 4.6,
-    verification_status: 'verified',
+    is_verified: true,
     user_profiles: {
       full_name: 'Dr. Michael Chen',
       email: 'michael.chen@ironledgermedmap.com',
@@ -101,7 +101,7 @@ const getSampleDoctors = (): Doctor[] => [
     consultation_fee: 1100,
     bio: 'Neurologist specializing in brain and nervous system disorders.',
     rating: 4.7,
-    verification_status: 'verified',
+    is_verified: true,
     user_profiles: {
       full_name: 'Dr. Amina Patel',
       email: 'amina.patel@ironledgermedmap.com',
@@ -123,7 +123,7 @@ const getSampleDoctors = (): Doctor[] => [
     consultation_fee: 900,
     bio: 'Pediatrician dedicated to children\'s health and development.',
     rating: 4.9,
-    verification_status: 'verified',
+    is_verified: true,
     user_profiles: {
       full_name: 'Dr. James Mthembu',
       email: 'james.mthembu@ironledgermedmap.com',
@@ -145,7 +145,7 @@ const getSampleDoctors = (): Doctor[] => [
     consultation_fee: 1300,
     bio: 'Orthopedic surgeon specializing in joint replacement and sports injuries.',
     rating: 4.8,
-    verification_status: 'verified',
+    is_verified: true,
     user_profiles: {
       full_name: 'Dr. Robert Singh',
       email: 'robert.singh@ironledgermedmap.com',
@@ -167,7 +167,7 @@ const getSampleDoctors = (): Doctor[] => [
     consultation_fee: 850,
     bio: 'Dermatologist specializing in skin health and cosmetic procedures.',
     rating: 4.5,
-    verification_status: 'verified',
+    is_verified: true,
     user_profiles: {
       full_name: 'Dr. Michelle van der Merwe',
       email: 'michelle.vandermerwe@ironledgermedmap.com',
