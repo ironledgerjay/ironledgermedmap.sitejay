@@ -32,6 +32,7 @@ interface Doctor {
   consultation_fee: number;
   bio: string;
   rating?: number;
+  verification_status?: string;
   user_profiles: {
     full_name: string;
     email: string;
@@ -46,6 +47,142 @@ interface Doctor {
     medical_aid_providers?: string[];
   };
 }
+
+// Sample data for fallback when database is not populated
+const getSampleDoctors = (): Doctor[] => [
+  {
+    id: 'sample-1',
+    specialty: 'Cardiology',
+    years_of_experience: 15,
+    consultation_fee: 1200,
+    bio: 'Experienced cardiologist specializing in heart disease prevention and treatment.',
+    rating: 4.8,
+    verification_status: 'verified',
+    user_profiles: {
+      full_name: 'Dr. Sarah Johnson',
+      email: 'sarah.johnson@ironledgermedmap.com',
+      phone: '021 123 4567'
+    },
+    medical_practices: {
+      id: 'practice-1',
+      name: 'Cape Heart Centre',
+      address: '123 Medical Street, Green Point',
+      city: 'Cape Town',
+      province: 'Western Cape',
+      medical_aid_providers: ['Discovery Health', 'Momentum Health', 'Bonitas']
+    }
+  },
+  {
+    id: 'sample-2',
+    specialty: 'Family Medicine',
+    years_of_experience: 8,
+    consultation_fee: 800,
+    bio: 'Family medicine practitioner focused on comprehensive primary care.',
+    rating: 4.6,
+    verification_status: 'verified',
+    user_profiles: {
+      full_name: 'Dr. Michael Chen',
+      email: 'michael.chen@ironledgermedmap.com',
+      phone: '021 987 6543'
+    },
+    medical_practices: {
+      id: 'practice-2',
+      name: 'Family Care Medical Centre',
+      address: '456 Health Avenue, Stellenbosch',
+      city: 'Stellenbosch',
+      province: 'Western Cape',
+      medical_aid_providers: ['Discovery Health', 'Medihelp', 'Fedhealth']
+    }
+  },
+  {
+    id: 'sample-3',
+    specialty: 'Neurology',
+    years_of_experience: 12,
+    consultation_fee: 1100,
+    bio: 'Neurologist specializing in brain and nervous system disorders.',
+    rating: 4.7,
+    verification_status: 'verified',
+    user_profiles: {
+      full_name: 'Dr. Amina Patel',
+      email: 'amina.patel@ironledgermedmap.com',
+      phone: '011 234 5678'
+    },
+    medical_practices: {
+      id: 'practice-3',
+      name: 'Johannesburg Neurology Centre',
+      address: '789 Medical Plaza, Sandton',
+      city: 'Johannesburg',
+      province: 'Gauteng',
+      medical_aid_providers: ['Discovery Health', 'Momentum Health', 'Gems']
+    }
+  },
+  {
+    id: 'sample-4',
+    specialty: 'Pediatrics',
+    years_of_experience: 10,
+    consultation_fee: 900,
+    bio: 'Pediatrician dedicated to children\'s health and development.',
+    rating: 4.9,
+    verification_status: 'verified',
+    user_profiles: {
+      full_name: 'Dr. James Mthembu',
+      email: 'james.mthembu@ironledgermedmap.com',
+      phone: '012 345 6789'
+    },
+    medical_practices: {
+      id: 'practice-4',
+      name: 'Little Angels Pediatric Clinic',
+      address: '321 Children\'s Way, Pretoria',
+      city: 'Pretoria',
+      province: 'Gauteng',
+      medical_aid_providers: ['Discovery Health', 'Bonitas', 'Medihelp']
+    }
+  },
+  {
+    id: 'sample-5',
+    specialty: 'Orthopedic Surgery',
+    years_of_experience: 18,
+    consultation_fee: 1300,
+    bio: 'Orthopedic surgeon specializing in joint replacement and sports injuries.',
+    rating: 4.8,
+    verification_status: 'verified',
+    user_profiles: {
+      full_name: 'Dr. Robert Singh',
+      email: 'robert.singh@ironledgermedmap.com',
+      phone: '031 456 7890'
+    },
+    medical_practices: {
+      id: 'practice-5',
+      name: 'Durban Orthopedic Institute',
+      address: '654 Sports Medicine Road, Umhlanga',
+      city: 'Durban',
+      province: 'KwaZulu-Natal',
+      medical_aid_providers: ['Discovery Health', 'Momentum Health', 'Fedhealth']
+    }
+  },
+  {
+    id: 'sample-6',
+    specialty: 'Dermatology',
+    years_of_experience: 11,
+    consultation_fee: 850,
+    bio: 'Dermatologist specializing in skin health and cosmetic procedures.',
+    rating: 4.5,
+    verification_status: 'verified',
+    user_profiles: {
+      full_name: 'Dr. Michelle van der Merwe',
+      email: 'michelle.vandermerwe@ironledgermedmap.com',
+      phone: '043 789 0123'
+    },
+    medical_practices: {
+      id: 'practice-6',
+      name: 'East London Dermatology Clinic',
+      address: '258 Skin Care Street, Vincent',
+      city: 'East London',
+      province: 'Eastern Cape',
+      medical_aid_providers: ['Discovery Health', 'Medihelp', 'Fedhealth']
+    }
+  }
+];
 
 const SearchResults = () => {
   const [searchParams, setSearchParams] = useSearchParams();
