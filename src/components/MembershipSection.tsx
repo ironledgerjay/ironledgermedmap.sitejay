@@ -87,7 +87,7 @@ const MembershipSection = () => {
               <CardTitle className="text-2xl">Premium Membership</CardTitle>
               <div className="text-center">
                 <span className="text-4xl font-bold text-primary">R39</span>
-                <span className="text-muted-foreground"> one-time</span>
+                <span className="text-muted-foreground"> quarterly</span>
               </div>
               <Badge variant="secondary" className="mx-auto">
                 <Gift className="h-3 w-3 mr-1" />
