@@ -345,7 +345,7 @@ export const populateDatabase = async () => {
           consultation_fee: doctorData.consultation_fee,
           bio: doctorData.bio,
           license_number: doctorData.license_number,
-          verification_status: doctorData.verification_status
+          is_verified: doctorData.is_verified
         });
 
       if (doctorError) {
