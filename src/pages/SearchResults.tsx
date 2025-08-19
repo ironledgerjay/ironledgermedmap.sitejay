@@ -262,14 +262,38 @@ const SearchResults = () => {
         let results = data || [];
         console.log('Raw results from database:', results.length, results[0]);
 
-        // If no data from database, use sample data
-        if (results.length === 0) {
+        // If we got basic doctor data, enhance it with proper structure
+        if (results.length > 0) {
+          // Transform basic doctor data to match expected interface
+          results = results.map(doctor => ({
+            ...doctor,
+            user_profiles: {
+              full_name: doctor.full_name || `Dr. ${doctor.specialty} Specialist`,
+              email: doctor.email || 'contact@ironledgermedmap.com',
+              phone: doctor.phone || '0800 MEDMAP'
+            },
+            medical_practices: {
+              id: doctor.practice_id || doctor.id,
+              name: doctor.practice_name || 'Medical Practice',
+              address: doctor.address || 'Cape Town',
+              city: doctor.city || 'Cape Town',
+              province: doctor.province || 'Western Cape',
+              medical_aid_providers: doctor.medical_aid_providers || ['Discovery Health', 'Momentum Health']
+            }
+          }));
+
+          toast({
+            title: "Database Connected",
+            description: `Found ${results.length} doctors in database.`,
+          });
+        } else {
+          // If no data from database, use sample data
           console.log('No data in database, using sample data');
           results = getSampleDoctors();
 
           toast({
             title: "Demo Mode",
-            description: "Showing sample data. Database may not be populated yet.",
+            description: "Database is empty. Showing sample data for demonstration.",
             variant: "default"
           });
         }
