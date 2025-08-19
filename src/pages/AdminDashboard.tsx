@@ -75,7 +75,7 @@ const AdminDashboard = () => {
         .from('doctors')
         .select(`
           *,
-          user_profiles!doctors_user_id_fkey (full_name, email, phone)
+          user_profiles!user_id (full_name, email, phone)
         `, { count: 'exact' })
         .eq('verification_status', 'pending');
 
@@ -114,7 +114,7 @@ const AdminDashboard = () => {
         .from('user_profiles')
         .select(`
           id, full_name, email, phone, created_at, role,
-          doctors!doctors_user_id_fkey (id, verification_status)
+          doctors!user_id (id, verification_status)
         `)
         .order('created_at', { ascending: false })
         .limit(50);
@@ -126,9 +126,9 @@ const AdminDashboard = () => {
         .from('bookings')
         .select(`
           id, appointment_date, appointment_time, status, created_at,
-          patient:user_profiles!bookings_patient_id_fkey (full_name),
-          doctor:doctors!bookings_doctor_id_fkey (
-            user_profiles!doctors_user_id_fkey (full_name)
+          patient:user_profiles!patient_id (full_name),
+          doctor:doctors!doctor_id (
+            user_profiles!user_id (full_name)
           )
         `)
         .order('created_at', { ascending: false })
