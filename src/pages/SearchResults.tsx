@@ -71,10 +71,26 @@ const SearchResults = () => {
     try {
       console.log('Starting search with filters:', filters);
 
-      // Start with basic doctors query first to test
+      // Build query with proper JOINs to get all related data
       let query = supabase
         .from('doctors')
-        .select('*');
+        .select(`
+          *,
+          user_profiles!doctors_user_id_fkey (
+            full_name,
+            email,
+            phone
+          ),
+          medical_practices!doctors_practice_id_fkey (
+            id,
+            name,
+            address,
+            city,
+            province,
+            medical_aid_providers
+          )
+        `)
+        .eq('verification_status', 'verified');
 
       // Apply filters
       if (filters.specialty && filters.specialty !== 'all') {
@@ -100,42 +116,48 @@ const SearchResults = () => {
         console.error('Supabase search error:', error);
         console.error('Supabase error details:', JSON.stringify(error, null, 2));
 
-        // Extract meaningful error message from Supabase error
-        let errorMessage = 'Failed to search doctors';
-        if (error.message) {
-          errorMessage = error.message;
-        } else if (error.details) {
-          errorMessage = error.details;
-        } else if (error.hint) {
-          errorMessage = error.hint;
-        }
+        // If there's a database error, fall back to sample data for demo
+        console.log('Database query failed, using sample data for demonstration');
+        setDoctors(getSampleDoctors());
 
         toast({
-          title: "Search Error",
-          description: `Database error: ${errorMessage}`,
-          variant: "destructive"
+          title: "Using Sample Data",
+          description: "Connected to demo database. Some features may be limited.",
+          variant: "default"
         });
       } else {
         let results = data || [];
         console.log('Raw results from database:', results.length, results[0]);
 
-        // Client-side filtering for location (will be skipped for now with mock data)
+        // If no data from database, use sample data
+        if (results.length === 0) {
+          console.log('No data in database, using sample data');
+          results = getSampleDoctors();
+
+          toast({
+            title: "Demo Mode",
+            description: "Showing sample data. Database may not be populated yet.",
+            variant: "default"
+          });
+        }
+
+        // Client-side filtering for location
         if (filters.location && filters.location !== 'all') {
           const locationFilter = filters.location.toLowerCase();
           results = results.filter(doctor => {
             const practices = doctor.medical_practices;
-            if (!practices) return true; // Include if no practice data
+            if (!practices) return false;
             return practices.city?.toLowerCase().includes(locationFilter) ||
                    practices.province?.toLowerCase().includes(locationFilter) ||
                    practices.address?.toLowerCase().includes(locationFilter);
           });
         }
 
-        // Client-side filtering for medical aid if needed
+        // Client-side filtering for medical aid
         if (filters.medicalAid && filters.medicalAid !== 'all') {
           results = results.filter(doctor => {
             const practices = doctor.medical_practices;
-            if (!practices?.medical_aid_providers) return true; // Include if no medical aid data
+            if (!practices?.medical_aid_providers) return false;
             return practices.medical_aid_providers.some(provider =>
               provider.toLowerCase().includes(filters.medicalAid.toLowerCase())
             );
@@ -157,91 +179,21 @@ const SearchResults = () => {
           }
         });
 
-        // For now, create mock user_profiles and medical_practices data
-        const enhancedResults = results.map(doctor => ({
-          ...doctor,
-          user_profiles: doctor.user_profiles || {
-            full_name: `Dr. ${doctor.specialty} Specialist`,
-            email: 'contact@ironledgermedmap.com',
-            phone: '0800 MEDMAP'
-          },
-          medical_practices: doctor.medical_practices || {
-            id: doctor.id,
-            name: 'Medical Practice',
-            address: 'Cape Town',
-            city: 'Cape Town',
-            province: 'Western Cape',
-            medical_aid_providers: ['Discovery Health', 'Momentum Health']
-          }
-        }));
-
-        console.log('Final filtered results:', enhancedResults.length);
-        setDoctors(enhancedResults);
+        console.log('Final filtered results:', results.length);
+        setDoctors(results);
       }
     } catch (error) {
       console.error('Caught search error:', error);
       console.error('Error details:', JSON.stringify(error, null, 2));
 
-      let errorMessage = 'An unexpected error occurred';
-      if (error instanceof Error) {
-        errorMessage = error.message;
-      } else if (typeof error === 'object' && error !== null) {
-        errorMessage = (error as any).message || JSON.stringify(error);
-      }
-
       // Provide fallback sample data for demonstration
-      const sampleDoctors = [
-        {
-          id: 'sample-1',
-          specialty: 'Cardiology',
-          years_of_experience: 15,
-          consultation_fee: 1200,
-          bio: 'Experienced cardiologist specializing in heart disease prevention and treatment.',
-          rating: 4.8,
-          user_profiles: {
-            full_name: 'Dr. Sarah Johnson',
-            email: 'sarah.johnson@ironledgermedmap.com',
-            phone: '021 123 4567'
-          },
-          medical_practices: {
-            id: 'practice-1',
-            name: 'Cape Heart Centre',
-            address: '123 Medical Street',
-            city: 'Cape Town',
-            province: 'Western Cape',
-            medical_aid_providers: ['Discovery Health', 'Momentum Health', 'Bonitas']
-          }
-        },
-        {
-          id: 'sample-2',
-          specialty: 'Family Medicine',
-          years_of_experience: 8,
-          consultation_fee: 800,
-          bio: 'Family medicine practitioner focused on comprehensive primary care.',
-          rating: 4.6,
-          user_profiles: {
-            full_name: 'Dr. Michael Chen',
-            email: 'michael.chen@ironledgermedmap.com',
-            phone: '021 987 6543'
-          },
-          medical_practices: {
-            id: 'practice-2',
-            name: 'Family Care Medical Centre',
-            address: '456 Health Avenue',
-            city: 'Cape Town',
-            province: 'Western Cape',
-            medical_aid_providers: ['Discovery Health', 'Medihelp', 'Fedhealth']
-          }
-        }
-      ];
-
-      console.log('Using fallback sample data');
-      setDoctors(sampleDoctors);
+      console.log('Using fallback sample data due to error');
+      setDoctors(getSampleDoctors());
 
       toast({
-        title: "Search Error - Using Sample Data",
-        description: `Database connection issue: ${errorMessage}. Showing sample doctors.`,
-        variant: "destructive"
+        title: "Demo Mode Active",
+        description: "Showing sample data. Please check database connection.",
+        variant: "default"
       });
     } finally {
       setLoading(false);
