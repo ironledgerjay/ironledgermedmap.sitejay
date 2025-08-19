@@ -224,12 +224,12 @@ const SearchResults = () => {
         .from('doctors')
         .select(`
           *,
-          user_profiles!doctors_user_id_fkey (
+          user_profiles!user_id (
             full_name,
             email,
             phone
           ),
-          medical_practices!doctors_practice_id_fkey (
+          medical_practices!practice_id (
             id,
             name,
             address,
