@@ -7,6 +7,7 @@ import Contact from './pages/Contact';
 import SearchResults from './pages/SearchResults';
 import Signup from './pages/Signup';
 import Login from './pages/Login';
+import AuthCallback from './pages/AuthCallback';
 import Membership from './pages/Membership';
 import DoctorPortal from './pages/DoctorPortal';
 import AdminDashboard from './pages/AdminDashboard';
