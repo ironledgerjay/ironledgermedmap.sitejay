@@ -109,10 +109,7 @@ const AdminDashboard = () => {
       // Get all users for user management
       const { data: usersData, error: usersDataError } = await supabase
         .from('user_profiles')
-        .select(`
-          id, full_name, email, phone, created_at, role,
-          doctors!user_id (id, verification_status)
-        `)
+        .select('id, full_name, email, phone, created_at, role')
         .order('created_at', { ascending: false })
         .limit(50);
 
