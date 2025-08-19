@@ -325,7 +325,7 @@ const AdminDashboard = () => {
     try {
       const { error } = await supabase
         .from('doctors')
-        .update({ verification_status: 'verified' })
+        .update({ is_verified: true })
         .eq('id', doctorId);
 
       if (error) {
@@ -365,7 +365,7 @@ const AdminDashboard = () => {
     try {
       const { error } = await supabase
         .from('doctors')
-        .update({ verification_status: 'rejected' })
+        .update({ is_verified: false })
         .eq('id', doctorId);
 
       if (error) {
