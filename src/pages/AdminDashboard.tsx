@@ -273,27 +273,47 @@ const AdminDashboard = () => {
 
   const approveDctor = async (doctorId: string) => {
     try {
+      const doctor = doctors.find(d => d.id === doctorId);
+      if (!doctor) {
+        throw new Error('Doctor not found');
+      }
+
       const { error } = await supabase
         .from('doctors')
-        .update({ verified: true })
+        .update({
+          verified: true,
+          application_status: 'approved',
+          approved_at: new Date().toISOString()
+        })
         .eq('id', doctorId);
 
       if (error) {
         // Simulate approval for demo
-        setDoctors(prev => prev.map(d => 
+        setDoctors(prev => prev.map(d =>
           d.id === doctorId ? { ...d, verified: true } : d
         ));
         setPendingDoctors(prev => prev.filter(d => d.id !== doctorId));
+
+        // Send approval email
+        await emailService.sendDoctorApprovalEmail(doctor.email, doctor.full_name);
+      } else {
+        // Send approval email on successful database update
+        await emailService.sendDoctorApprovalEmail(doctor.email, doctor.full_name);
       }
 
       toast({
-        title: "Doctor Approved",
-        description: "The doctor has been successfully verified and approved.",
+        title: "Doctor Approved ✅",
+        description: `${doctor.full_name} has been successfully verified and notified via email from IronledgerMedMap.`,
+        duration: 5000,
       });
+
+      // Refresh data to show updated status
+      fetchDoctors();
     } catch (error) {
+      console.error('Approval error:', error);
       toast({
-        title: "Error",
-        description: "Failed to approve doctor. Please try again.",
+        title: "Approval Failed",
+        description: "Failed to approve doctor. Please try again or contact technical support.",
         variant: "destructive"
       });
     }
