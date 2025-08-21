@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -6,63 +6,399 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { 
-  Users, 
-  UserCheck, 
-  Building, 
-  Calendar, 
-  DollarSign, 
+import { Skeleton } from "@/components/ui/skeleton";
+import {
+  Users,
+  UserCheck,
+  Building,
+  Calendar,
+  DollarSign,
   Activity,
   Search,
   Filter,
   CheckCircle,
   XCircle,
-  AlertTriangle
+  AlertTriangle,
+  RefreshCw
 } from "lucide-react";
 import Header from "@/components/Header";
+import DatabasePopulator from "@/components/DatabasePopulator";
+import TestUserRegistration from "@/components/TestUserRegistration";
+import { supabase } from "../superbaseClient";
+import { useToast } from "@/hooks/use-toast";
 
 const AdminDashboard = () => {
   const [activeTab, setActiveTab] = useState('overview');
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
+  const [loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
 
-  // Mock data for demo
-  const stats = {
-    totalUsers: 1247,
-    verifiedDoctors: 89,
-    pendingApplications: 12,
-    totalBookings: 3456,
-    monthlyRevenue: 45780,
-    activePractices: 67
+  // Real-time data state
+  const [stats, setStats] = useState({
+    totalUsers: 0,
+    verifiedDoctors: 0,
+    pendingApplications: 0,
+    totalBookings: 0,
+    monthlyRevenue: 0,
+    activePractices: 0
+  });
+
+  const [pendingDoctors, setPendingDoctors] = useState<any[]>([]);
+  const [allUsers, setAllUsers] = useState<any[]>([]);
+  const [recentBookings, setRecentBookings] = useState<any[]>([]);
+
+  const { toast } = useToast();
+
+  // Load real-time data
+  const loadDashboardData = async () => {
+    try {
+      setRefreshing(true);
+      console.log('Loading dashboard data...');
+
+      // Get total users count
+      const { count: usersCount, error: usersCountError } = await supabase
+        .from('user_profiles')
+        .select('*', { count: 'exact', head: true });
+
+      if (usersCountError) console.log('Users count error:', usersCountError);
+
+      // Get total doctors count
+      const { count: doctorsCount, error: doctorsCountError } = await supabase
+        .from('doctors')
+        .select('*', { count: 'exact', head: true });
+
+      if (doctorsCountError) console.log('Doctors count error:', doctorsCountError);
+
+      // Get pending doctor applications
+      const { data: pendingData, count: pendingCount, error: pendingError } = await supabase
+        .from('doctors')
+        .select('*', { count: 'exact' })
+        .eq('is_verified', false);
+
+      if (pendingError) console.log('Pending doctors error:', pendingError);
+
+      // Get total bookings count
+      const { count: bookingsCount, error: bookingsCountError } = await supabase
+        .from('bookings')
+        .select('*', { count: 'exact', head: true });
+
+      if (bookingsCountError) console.log('Bookings count error:', bookingsCountError);
+
+      // Get this month's revenue
+      const currentMonth = new Date();
+      const firstDay = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), 1);
+      const { data: revenueData, error: revenueError } = await supabase
+        .from('bookings')
+        .select('consultation_fee, convenience_fee')
+        .eq('payment_status', 'completed')
+        .gte('created_at', firstDay.toISOString());
+
+      if (revenueError) console.log('Revenue error:', revenueError);
+
+      const monthlyRevenue = revenueData?.reduce((total, booking) =>
+        total + (booking.consultation_fee || 0) + (booking.convenience_fee || 0), 0) || 0;
+
+      // Get active practices count
+      const { count: practicesCount, error: practicesCountError } = await supabase
+        .from('medical_practices')
+        .select('*', { count: 'exact', head: true });
+
+      if (practicesCountError) console.log('Practices count error:', practicesCountError);
+
+      // Get all users for user management
+      const { data: usersData, error: usersDataError } = await supabase
+        .from('user_profiles')
+        .select('id, full_name, email, phone, created_at, role')
+        .order('created_at', { ascending: false })
+        .limit(50);
+
+      if (usersDataError) console.log('Users data error:', usersDataError);
+
+      // Get recent bookings
+      const { data: bookingsData, error: bookingsDataError } = await supabase
+        .from('bookings')
+        .select('id, appointment_date, appointment_time, status, created_at, patient_id, doctor_id')
+        .order('created_at', { ascending: false })
+        .limit(10);
+
+      if (bookingsDataError) console.log('Bookings data error:', bookingsDataError);
+
+      // Check if we have real data or need to use sample data
+      const hasRealData = usersCount > 0 || doctorsCount > 0;
+
+      if (!hasRealData) {
+        console.log('No data found in database, using sample data for demo');
+        // Set sample data for demonstration
+        setStats({
+          totalUsers: 25,
+          verifiedDoctors: 12,
+          pendingApplications: 3,
+          totalBookings: 150,
+          monthlyRevenue: 45000,
+          activePractices: 8
+        });
+
+        setPendingDoctors([
+          {
+            id: 'sample-pending-1',
+            name: 'Dr. Alex Thompson',
+            specialty: 'Radiology',
+            license: 'MP987654',
+            submittedDate: new Date().toLocaleDateString(),
+            status: 'pending'
+          },
+          {
+            id: 'sample-pending-2',
+            name: 'Dr. Rachel Green',
+            specialty: 'Oncology',
+            license: 'MP876543',
+            submittedDate: new Date(Date.now() - 86400000).toLocaleDateString(),
+            status: 'pending'
+          }
+        ]);
+
+        setAllUsers([
+          {
+            id: 'sample-user-1',
+            name: 'John Smith',
+            email: 'john.smith@example.com',
+            role: 'patient',
+            joinDate: new Date().toLocaleDateString(),
+            status: 'active'
+          },
+          {
+            id: 'sample-user-2',
+            name: 'Dr. Sarah Johnson',
+            email: 'sarah.johnson@ironledgermedmap.com',
+            role: 'doctor',
+            joinDate: new Date(Date.now() - 86400000).toLocaleDateString(),
+            status: 'verified'
+          },
+          {
+            id: 'sample-user-3',
+            name: 'Mary Wilson',
+            email: 'mary.wilson@example.com',
+            role: 'patient',
+            joinDate: new Date(Date.now() - 172800000).toLocaleDateString(),
+            status: 'active'
+          }
+        ]);
+
+        setRecentBookings([
+          {
+            id: 'sample-booking-1',
+            patient: 'John Smith',
+            doctor: 'Dr. Sarah Johnson',
+            date: new Date().toLocaleDateString(),
+            time: '14:00',
+            status: 'scheduled'
+          },
+          {
+            id: 'sample-booking-2',
+            patient: 'Mary Wilson',
+            doctor: 'Dr. Michael Chen',
+            date: new Date(Date.now() + 86400000).toLocaleDateString(),
+            time: '10:30',
+            status: 'confirmed'
+          }
+        ]);
+
+        toast({
+          title: "Demo Mode Active",
+          description: "Showing sample data. Database appears to be empty.",
+          variant: "default"
+        });
+      } else {
+        // Update state with real data
+        setStats({
+          totalUsers: usersCount || 0,
+          verifiedDoctors: (doctorsCount || 0) - (pendingCount || 0),
+          pendingApplications: pendingCount || 0,
+          totalBookings: bookingsCount || 0,
+          monthlyRevenue: monthlyRevenue,
+          activePractices: practicesCount || 0
+        });
+
+        setPendingDoctors(pendingData?.map(doctor => ({
+          id: doctor.id,
+          name: doctor.full_name || `Dr. ${doctor.specialty}`,
+          specialty: doctor.specialty,
+          license: doctor.license_number || 'N/A',
+          submittedDate: new Date(doctor.created_at).toLocaleDateString(),
+          status: doctor.is_verified ? 'verified' : 'pending'
+        })) || []);
+
+        setAllUsers(usersData?.map(user => ({
+          id: user.id,
+          name: user.full_name || 'Unknown User',
+          email: user.email || 'No email',
+          role: user.role || 'patient',
+          joinDate: new Date(user.created_at).toLocaleDateString(),
+          status: 'active'
+        })) || []);
+
+        setRecentBookings(bookingsData?.map(booking => ({
+          id: booking.id,
+          patient: `Patient ${booking.patient_id?.substring(0, 8) || 'Unknown'}`,
+          doctor: `Doctor ${booking.doctor_id?.substring(0, 8) || 'Unknown'}`,
+          date: new Date(booking.appointment_date).toLocaleDateString(),
+          time: booking.appointment_time,
+          status: booking.status
+        })) || []);
+      }
+
+    } catch (error) {
+      console.error('Error loading dashboard data:', error);
+
+      // Use sample data as fallback
+      console.log('Using sample data due to database error');
+      setStats({
+        totalUsers: 25,
+        verifiedDoctors: 12,
+        pendingApplications: 3,
+        totalBookings: 150,
+        monthlyRevenue: 45000,
+        activePractices: 8
+      });
+
+      toast({
+        title: "Demo Mode",
+        description: "Database connection issue. Showing sample data.",
+        variant: "default"
+      });
+    } finally {
+      setLoading(false);
+      setRefreshing(false);
+    }
   };
 
-  const pendingDoctors = [
-    { id: 1, name: 'Dr. Sarah Johnson', specialty: 'Cardiology', license: 'MD123456', submittedDate: '2024-01-10', status: 'pending' },
-    { id: 2, name: 'Dr. Michael Chen', specialty: 'Neurology', license: 'MD789012', submittedDate: '2024-01-12', status: 'pending' },
-    { id: 3, name: 'Dr. Emily Rodriguez', specialty: 'Pediatrics', license: 'MD345678', submittedDate: '2024-01-14', status: 'pending' }
-  ];
+  // Set up real-time subscriptions
+  useEffect(() => {
+    // Initial data load
+    loadDashboardData();
 
-  const allUsers = [
-    { id: 1, name: 'John Doe', email: 'john@example.com', role: 'patient', joinDate: '2024-01-01', status: 'active' },
-    { id: 2, name: 'Dr. Sarah Johnson', email: 'sarah@clinic.com', role: 'doctor', joinDate: '2024-01-05', status: 'pending' },
-    { id: 3, name: 'Jane Smith', email: 'jane@example.com', role: 'patient', joinDate: '2024-01-08', status: 'active' },
-    { id: 4, name: 'Dr. Michael Chen', email: 'michael@hospital.com', role: 'doctor', joinDate: '2024-01-10', status: 'active' }
-  ];
+    // Set up real-time subscriptions
+    const subscriptions = [
+      // Users subscription
+      supabase
+        .channel('user_profiles_changes')
+        .on('postgres_changes', { event: '*', schema: 'public', table: 'user_profiles' }, () => {
+          loadDashboardData();
+        })
+        .subscribe(),
 
-  const recentBookings = [
-    { id: 1, patient: 'John Doe', doctor: 'Dr. Sarah Johnson', date: '2024-01-15', time: '09:00 AM', status: 'confirmed' },
-    { id: 2, patient: 'Jane Smith', doctor: 'Dr. Michael Chen', date: '2024-01-15', time: '10:30 AM', status: 'pending' },
-    { id: 3, patient: 'Bob Wilson', doctor: 'Dr. Emily Rodriguez', date: '2024-01-16', time: '02:00 PM', status: 'completed' }
-  ];
+      // Doctors subscription
+      supabase
+        .channel('doctors_changes')
+        .on('postgres_changes', { event: '*', schema: 'public', table: 'doctors' }, () => {
+          loadDashboardData();
+        })
+        .subscribe(),
 
-  const handleApproveDoctor = (doctorId: number) => {
-    console.log('Approving doctor:', doctorId);
-    // TODO: Implement doctor approval
+      // Bookings subscription
+      supabase
+        .channel('bookings_changes')
+        .on('postgres_changes', { event: '*', schema: 'public', table: 'bookings' }, () => {
+          loadDashboardData();
+        })
+        .subscribe(),
+
+      // Medical practices subscription
+      supabase
+        .channel('medical_practices_changes')
+        .on('postgres_changes', { event: '*', schema: 'public', table: 'medical_practices' }, () => {
+          loadDashboardData();
+        })
+        .subscribe()
+    ];
+
+    // Cleanup subscriptions
+    return () => {
+      subscriptions.forEach(subscription => {
+        supabase.removeChannel(subscription);
+      });
+    };
+  }, []);
+
+  const handleApproveDoctor = async (doctorId: string) => {
+    try {
+      const { error } = await supabase
+        .from('doctors')
+        .update({ is_verified: true })
+        .eq('id', doctorId);
+
+      if (error) {
+        console.error('Database error approving doctor:', error);
+        throw error;
+      }
+
+      toast({
+        title: "Doctor Approved",
+        description: "Doctor has been successfully verified and approved.",
+      });
+
+      // Refresh data
+      loadDashboardData();
+    } catch (error) {
+      console.error('Error approving doctor:', error);
+
+      // In demo mode, simulate approval
+      if (doctorId.startsWith('sample-')) {
+        setPendingDoctors(prev => prev.filter(doc => doc.id !== doctorId));
+        toast({
+          title: "Demo: Doctor Approved",
+          description: "This is a demo action. Doctor removed from pending list.",
+        });
+        return;
+      }
+
+      toast({
+        title: "Approval Failed",
+        description: "Failed to approve doctor. Please try again.",
+        variant: "destructive"
+      });
+    }
   };
 
-  const handleRejectDoctor = (doctorId: number) => {
-    console.log('Rejecting doctor:', doctorId);
-    // TODO: Implement doctor rejection
+  const handleRejectDoctor = async (doctorId: string) => {
+    try {
+      const { error } = await supabase
+        .from('doctors')
+        .update({ is_verified: false })
+        .eq('id', doctorId);
+
+      if (error) {
+        console.error('Database error rejecting doctor:', error);
+        throw error;
+      }
+
+      toast({
+        title: "Doctor Rejected",
+        description: "Doctor application has been rejected.",
+      });
+
+      // Refresh data
+      loadDashboardData();
+    } catch (error) {
+      console.error('Error rejecting doctor:', error);
+
+      // In demo mode, simulate rejection
+      if (doctorId.startsWith('sample-')) {
+        setPendingDoctors(prev => prev.filter(doc => doc.id !== doctorId));
+        toast({
+          title: "Demo: Doctor Rejected",
+          description: "This is a demo action. Doctor removed from pending list.",
+        });
+        return;
+      }
+
+      toast({
+        title: "Rejection Failed",
+        description: "Failed to reject doctor. Please try again.",
+        variant: "destructive"
+      });
+    }
   };
 
   const getStatusBadge = (status: string) => {
@@ -90,8 +426,21 @@ const AdminDashboard = () => {
       <Header />
       <div className="container mx-auto px-4 py-8">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-foreground mb-2">Admin Dashboard</h1>
-          <p className="text-muted-foreground">Monitor and manage your medical platform</p>
+          <div className="flex justify-between items-start">
+            <div>
+              <h1 className="text-3xl font-bold text-foreground mb-2">Admin Dashboard</h1>
+              <p className="text-muted-foreground">Monitor and manage your medical platform</p>
+            </div>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={loadDashboardData}
+              disabled={refreshing}
+            >
+              <RefreshCw className={`h-4 w-4 mr-2 ${refreshing ? 'animate-spin' : ''}`} />
+              {refreshing ? 'Refreshing...' : 'Refresh'}
+            </Button>
+          </div>
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
@@ -111,8 +460,17 @@ const AdminDashboard = () => {
                   <Users className="h-4 w-4 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold">{stats.totalUsers.toLocaleString()}</div>
-                  <p className="text-xs text-muted-foreground">+12% from last month</p>
+                  {loading ? (
+                    <>
+                      <Skeleton className="h-8 w-20 mb-2" />
+                      <Skeleton className="h-4 w-32" />
+                    </>
+                  ) : (
+                    <>
+                      <div className="text-2xl font-bold">{stats.totalUsers.toLocaleString()}</div>
+                      <p className="text-xs text-muted-foreground">Real-time count</p>
+                    </>
+                  )}
                 </CardContent>
               </Card>
 
@@ -122,8 +480,17 @@ const AdminDashboard = () => {
                   <UserCheck className="h-4 w-4 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold">{stats.verifiedDoctors}</div>
-                  <p className="text-xs text-muted-foreground">{stats.pendingApplications} pending approval</p>
+                  {loading ? (
+                    <>
+                      <Skeleton className="h-8 w-16 mb-2" />
+                      <Skeleton className="h-4 w-28" />
+                    </>
+                  ) : (
+                    <>
+                      <div className="text-2xl font-bold">{stats.verifiedDoctors}</div>
+                      <p className="text-xs text-muted-foreground">{stats.pendingApplications} pending approval</p>
+                    </>
+                  )}
                 </CardContent>
               </Card>
 
@@ -133,8 +500,17 @@ const AdminDashboard = () => {
                   <Building className="h-4 w-4 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold">{stats.activePractices}</div>
-                  <p className="text-xs text-muted-foreground">Across 15 specialties</p>
+                  {loading ? (
+                    <>
+                      <Skeleton className="h-8 w-16 mb-2" />
+                      <Skeleton className="h-4 w-24" />
+                    </>
+                  ) : (
+                    <>
+                      <div className="text-2xl font-bold">{stats.activePractices}</div>
+                      <p className="text-xs text-muted-foreground">Real-time count</p>
+                    </>
+                  )}
                 </CardContent>
               </Card>
 
@@ -144,8 +520,17 @@ const AdminDashboard = () => {
                   <Calendar className="h-4 w-4 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold">{stats.totalBookings.toLocaleString()}</div>
-                  <p className="text-xs text-muted-foreground">+8% from last month</p>
+                  {loading ? (
+                    <>
+                      <Skeleton className="h-8 w-20 mb-2" />
+                      <Skeleton className="h-4 w-32" />
+                    </>
+                  ) : (
+                    <>
+                      <div className="text-2xl font-bold">{stats.totalBookings.toLocaleString()}</div>
+                      <p className="text-xs text-muted-foreground">All time bookings</p>
+                    </>
+                  )}
                 </CardContent>
               </Card>
 
@@ -155,8 +540,17 @@ const AdminDashboard = () => {
                   <DollarSign className="h-4 w-4 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold">${stats.monthlyRevenue.toLocaleString()}</div>
-                  <p className="text-xs text-muted-foreground">+15% from last month</p>
+                  {loading ? (
+                    <>
+                      <Skeleton className="h-8 w-24 mb-2" />
+                      <Skeleton className="h-4 w-28" />
+                    </>
+                  ) : (
+                    <>
+                      <div className="text-2xl font-bold">R{stats.monthlyRevenue.toLocaleString()}</div>
+                      <p className="text-xs text-muted-foreground">This month's revenue</p>
+                    </>
+                  )}
                 </CardContent>
               </Card>
 
@@ -335,6 +729,11 @@ const AdminDashboard = () => {
           </TabsContent>
 
           <TabsContent value="settings" className="space-y-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <DatabasePopulator />
+              <TestUserRegistration />
+            </div>
+
             <Card>
               <CardHeader>
                 <CardTitle>Platform Settings</CardTitle>

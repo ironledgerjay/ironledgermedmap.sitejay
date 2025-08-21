@@ -1,0 +1,38 @@
+[build]
+  publish = "dist"
+  command = "npm run build"
+
+[build.environment]
+  NODE_VERSION = "18"
+
+# Production environment variables
+[context.production.environment]
+  VITE_APP_URL = "https://ironledgermedmap.site"
+  VITE_API_URL = "https://ironledgermedmap.site/api"
+  VITE_ENVIRONMENT = "production"
+
+# Handle SPA routing
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# Security headers
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains"
+
+# API proxy for backend calls (when backend is implemented)
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/:splat"
+  status = 200
+
+# Custom domain configuration
+[context.production]
+  environment = { VITE_DOMAIN = "ironledgermedmap.site" }

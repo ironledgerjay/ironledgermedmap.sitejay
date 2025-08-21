@@ -54,7 +54,10 @@ export default function Signup() {
     }
 
     try {
-      // Sign up the user
+      // Get the base URL for email redirects
+      const baseUrl = import.meta.env.VITE_APP_URL || window.location.origin;
+
+      // Sign up the user with custom email redirect
       const { data: authData, error: authError } = await supabase.auth.signUp({
         email: formData.email,
         password: formData.password,
@@ -62,7 +65,8 @@ export default function Signup() {
           data: {
             full_name: formData.fullName,
             role: formData.role
-          }
+          },
+          emailRedirectTo: `${baseUrl}/auth/callback`
         }
       });
 
@@ -88,11 +92,17 @@ export default function Signup() {
       }
 
       toast({
-        title: "Account created!",
-        description: "Please check your email for verification"
+        title: "Account created successfully! 🎉",
+        description: "Please check your email for a beautiful verification message. Click the link to activate your account.",
+        duration: 7000,
       });
 
-      navigate('/login');
+      navigate('/login', {
+        state: {
+          message: 'Account created! Please check your email and click the verification link to activate your account.',
+          email: formData.email
+        }
+      });
     } catch (error) {
       toast({
         title: "Error",
