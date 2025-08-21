@@ -5,9 +5,11 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/superbaseClient';
-import { Shield, Stethoscope, Award } from 'lucide-react';
+import { emailService } from '@/utils/emailService';
+import { Shield, Stethoscope, Award, CheckCircle, Loader2, AlertTriangle } from 'lucide-react';
 
 const DoctorEnrollment = () => {
   const { toast } = useToast();
