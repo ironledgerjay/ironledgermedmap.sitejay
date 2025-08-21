@@ -12,7 +12,8 @@ import Membership from './pages/Membership';
 import DoctorPortal from './pages/DoctorPortal';
 import AdminDashboard from './pages/AdminDashboard';
 import BookAppointment from './pages/BookAppointment';
-import SearchResults from './pages/SearchResults';
+import DoctorEnrollment from './pages/DoctorEnrollment';
+import EmergencyDoctors from './pages/EmergencyDoctors';
 import NotFound from './pages/NotFound';
 
 function App() {
@@ -39,7 +40,13 @@ function App() {
           </ProtectedRoute>
         } />
         <Route path="/book-appointment" element={<BookAppointment />} />
-        <Route path="/search" element={<SearchResults />} />
+        <Route path="/doctor-enrollment" element={<DoctorEnrollment />} />
+        <Route path="/emergency-doctors" element={<EmergencyDoctors />} />
+        <Route path="/admin" element={
+          <ProtectedRoute requiredRole="admin">
+            <AdminDashboard />
+          </ProtectedRoute>
+        } />
         <Route path="*" element={<NotFound />} />
       </Routes>
       <Toaster />

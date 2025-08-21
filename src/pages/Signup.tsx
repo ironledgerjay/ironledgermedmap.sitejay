@@ -1,13 +1,15 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { supabase } from '../superbaseClient';
+import { emailService } from '@/utils/emailService';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
-import { Stethoscope, User, Mail, Lock, Phone, Calendar } from "lucide-react";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Stethoscope, User, Mail, Lock, Phone, Calendar, CheckCircle, Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 export default function Signup() {
@@ -89,11 +91,24 @@ export default function Signup() {
         if (profileError) {
           console.error('Profile creation error:', profileError);
         }
+
+        // Send custom verification email
+        const verificationUrl = `${baseUrl}/auth/callback?token=${authData.user.id}&type=signup`;
+        await emailService.sendVerificationEmail(
+          formData.email,
+          formData.fullName,
+          verificationUrl
+        );
+
+        // Send welcome email (will be sent after verification in production)
+        setTimeout(async () => {
+          await emailService.sendWelcomeEmail(formData.email, formData.fullName);
+        }, 2000);
       }
 
       toast({
         title: "Account created successfully! 🎉",
-        description: "Please check your email for a beautiful verification message. Click the link to activate your account.",
+        description: "Please check your email for a professional verification message from IronledgerMedMap. Click the link to activate your account.",
         duration: 7000,
       });
 
