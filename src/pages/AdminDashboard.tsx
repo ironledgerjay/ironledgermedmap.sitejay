@@ -27,6 +27,7 @@ import {
   DollarSign
 } from 'lucide-react';
 import { supabase } from '@/superbaseClient';
+import { emailService } from '@/utils/emailService';
 import { useToast } from '@/hooks/use-toast';
 
 interface User {
