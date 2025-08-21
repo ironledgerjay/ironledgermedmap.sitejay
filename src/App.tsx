@@ -1,12 +1,15 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Toaster } from '@/components/ui/toaster';
+import ProtectedRoute from './components/ProtectedRoute';
 import Index from './pages/Index';
+import About from './pages/About';
 import Signup from './pages/Signup';
 import Login from './pages/Login';
 import Membership from './pages/Membership';
 import DoctorPortal from './pages/DoctorPortal';
 import AdminDashboard from './pages/AdminDashboard';
 import BookAppointment from './pages/BookAppointment';
+import SearchResults from './pages/SearchResults';
 import NotFound from './pages/NotFound';
 
 function App() {
@@ -14,12 +17,23 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Index />} />
+        <Route path="/about" element={<About />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
         <Route path="/membership" element={<Membership />} />
         <Route path="/doctor-portal" element={<DoctorPortal />} />
-        <Route path="/admin-dashboard" element={<AdminDashboard />} />
+        <Route path="/admin-dashboard" element={
+          <ProtectedRoute requiredRole="admin">
+            <AdminDashboard />
+          </ProtectedRoute>
+        } />
+        <Route path="/AdminDashboard" element={
+          <ProtectedRoute requiredRole="admin">
+            <AdminDashboard />
+          </ProtectedRoute>
+        } />
         <Route path="/book-appointment" element={<BookAppointment />} />
+        <Route path="/search" element={<SearchResults />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
       <Toaster />

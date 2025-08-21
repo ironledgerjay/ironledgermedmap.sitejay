@@ -1,11 +1,13 @@
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
-import { 
-  Search, 
-  MapPin, 
-  Shield, 
-  Clock, 
+import {
+  Search,
+  MapPin,
+  Shield,
+  Clock,
   Star,
   Users,
   Calendar
@@ -13,6 +15,26 @@ import {
 import heroImage from "@/assets/medical-hero.jpg";
 
 const HeroSection = () => {
+  const navigate = useNavigate();
+  const [searchTerm, setSearchTerm] = useState("");
+  const [location, setLocation] = useState("");
+  const [medicalAid, setMedicalAid] = useState("");
+
+  const handleSearch = () => {
+    const params = new URLSearchParams();
+    if (searchTerm) params.append('specialty', searchTerm);
+    if (location) params.append('location', location);
+    if (medicalAid) params.append('medical_aid', medicalAid);
+
+    navigate(`/search?${params.toString()}`);
+  };
+
+  const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      handleSearch();
+    }
+  };
+
   return (
     <section className="relative min-h-[90vh] flex items-center bg-gradient-subtle overflow-hidden">
       {/* Background Image */}
@@ -67,27 +89,36 @@ const HeroSection = () => {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
               <div className="relative">
                 <Search className="absolute left-3 top-3 h-5 w-5 text-muted-foreground" />
-                <Input 
-                  placeholder="Search for specialists..." 
+                <Input
+                  placeholder="Search for specialists..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  onKeyPress={handleKeyPress}
                   className="pl-10 h-12 border-0 bg-background focus:ring-2 focus:ring-primary"
                 />
               </div>
               <div className="relative">
                 <MapPin className="absolute left-3 top-3 h-5 w-5 text-muted-foreground" />
-                <Input 
-                  placeholder="Enter your location..." 
+                <Input
+                  placeholder="Enter your location..."
+                  value={location}
+                  onChange={(e) => setLocation(e.target.value)}
+                  onKeyPress={handleKeyPress}
                   className="pl-10 h-12 border-0 bg-background focus:ring-2 focus:ring-primary"
                 />
               </div>
               <div className="relative">
                 <Shield className="absolute left-3 top-3 h-5 w-5 text-muted-foreground" />
-                <Input 
-                  placeholder="Medical aid provider..." 
+                <Input
+                  placeholder="Medical aid provider..."
+                  value={medicalAid}
+                  onChange={(e) => setMedicalAid(e.target.value)}
+                  onKeyPress={handleKeyPress}
                   className="pl-10 h-12 border-0 bg-background focus:ring-2 focus:ring-primary"
                 />
               </div>
             </div>
-            <Button size="lg" variant="hero" className="w-full h-12">
+            <Button size="lg" variant="hero" className="w-full h-12" onClick={handleSearch}>
               <Search className="h-5 w-5 mr-2" />
               Search Doctors
             </Button>
