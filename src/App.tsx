@@ -12,6 +12,7 @@ import Membership from './pages/Membership';
 import DoctorPortal from './pages/DoctorPortal';
 import AdminDashboard from './pages/AdminDashboard';
 import BookAppointment from './pages/BookAppointment';
+import SearchResults from './pages/SearchResults';
 import NotFound from './pages/NotFound';
 
 function App() {
@@ -38,6 +39,7 @@ function App() {
           </ProtectedRoute>
         } />
         <Route path="/book-appointment" element={<BookAppointment />} />
+        <Route path="/search" element={<SearchResults />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
       <Toaster />
