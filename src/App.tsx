@@ -40,6 +40,8 @@ function App() {
           </ProtectedRoute>
         } />
         <Route path="/book-appointment" element={<BookAppointment />} />
+        <Route path="/doctor-enrollment" element={<DoctorEnrollment />} />
+        <Route path="/emergency-doctors" element={<EmergencyDoctors />} />
         <Route path="/admin" element={
           <ProtectedRoute requiredRole="admin">
             <AdminDashboard />
