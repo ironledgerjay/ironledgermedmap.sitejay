@@ -91,11 +91,24 @@ export default function Signup() {
         if (profileError) {
           console.error('Profile creation error:', profileError);
         }
+
+        // Send custom verification email
+        const verificationUrl = `${baseUrl}/auth/callback?token=${authData.user.id}&type=signup`;
+        await emailService.sendVerificationEmail(
+          formData.email,
+          formData.fullName,
+          verificationUrl
+        );
+
+        // Send welcome email (will be sent after verification in production)
+        setTimeout(async () => {
+          await emailService.sendWelcomeEmail(formData.email, formData.fullName);
+        }, 2000);
       }
 
       toast({
         title: "Account created successfully! 🎉",
-        description: "Please check your email for a beautiful verification message. Click the link to activate your account.",
+        description: "Please check your email for a professional verification message from IronledgerMedMap. Click the link to activate your account.",
         duration: 7000,
       });
 
