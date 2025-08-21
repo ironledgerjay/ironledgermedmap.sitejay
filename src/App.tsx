@@ -12,6 +12,8 @@ import Membership from './pages/Membership';
 import DoctorPortal from './pages/DoctorPortal';
 import AdminDashboard from './pages/AdminDashboard';
 import BookAppointment from './pages/BookAppointment';
+import DoctorEnrollment from './pages/DoctorEnrollment';
+import EmergencyDoctors from './pages/EmergencyDoctors';
 import NotFound from './pages/NotFound';
 
 function App() {
