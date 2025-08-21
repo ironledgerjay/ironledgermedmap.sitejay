@@ -174,6 +174,7 @@ const HeroSection = () => {
               size="lg"
               variant="outline"
               className="bg-white/10 border-white/30 text-white hover:bg-white/20"
+              onClick={() => navigate('/doctor-enrollment')}
             >
               <Users className="h-5 w-5 mr-2" />
               Join as Doctor
@@ -182,6 +183,7 @@ const HeroSection = () => {
               size="lg"
               variant="outline"
               className="bg-white/10 border-white/30 text-white hover:bg-white/20"
+              onClick={() => navigate('/emergency-doctors')}
             >
               <Calendar className="h-5 w-5 mr-2" />
               Emergency Booking
