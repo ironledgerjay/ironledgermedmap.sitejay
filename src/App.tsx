@@ -38,7 +38,11 @@ function App() {
           </ProtectedRoute>
         } />
         <Route path="/book-appointment" element={<BookAppointment />} />
-        <Route path="/search" element={<SearchResults />} />
+        <Route path="/admin" element={
+          <ProtectedRoute requiredRole="admin">
+            <AdminDashboard />
+          </ProtectedRoute>
+        } />
         <Route path="*" element={<NotFound />} />
       </Routes>
       <Toaster />
