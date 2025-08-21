@@ -69,8 +69,11 @@ const DoctorEnrollment = () => {
     setIsSubmitting(true);
 
     try {
-      // Insert doctor data
-      const { error } = await supabase
+      // Generate unique application ID
+      const applicationId = `DOC_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+
+      // Insert doctor data with application tracking
+      const { data: doctorData, error } = await supabase
         .from('doctors')
         .insert({
           full_name: formData.fullName,
@@ -88,14 +91,43 @@ const DoctorEnrollment = () => {
             province: formData.province
           },
           availability_hours: formData.availabilityHours,
-          verified: false // Will be verified by admin later
-        });
+          verified: false, // Will be verified by admin
+          application_id: applicationId,
+          application_status: 'pending',
+          submitted_at: new Date().toISOString()
+        })
+        .select()
+        .single();
 
       if (error) throw error;
 
+      // Send application confirmation email to doctor
+      await emailService.sendEmail('verification', {
+        to: formData.email,
+        name: formData.fullName,
+        verificationUrl: `https://ironledgermedmap.co.za/application-status?id=${applicationId}`
+      });
+
+      // Create notification for admin (could be enhanced with real-time push notifications)
+      const { error: notificationError } = await supabase
+        .from('admin_notifications')
+        .insert({
+          type: 'doctor_application',
+          title: 'New Doctor Application',
+          message: `${formData.fullName} (${formData.specialization}) has submitted a new application`,
+          data: { doctorId: doctorData.id, applicationId },
+          read: false,
+          created_at: new Date().toISOString()
+        });
+
+      if (notificationError) {
+        console.error('Failed to create admin notification:', notificationError);
+      }
+
       toast({
-        title: "Application Submitted Successfully!",
-        description: "Your doctor enrollment application has been submitted. You'll be contacted within 48 hours for verification.",
+        title: "Application Submitted Successfully! 🎉",
+        description: `Your application (#${applicationId.split('_')[1]}) has been submitted. You'll receive updates via email from IronledgerMedMap within 48 hours.`,
+        duration: 8000,
       });
 
       // Reset form
@@ -116,9 +148,10 @@ const DoctorEnrollment = () => {
       });
 
     } catch (error) {
+      console.error('Doctor enrollment error:', error);
       toast({
         title: "Submission Failed",
-        description: "There was an error submitting your application. Please try again.",
+        description: "There was an error submitting your application. Please try again or contact support.",
         variant: "destructive"
       });
     } finally {
