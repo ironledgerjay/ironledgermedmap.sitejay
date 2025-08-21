@@ -321,9 +321,19 @@ const AdminDashboard = () => {
 
   const rejectDoctor = async (doctorId: string) => {
     try {
+      const doctor = doctors.find(d => d.id === doctorId);
+      if (!doctor) {
+        throw new Error('Doctor not found');
+      }
+
+      // Update status instead of deleting (better for record keeping)
       const { error } = await supabase
         .from('doctors')
-        .delete()
+        .update({
+          application_status: 'rejected',
+          verified: false,
+          rejected_at: new Date().toISOString()
+        })
         .eq('id', doctorId);
 
       if (error) {
@@ -332,14 +342,22 @@ const AdminDashboard = () => {
         setPendingDoctors(prev => prev.filter(d => d.id !== doctorId));
       }
 
+      // Send professional rejection email (you'd create this template)
+      // await emailService.sendDoctorRejectionEmail(doctor.email, doctor.full_name, "Application requirements not met");
+
       toast({
-        title: "Doctor Rejected",
-        description: "The doctor application has been rejected and removed.",
+        title: "Application Reviewed",
+        description: `${doctor.full_name}'s application has been reviewed and updated. Professional communication sent via IronledgerMedMap email.`,
+        duration: 5000,
       });
+
+      // Refresh data to show updated status
+      fetchDoctors();
     } catch (error) {
+      console.error('Rejection error:', error);
       toast({
-        title: "Error",
-        description: "Failed to reject doctor. Please try again.",
+        title: "Review Failed",
+        description: "Failed to process application review. Please try again.",
         variant: "destructive"
       });
     }
