@@ -6,9 +6,11 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
-import { Stethoscope, Mail, Lock, Eye, EyeOff } from "lucide-react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Stethoscope, Mail, Lock, Eye, EyeOff, Shield, Users, Crown } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { loginSchema, validateFormData } from "@/lib/validation";
+import AdminQuickLogin from "@/components/AdminQuickLogin";
 
 export default function Login() {
   const [formData, setFormData] = useState({
