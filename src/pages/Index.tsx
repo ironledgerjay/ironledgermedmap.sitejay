@@ -197,32 +197,46 @@ const Index = () => {
             </div>
           </div>
 
-          {/* 24/7 Booking Badge */}
-          <div className="flex justify-center mb-8">
-            <Badge variant="secondary" className="bg-white/20 text-white border-white/30 px-4 py-2">
-              <Clock className="h-4 w-4 mr-2" />
-              24/7 Booking
-            </Badge>
+          {/* Enhanced Status Badges */}
+          <div className="flex justify-center mb-8 animate-fade-in" style={{animationDelay: '0.8s'}}>
+            <div className="flex flex-wrap gap-3 justify-center">
+              <Badge variant="secondary" className="bg-white/20 text-white border-white/30 px-4 py-2 hover:bg-white/30 transition-all duration-300">
+                <Clock className="h-4 w-4 mr-2" />
+                24/7 Booking
+              </Badge>
+              <Badge variant="secondary" className="bg-white/20 text-white border-white/30 px-4 py-2 hover:bg-white/30 transition-all duration-300">
+                <Zap className="h-4 w-4 mr-2" />
+                Instant Confirmation
+              </Badge>
+            </div>
           </div>
 
-          {/* Stats */}
+          {/* Enhanced Animated Stats */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
-            <div className="text-center">
-              <div className="text-3xl font-bold mb-1">500+</div>
-              <div className="text-white/80">Verified Doctors</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold mb-1">50+</div>
-              <div className="text-white/80">Specialties</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold mb-1">9+</div>
-              <div className="text-white/80">Provinces</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold mb-1">24/7</div>
-              <div className="text-white/80">Support</div>
-            </div>
+            <Card className="bg-white/10 border-white/20 backdrop-blur-sm text-center p-4 hover:bg-white/15 transition-all duration-300 animate-fade-in-scale" style={{animationDelay: '1s'}}>
+              <CardContent className="p-0">
+                <div className="text-3xl font-bold mb-1 text-white">500+</div>
+                <div className="text-white/80 text-sm">Verified Doctors</div>
+              </CardContent>
+            </Card>
+            <Card className="bg-white/10 border-white/20 backdrop-blur-sm text-center p-4 hover:bg-white/15 transition-all duration-300 animate-fade-in-scale" style={{animationDelay: '1.2s'}}>
+              <CardContent className="p-0">
+                <div className="text-3xl font-bold mb-1 text-white">50+</div>
+                <div className="text-white/80 text-sm">Specialties</div>
+              </CardContent>
+            </Card>
+            <Card className="bg-white/10 border-white/20 backdrop-blur-sm text-center p-4 hover:bg-white/15 transition-all duration-300 animate-fade-in-scale" style={{animationDelay: '1.4s'}}>
+              <CardContent className="p-0">
+                <div className="text-3xl font-bold mb-1 text-white">9+</div>
+                <div className="text-white/80 text-sm">Provinces</div>
+              </CardContent>
+            </Card>
+            <Card className="bg-white/10 border-white/20 backdrop-blur-sm text-center p-4 hover:bg-white/15 transition-all duration-300 animate-fade-in-scale" style={{animationDelay: '1.6s'}}>
+              <CardContent className="p-0">
+                <div className="text-3xl font-bold mb-1 text-white">24/7</div>
+                <div className="text-white/80 text-sm">Support</div>
+              </CardContent>
+            </Card>
           </div>
 
           {/* CTA Buttons */}
