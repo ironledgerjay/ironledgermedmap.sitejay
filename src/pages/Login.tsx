@@ -63,13 +63,12 @@ export default function Login() {
         // Get user profile to determine role-based navigation
         const { data: profile, error: profileError } = await supabase
           .from('user_profiles')
-          .select('role')
+          .select('role, email')
           .eq('id', data.user.id)
           .single();
 
         if (profileError) {
           console.error('Error fetching profile:', profileError);
-          console.error('Profile error details:', JSON.stringify(profileError, null, 2));
 
           // If user_profiles table doesn't exist or user has no profile, treat as regular user
           if (profileError.code === 'PGRST116' || profileError.message?.includes('relation "public.user_profiles" does not exist')) {
@@ -81,19 +80,37 @@ export default function Login() {
             navigate('/');
             return;
           }
+
+          // For other profile errors, still allow login but as regular user
+          toast({
+            title: "Welcome back!",
+            description: "You have been successfully logged in"
+          });
+          navigate('/');
+          return;
         }
 
-        toast({
-          title: "Welcome back!",
-          description: "You have been successfully logged in"
-        });
-
-        // Navigate based on user role
+        // Handle role-based navigation and admin setup
         if (profile?.role === 'admin') {
+          localStorage.setItem('isAdmin', 'true');
+          localStorage.setItem('userEmail', data.user.email || '');
+
+          toast({
+            title: "Welcome back, Admin!",
+            description: "You have been successfully logged in as administrator"
+          });
           navigate('/admin-dashboard');
         } else if (profile?.role === 'doctor') {
+          toast({
+            title: "Welcome back, Doctor!",
+            description: "You have been successfully logged in"
+          });
           navigate('/doctor-portal');
         } else {
+          toast({
+            title: "Welcome back!",
+            description: "You have been successfully logged in"
+          });
           navigate('/');
         }
       }
