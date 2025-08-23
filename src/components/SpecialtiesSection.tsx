@@ -168,18 +168,55 @@ const SpecialtiesSection = () => {
           })}
         </div>
 
-        {/* CTA Section */}
-        <div className="text-center mt-12">
-          <p className="text-lg text-muted-foreground mb-4">
-            Can't find your specialty? We have 50+ medical fields covered.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button className="px-8 py-3 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors font-medium">
-              View All Specialties
-            </button>
-            <button className="px-8 py-3 border border-primary text-primary rounded-lg hover:bg-primary/10 transition-colors font-medium">
-              Request New Specialty
-            </button>
+        {/* Enhanced CTA Section */}
+        <div className="text-center mt-16 animate-fade-in-up">
+          <div className="bg-gradient-subtle rounded-2xl p-8 border border-border/50">
+            <div className="mb-6">
+              <Badge className="mb-4 bg-gradient-primary text-white">
+                <Star className="h-3 w-3 mr-1" />
+                50+ Medical Specialties
+              </Badge>
+              <h3 className="text-2xl font-bold mb-2">Can't Find Your Specialty?</h3>
+              <p className="text-lg text-muted-foreground">
+                We have comprehensive coverage across all medical fields in South Africa
+              </p>
+            </div>
+
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button
+                variant="hero"
+                size="lg"
+                className="group"
+                onClick={() => navigate('/search')}
+              >
+                View All Specialties
+                <ArrowRight className="h-4 w-4 ml-2 group-hover:translate-x-1 transition-transform" />
+              </Button>
+              <Button
+                variant="outline"
+                size="lg"
+                className="border-primary text-primary hover:bg-primary/10 hover:scale-105 transition-all duration-300"
+                onClick={() => navigate('/contact')}
+              >
+                Request New Specialty
+              </Button>
+            </div>
+
+            {/* Additional stats */}
+            <div className="mt-8 grid grid-cols-3 gap-4 pt-6 border-t border-border/30">
+              <div className="text-center">
+                <div className="text-2xl font-bold text-primary mb-1">500+</div>
+                <div className="text-sm text-muted-foreground">Active Doctors</div>
+              </div>
+              <div className="text-center">
+                <div className="text-2xl font-bold text-primary mb-1">24/7</div>
+                <div className="text-sm text-muted-foreground">Booking Available</div>
+              </div>
+              <div className="text-center">
+                <div className="text-2xl font-bold text-primary mb-1">9</div>
+                <div className="text-sm text-muted-foreground">Provinces Covered</div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
