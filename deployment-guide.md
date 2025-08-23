@@ -36,15 +36,7 @@ VITE_PAYFAST_SANDBOX=false
 
 #### 3. Payment Integration
 
-**Option A: Stripe (Recommended for Global)**
-```bash
-npm install @stripe/stripe-js
-```
-- Create Stripe account at https://stripe.com
-- Get publishable and secret keys
-- Update payment processing in `src/hooks/usePayment.ts`
-
-**Option B: PayFast (For South Africa)**
+**PayFast (For South Africa)**
 - Create PayFast account at https://payfast.co.za
 - Get merchant credentials
 - Implement PayFast API integration
