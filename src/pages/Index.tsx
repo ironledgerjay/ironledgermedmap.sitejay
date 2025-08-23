@@ -99,15 +99,22 @@ const Index = () => {
         </div>
 
         <div className="relative max-w-6xl mx-auto px-4 py-20 text-center text-white">
-          <h1 className="text-5xl md:text-6xl font-bold mb-6 leading-tight">
-            Find Your Perfect
-            <br />
-            <span className="text-teal-100">Medical Specialist</span>
-          </h1>
+          <div className="animate-fade-in-up">
+            <h1 className="text-5xl md:text-6xl font-bold mb-6 leading-tight">
+              Find Your Perfect
+              <br />
+              <span className="text-teal-100 relative">
+                Medical Specialist
+                <div className="absolute -bottom-2 left-0 w-full h-1 bg-white/30 rounded-full animate-slide-in-from-bottom"></div>
+              </span>
+            </h1>
+          </div>
 
-          <p className="text-xl md:text-2xl mb-12 text-white/90 max-w-4xl mx-auto">
-            Search by specialty, location, or medical aid. Book appointments instantly with top-rated doctors across South Africa.
-          </p>
+          <div className="animate-fade-in-up" style={{animationDelay: '0.2s'}}>
+            <p className="text-xl md:text-2xl mb-12 text-white/90 max-w-4xl mx-auto">
+              Search by specialty, location, or medical aid. Book appointments instantly with top-rated doctors across South Africa.
+            </p>
+          </div>
 
           {/* Search Form */}
           <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 mb-12 max-w-4xl mx-auto border border-white/20">
