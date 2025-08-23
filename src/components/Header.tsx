@@ -9,7 +9,11 @@ import {
   Phone,
   Menu,
   LogOut,
-  Shield
+  Shield,
+  Sparkles,
+  Crown,
+  Search,
+  X
 } from "lucide-react";
 
 const Header = () => {
