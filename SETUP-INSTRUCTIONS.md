@@ -63,10 +63,6 @@ You'll want to integrate with a real payment provider:
 3. Update the `usePayment.ts` hook to use PayFast API
 4. Add environment variables for PayFast credentials
 
-#### Alternative: Stripe
-1. Sign up at [Stripe](https://stripe.com/)
-2. Install Stripe SDK: `npm install @stripe/stripe-js`
-3. Update payment processing logic
 
 ### Test Payment Flow
 Currently implemented with:
@@ -87,8 +83,6 @@ VITE_SUPABASE_ANON_KEY=your-anon-key
 # Payment Provider (when ready for production)
 VITE_PAYFAST_MERCHANT_ID=your-merchant-id
 VITE_PAYFAST_MERCHANT_KEY=your-merchant-key
-# OR for Stripe
-VITE_STRIPE_PUBLISHABLE_KEY=your-stripe-key
 ```
 
 ## 🧪 Testing the Application
