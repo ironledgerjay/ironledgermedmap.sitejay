@@ -98,28 +98,70 @@ const SpecialtiesSection = () => {
           </p>
         </div>
 
-        {/* Specialties Grid */}
+        {/* Enhanced Interactive Specialties Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {specialties.map((specialty, index) => {
             const IconComponent = specialty.icon;
+            const isHovered = hoveredCard === index;
             return (
-              <Card 
+              <Card
                 key={specialty.name}
-                className="group hover:shadow-medical transition-all duration-300 hover:-translate-y-2 cursor-pointer border-2 hover:border-primary/50"
+                className={`group hover:shadow-medical transition-all duration-500 cursor-pointer border-2 relative overflow-hidden ${
+                  isHovered
+                    ? 'border-primary/50 -translate-y-3 shadow-xl'
+                    : 'border-border hover:border-primary/30 hover:-translate-y-2'
+                }`}
+                onMouseEnter={() => setHoveredCard(index)}
+                onMouseLeave={() => setHoveredCard(null)}
+                onClick={() => navigate(`/search?specialty=${encodeURIComponent(specialty.name)}`)}
               >
-                <CardContent className="p-6 text-center">
-                  <div className={`mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-xl bg-secondary group-hover:scale-110 transition-transform duration-300`}>
-                    <IconComponent className={`h-8 w-8 ${specialty.color}`} />
+                {/* Hover Background Effect */}
+                <div className={`absolute inset-0 bg-gradient-primary opacity-0 group-hover:opacity-5 transition-opacity duration-500`}></div>
+
+                <CardContent className="p-6 text-center relative z-10">
+                  <div className={`mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-xl bg-secondary transition-all duration-500 ${
+                    isHovered ? 'scale-125 rotate-6' : 'group-hover:scale-110'
+                  }`}>
+                    <IconComponent className={`h-8 w-8 ${specialty.color} transition-all duration-300 ${
+                      isHovered ? 'animate-pulse' : ''
+                    }`} />
                   </div>
-                  <h3 className="text-lg font-semibold mb-2 group-hover:text-primary transition-colors">
+
+                  <h3 className={`text-lg font-semibold mb-2 transition-all duration-300 ${
+                    isHovered ? 'text-primary scale-105' : 'group-hover:text-primary'
+                  }`}>
                     {specialty.name}
                   </h3>
-                  <p className="text-muted-foreground text-sm mb-3">
+
+                  <p className="text-muted-foreground text-sm mb-3 transition-colors group-hover:text-foreground/80">
                     {specialty.description}
                   </p>
-                  <Badge variant="secondary" className="text-xs">
-                    {specialty.doctorCount}
-                  </Badge>
+
+                  <div className="flex items-center justify-between">
+                    <Badge variant="secondary" className={`text-xs transition-all duration-300 ${
+                      isHovered ? 'bg-primary/10 text-primary border-primary/30' : ''
+                    }`}>
+                      <TrendingUp className="h-3 w-3 mr-1" />
+                      {specialty.doctorCount}
+                    </Badge>
+
+                    <div className={`transition-all duration-300 ${
+                      isHovered ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-2'
+                    }`}>
+                      <ArrowRight className="h-4 w-4 text-primary" />
+                    </div>
+                  </div>
+
+                  {/* Hover overlay with call to action */}
+                  <div className={`absolute inset-0 bg-gradient-primary/90 flex items-center justify-center transition-all duration-500 ${
+                    isHovered ? 'opacity-100' : 'opacity-0 pointer-events-none'
+                  }`}>
+                    <div className="text-center text-white">
+                      <Star className="h-8 w-8 mx-auto mb-2 animate-pulse" />
+                      <p className="font-semibold">Find {specialty.name} Specialists</p>
+                      <p className="text-sm opacity-90">Click to search</p>
+                    </div>
+                  </div>
                 </CardContent>
               </Card>
             );
