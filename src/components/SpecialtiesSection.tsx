@@ -18,6 +18,9 @@ import {
 } from "lucide-react";
 
 const SpecialtiesSection = () => {
+  const [hoveredCard, setHoveredCard] = useState<number | null>(null);
+  const navigate = useNavigate();
+
   const specialties = [
     {
       icon: Heart,
