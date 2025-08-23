@@ -10,6 +10,7 @@
   VITE_APP_URL = "https://ironledgermedmap.site"
   VITE_API_URL = "https://ironledgermedmap.site/api"
   VITE_ENVIRONMENT = "production"
+  VITE_DOMAIN = "ironledgermedmap.site"
 
 # Handle SPA routing
 [[redirects]]
@@ -32,7 +33,3 @@
   from = "/api/*"
   to = "/.netlify/functions/:splat"
   status = 200
-
-# Custom domain configuration
-[context.production]
-  environment = { VITE_DOMAIN = "ironledgermedmap.site" }
