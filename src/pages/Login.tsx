@@ -142,97 +142,139 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen bg-background flex items-center justify-center p-4">
-      <Card className="w-full max-w-md">
-        <CardHeader className="text-center">
-          <div className="flex items-center justify-center w-12 h-12 bg-gradient-primary rounded-lg mx-auto mb-4">
-            <Stethoscope className="h-6 w-6 text-white" />
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 flex items-center justify-center p-4">
+      <div className="w-full max-w-2xl">
+        <div className="text-center mb-8 animate-fade-in">
+          <div className="flex items-center justify-center w-16 h-16 bg-gradient-primary rounded-xl mx-auto mb-6 shadow-lg">
+            <Stethoscope className="h-8 w-8 text-white" />
           </div>
-          <CardTitle className="text-2xl">Welcome Back</CardTitle>
-          <CardDescription>
-            Sign in to your IronledgerMedMap account
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <form onSubmit={handleLogin} className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="email">
-                <Mail className="h-4 w-4 inline mr-2" />
-                Email
-              </Label>
-              <Input
-                id="email"
-                name="email"
-                type="email"
-                value={formData.email}
-                onChange={handleInputChange}
-                placeholder="john@example.com"
-                required
-              />
-            </div>
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">Welcome Back to IronledgerMedMap</h1>
+          <p className="text-gray-600">Choose your login method to access your account</p>
+        </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="password">
-                <Lock className="h-4 w-4 inline mr-2" />
-                Password
-              </Label>
-              <div className="relative">
-                <Input
-                  id="password"
-                  name="password"
-                  type={showPassword ? 'text' : 'password'}
-                  value={formData.password}
-                  onChange={handleInputChange}
-                  required
-                />
-                <Button
-                  type="button"
-                  variant="ghost"
-                  size="sm"
-                  className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
-                  onClick={() => setShowPassword(!showPassword)}
-                >
-                  {showPassword ? (
-                    <EyeOff className="h-4 w-4" />
-                  ) : (
-                    <Eye className="h-4 w-4" />
-                  )}
-                </Button>
-              </div>
-            </div>
+        <Tabs defaultValue="user" className="w-full animate-fade-in-scale">
+          <TabsList className="grid w-full grid-cols-2 mb-6">
+            <TabsTrigger value="user" className="flex items-center space-x-2">
+              <Users className="h-4 w-4" />
+              <span>User Login</span>
+            </TabsTrigger>
+            <TabsTrigger value="admin" className="flex items-center space-x-2">
+              <Crown className="h-4 w-4" />
+              <span>Admin Access</span>
+            </TabsTrigger>
+          </TabsList>
 
-            <div className="flex items-center justify-between">
-              <Link
-                to="/forgot-password"
-                className="text-sm text-primary hover:underline"
-              >
-                Forgot password?
-              </Link>
-            </div>
+          <TabsContent value="user" className="animate-fade-in-up">
+            <Card className="shadow-xl border-0 bg-white/80 backdrop-blur">
+              <CardHeader className="text-center">
+                <div className="flex items-center justify-center w-12 h-12 bg-gradient-primary rounded-lg mx-auto mb-4">
+                  <Users className="h-6 w-6 text-white" />
+                </div>
+                <CardTitle className="text-2xl">Patient & Doctor Login</CardTitle>
+                <CardDescription>
+                  Sign in to book appointments or manage your practice
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <form onSubmit={handleLogin} className="space-y-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="email">
+                      <Mail className="h-4 w-4 inline mr-2" />
+                      Email
+                    </Label>
+                    <Input
+                      id="email"
+                      name="email"
+                      type="email"
+                      value={formData.email}
+                      onChange={handleInputChange}
+                      placeholder="john@example.com"
+                      required
+                      className="transition-all duration-300 focus:ring-2 focus:ring-primary/20"
+                    />
+                  </div>
 
-            <Button type="submit" className="w-full" disabled={isLoading}>
-              {isLoading ? 'Signing in...' : 'Sign In'}
-            </Button>
-          </form>
+                  <div className="space-y-2">
+                    <Label htmlFor="password">
+                      <Lock className="h-4 w-4 inline mr-2" />
+                      Password
+                    </Label>
+                    <div className="relative">
+                      <Input
+                        id="password"
+                        name="password"
+                        type={showPassword ? 'text' : 'password'}
+                        value={formData.password}
+                        onChange={handleInputChange}
+                        required
+                        className="transition-all duration-300 focus:ring-2 focus:ring-primary/20 pr-10"
+                      />
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="sm"
+                        className="absolute right-1 top-1 h-8 w-8 p-0 hover:bg-primary/10"
+                        onClick={() => setShowPassword(!showPassword)}
+                      >
+                        {showPassword ? (
+                          <EyeOff className="h-4 w-4" />
+                        ) : (
+                          <Eye className="h-4 w-4" />
+                        )}
+                      </Button>
+                    </div>
+                  </div>
 
-          <Separator className="my-4" />
+                  <div className="flex items-center justify-between">
+                    <Link
+                      to="/forgot-password"
+                      className="text-sm text-primary hover:underline transition-colors"
+                    >
+                      Forgot password?
+                    </Link>
+                  </div>
 
-          <div className="text-center space-y-2">
-            <div className="text-sm">
-              Don't have an account?{' '}
-              <Link to="/signup" className="text-primary hover:underline">
-                Sign up
-              </Link>
-            </div>
-            <div className="text-sm text-muted-foreground">
-              Are you a doctor?{' '}
-              <Link to="/doctor-portal" className="text-primary hover:underline">
-                Doctor Portal
-              </Link>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+                  <Button
+                    type="submit"
+                    className="w-full bg-gradient-primary hover:shadow-lg transition-all duration-300"
+                    disabled={isLoading}
+                  >
+                    {isLoading ? (
+                      <>
+                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                        Signing in...
+                      </>
+                    ) : (
+                      'Sign In'
+                    )}
+                  </Button>
+                </form>
+
+                <Separator className="my-6" />
+
+                <div className="text-center space-y-3">
+                  <div className="text-sm">
+                    Don't have an account?{' '}
+                    <Link to="/signup" className="text-primary hover:underline font-medium">
+                      Sign up
+                    </Link>
+                  </div>
+                  <div className="text-sm text-muted-foreground">
+                    Are you a doctor?{' '}
+                    <Link to="/doctor-portal" className="text-primary hover:underline font-medium">
+                      Doctor Portal
+                    </Link>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="admin" className="animate-fade-in-up">
+            <AdminQuickLogin />
+          </TabsContent>
+        </Tabs>
+      </div>
     </div>
   );
 }
