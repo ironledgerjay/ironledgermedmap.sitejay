@@ -116,47 +116,84 @@ const Index = () => {
             </p>
           </div>
 
-          {/* Search Form */}
-          <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 mb-12 max-w-4xl mx-auto border border-white/20">
+          {/* Enhanced Interactive Search Form */}
+          <div className={`bg-white/10 backdrop-blur-sm rounded-2xl p-6 mb-12 max-w-4xl mx-auto border transition-all duration-500 animate-fade-in-scale ${
+            isSearchFocused ? 'border-white/40 shadow-2xl bg-white/15' : 'border-white/20'
+          }`} style={{animationDelay: '0.4s'}}>
             <div className="grid md:grid-cols-4 gap-4">
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+              <div className="relative group">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400 group-hover:text-primary transition-colors" />
                 <Input
                   placeholder="Search for specialists..."
                   value={searchData.specialty}
                   onChange={(e) => handleInputChange("specialty", e.target.value)}
                   onKeyPress={handleKeyPress}
-                  className="pl-10 bg-white border-0 text-gray-900 placeholder-gray-500"
+                  onFocus={() => setIsSearchFocused(true)}
+                  onBlur={() => setIsSearchFocused(false)}
+                  className="pl-10 bg-white border-0 text-gray-900 placeholder-gray-500 transition-all duration-300 hover:shadow-lg focus:shadow-xl focus:ring-2 focus:ring-white/30"
                 />
               </div>
-              <div className="relative">
-                <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+              <div className="relative group">
+                <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400 group-hover:text-primary transition-colors" />
                 <Input
                   placeholder="Enter your location..."
                   value={searchData.location}
                   onChange={(e) => handleInputChange("location", e.target.value)}
                   onKeyPress={handleKeyPress}
-                  className="pl-10 bg-white border-0 text-gray-900 placeholder-gray-500"
+                  onFocus={() => setIsSearchFocused(true)}
+                  onBlur={() => setIsSearchFocused(false)}
+                  className="pl-10 bg-white border-0 text-gray-900 placeholder-gray-500 transition-all duration-300 hover:shadow-lg focus:shadow-xl focus:ring-2 focus:ring-white/30"
                 />
               </div>
-              <div className="relative">
-                <Shield className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+              <div className="relative group">
+                <Shield className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400 group-hover:text-primary transition-colors" />
                 <Input
                   placeholder="Medical aid provider..."
                   value={searchData.medicalAid}
                   onChange={(e) => handleInputChange("medicalAid", e.target.value)}
                   onKeyPress={handleKeyPress}
-                  className="pl-10 bg-white border-0 text-gray-900 placeholder-gray-500"
+                  onFocus={() => setIsSearchFocused(true)}
+                  onBlur={() => setIsSearchFocused(false)}
+                  className="pl-10 bg-white border-0 text-gray-900 placeholder-gray-500 transition-all duration-300 hover:shadow-lg focus:shadow-xl focus:ring-2 focus:ring-white/30"
                 />
               </div>
               <Button
                 onClick={handleSearch}
                 size="lg"
-                className="bg-teal-600 hover:bg-teal-700 text-white border-0 h-12"
+                className="bg-teal-600 hover:bg-teal-700 text-white border-0 h-12 relative overflow-hidden group transition-all duration-300 hover:shadow-xl hover:scale-105"
               >
-                <Search className="h-5 w-5 mr-2" />
-                Search Doctors
+                <div className="absolute inset-0 bg-gradient-to-r from-teal-500 to-cyan-500 translate-x-full group-hover:translate-x-0 transition-transform duration-300"></div>
+                <Search className="h-5 w-5 mr-2 relative z-10" />
+                <span className="relative z-10">Search Doctors</span>
               </Button>
+            </div>
+
+            {/* Quick Search Suggestions */}
+            <div className="mt-4 flex flex-wrap gap-2 justify-center animate-fade-in" style={{animationDelay: '0.6s'}}>
+              <Badge
+                variant="secondary"
+                className="bg-white/20 text-white border-white/30 hover:bg-white/30 cursor-pointer transition-all duration-300"
+                onClick={() => setSearchData(prev => ({...prev, specialty: 'Cardiology'}))}
+              >
+                <HeartHandshake className="h-3 w-3 mr-1" />
+                Cardiology
+              </Badge>
+              <Badge
+                variant="secondary"
+                className="bg-white/20 text-white border-white/30 hover:bg-white/30 cursor-pointer transition-all duration-300"
+                onClick={() => setSearchData(prev => ({...prev, specialty: 'General Practice'}))}
+              >
+                <Users className="h-3 w-3 mr-1" />
+                General Practice
+              </Badge>
+              <Badge
+                variant="secondary"
+                className="bg-white/20 text-white border-white/30 hover:bg-white/30 cursor-pointer transition-all duration-300"
+                onClick={() => setSearchData(prev => ({...prev, location: 'Cape Town'}))}
+              >
+                <MapPin className="h-3 w-3 mr-1" />
+                Cape Town
+              </Badge>
             </div>
           </div>
 
