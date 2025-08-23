@@ -1,8 +1,12 @@
 import { loadStripe } from '@stripe/stripe-js';
 
-// Initialize Stripe with your publishable key
-// For development, use Stripe's test key
-const stripePublishableKey = import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY || 'pk_test_51234567890abcdef'; // Default test key
+// Get Stripe configuration from environment variables
+const stripePublishableKey = import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY;
+
+// Validate required environment variable
+if (!stripePublishableKey) {
+  throw new Error('Missing VITE_STRIPE_PUBLISHABLE_KEY environment variable');
+}
 
 export const stripePromise = loadStripe(stripePublishableKey);
 
