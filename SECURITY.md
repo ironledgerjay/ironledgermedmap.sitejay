@@ -88,9 +88,6 @@ This document outlines the security measures implemented in IronledgerMedMap and
 VITE_SUPABASE_URL=your_supabase_project_url
 VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
 
-# Stripe (Required for payments)
-VITE_STRIPE_PUBLISHABLE_KEY=your_stripe_publishable_key
-
 # PayFast (Required for South African payments)
 VITE_PAYFAST_MERCHANT_ID=your_payfast_merchant_id
 VITE_PAYFAST_MERCHANT_KEY=your_payfast_merchant_key

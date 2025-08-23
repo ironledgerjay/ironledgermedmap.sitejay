@@ -22,19 +22,7 @@ VITE_SUPABASE_ANON_KEY=your_supabase_anon_key_here
 2. Navigate to Settings > API
 3. Copy the Project URL and anon/public key
 
-### 2. Stripe Configuration (Payment Processing)
-
-```env
-VITE_STRIPE_PUBLISHABLE_KEY=your_stripe_publishable_key_here
-```
-
-**How to get this value:**
-1. Go to your Stripe dashboard
-2. Navigate to Developers > API keys
-3. Copy the Publishable key (starts with `pk_`)
-4. Use test keys for development (starts with `pk_test_`)
-
-### 3. PayFast Configuration (South African Payments)
+### 2. PayFast Configuration (South African Payments)
 
 ```env
 VITE_PAYFAST_MERCHANT_ID=your_payfast_merchant_id_here
@@ -49,7 +37,7 @@ VITE_PAYFAST_SANDBOX=true
 3. Copy your Merchant ID, Merchant Key, and set a secure Passphrase
 4. Keep `VITE_PAYFAST_SANDBOX=true` for development
 
-### 4. Application Configuration
+### 3. Application Configuration
 
 ```env
 VITE_APP_URL=http://localhost:8080
@@ -85,14 +73,14 @@ Since Neon is connected, ensure your database has the required tables:
 ## Development vs Production
 
 ### Development Environment:
-- Use Stripe test keys (pk_test_...)
 - Set `VITE_PAYFAST_SANDBOX=true`
 - Use Supabase development project
+- Use PayFast test merchant credentials
 
 ### Production Environment:
-- Use Stripe live keys (pk_live_...)
 - Set `VITE_PAYFAST_SANDBOX=false`
 - Use Supabase production project
+- Use PayFast live merchant credentials
 - Implement proper SSL/HTTPS
 - Set up proper domain for `VITE_APP_URL`
 
@@ -109,7 +97,7 @@ Since Neon is connected, ensure your database has the required tables:
    - Check if your Supabase project is active
 
 3. **Payment processing issues:**
-   - Verify your Stripe/PayFast credentials
+   - Verify your PayFast credentials
    - Check if you're using the correct sandbox/live mode settings
 
 ### Verifying Setup:
