@@ -57,14 +57,19 @@ const Header = () => {
     }`}>
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          {/* Logo */}
-          <Link to="/" className="flex items-center space-x-2">
-            <div className="flex items-center justify-center w-10 h-10 bg-gradient-primary rounded-lg">
-              <Stethoscope className="h-6 w-6 text-white" />
+          {/* Enhanced Logo */}
+          <Link to="/" className="flex items-center space-x-3 group">
+            <div className="flex items-center justify-center w-12 h-12 bg-gradient-primary rounded-xl shadow-medical group-hover:shadow-glow transition-all duration-300 group-hover:scale-110">
+              <Stethoscope className="h-7 w-7 text-white group-hover:animate-pulse" />
             </div>
             <div className="flex flex-col">
-              <span className="text-xl font-bold text-foreground">IronledgerMedMap</span>
-              <span className="text-xs text-muted-foreground">Find Your Doctor</span>
+              <span className="text-xl font-bold text-foreground group-hover:text-primary transition-colors duration-300">
+                IronledgerMedMap
+              </span>
+              <span className="text-xs text-muted-foreground flex items-center">
+                <Sparkles className="h-3 w-3 mr-1" />
+                Find Your Doctor
+              </span>
             </div>
           </Link>
 
