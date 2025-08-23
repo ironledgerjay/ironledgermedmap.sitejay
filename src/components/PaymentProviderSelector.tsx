@@ -6,7 +6,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { CreditCard, Landmark, Shield, Zap, Check } from "lucide-react";
 
-export type PaymentProvider = 'stripe' | 'payfast';
+export type PaymentProvider = 'payfast';
 
 interface PaymentProviderSelectorProps {
   amount: number;
