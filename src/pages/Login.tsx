@@ -8,6 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { Stethoscope, Mail, Lock, Eye, EyeOff } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { loginSchema, validateFormData } from "@/lib/validation";
 
 export default function Login() {
   const [formData, setFormData] = useState({
@@ -49,6 +50,19 @@ export default function Login() {
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
+
+    // Validate form data
+    const validation = validateFormData(loginSchema, formData);
+    if (!validation.success) {
+      const firstError = validation.errors?.[0];
+      toast({
+        title: "Validation Error",
+        description: firstError?.message || "Please check your input",
+        variant: "destructive"
+      });
+      setIsLoading(false);
+      return;
+    }
 
     try {
       const { data, error } = await supabase.auth.signInWithPassword({
