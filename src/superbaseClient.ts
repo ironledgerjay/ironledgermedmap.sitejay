@@ -1,7 +1,17 @@
 import { createClient } from '@supabase/supabase-js';
 
-const supabaseUrl = 'https://wbikdrduhotwnklrbrlt.supabase.co';
-const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndiaWtkcmR1aG90d25rbHJicmx0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQzOTU5MjMsImV4cCI6MjA2OTk3MTkyM30.NDW4lN3hOCYyDBr86NHto8I1cdRszLAHU7QkntwYgoM';
+// Get Supabase configuration from environment variables
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+
+// Validate required environment variables
+if (!supabaseUrl) {
+  throw new Error('Missing VITE_SUPABASE_URL environment variable');
+}
+
+if (!supabaseKey) {
+  throw new Error('Missing VITE_SUPABASE_ANON_KEY environment variable');
+}
 
 // Get the base URL for redirects
 const getBaseUrl = () => {
