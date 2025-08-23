@@ -47,7 +47,7 @@ export const EnhancedPaymentForm: React.FC<EnhancedPaymentFormProps> = ({
   onCancel,
 }) => {
   const [currentStep, setCurrentStep] = useState<FormStep>('provider');
-  const [selectedProvider, setSelectedProvider] = useState<PaymentProvider>('stripe');
+  const [selectedProvider, setSelectedProvider] = useState<PaymentProvider>('payfast');
   const [cardDetails, setCardDetails] = useState({
     number: '',
     expiry: '',
