@@ -180,15 +180,6 @@ export const setupMockAPI = () => {
     const urlString = url.toString();
     
     // Handle payment API routes
-    if (urlString.includes('/api/create-payment-intent')) {
-      const body = JSON.parse(options?.body as string || '{}');
-      const result = await paymentsAPI.createPaymentIntent(body);
-      return new Response(JSON.stringify(result), {
-        status: 200,
-        headers: { 'Content-Type': 'application/json' }
-      });
-    }
-    
     if (urlString.includes('/api/payments') && options?.method === 'POST') {
       const body = JSON.parse(options?.body as string || '{}');
       const result = await paymentsAPI.createPayment(body);
