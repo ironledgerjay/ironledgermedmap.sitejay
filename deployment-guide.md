@@ -21,10 +21,11 @@ Copy `.env.example` to `.env` and configure:
 VITE_SUPABASE_URL=https://your-project.supabase.co
 VITE_SUPABASE_ANON_KEY=your-supabase-anon-key
 
-# Payment Provider (Choose one)
-VITE_STRIPE_PUBLISHABLE_KEY=pk_live_your-stripe-key
-# OR
+# Payment Provider
 VITE_PAYFAST_MERCHANT_ID=your-merchant-id
+VITE_PAYFAST_MERCHANT_KEY=your-merchant-key
+VITE_PAYFAST_PASSPHRASE=your-passphrase
+VITE_PAYFAST_SANDBOX=false
 ```
 
 #### 2. Database Setup
