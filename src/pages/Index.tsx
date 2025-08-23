@@ -31,7 +31,16 @@ const Index = () => {
     location: "",
     medicalAid: "",
   });
+  const [isSearchFocused, setIsSearchFocused] = useState(false);
+  const [animationPhase, setAnimationPhase] = useState(0);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setAnimationPhase(prev => (prev + 1) % 3);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, []);
 
   const handleInputChange = (field: string, value: string) => {
     setSearchData((prev) => ({
