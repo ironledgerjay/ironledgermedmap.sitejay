@@ -146,11 +146,28 @@ class PayFastService {
 
 // Environment configuration
 const getPayFastConfig = (): PayFastConfig => {
+  const merchantId = import.meta.env.VITE_PAYFAST_MERCHANT_ID;
+  const merchantKey = import.meta.env.VITE_PAYFAST_MERCHANT_KEY;
+  const passphrase = import.meta.env.VITE_PAYFAST_PASSPHRASE;
+
+  // Validate required environment variables
+  if (!merchantId) {
+    throw new Error('Missing VITE_PAYFAST_MERCHANT_ID environment variable');
+  }
+
+  if (!merchantKey) {
+    throw new Error('Missing VITE_PAYFAST_MERCHANT_KEY environment variable');
+  }
+
+  if (!passphrase) {
+    throw new Error('Missing VITE_PAYFAST_PASSPHRASE environment variable');
+  }
+
   return {
-    merchantId: import.meta.env.VITE_PAYFAST_MERCHANT_ID || '10000100',
-    merchantKey: import.meta.env.VITE_PAYFAST_MERCHANT_KEY || '46f0cd694581a',
-    passphrase: import.meta.env.VITE_PAYFAST_PASSPHRASE || 'jt7NOE43FZPn',
-    sandbox: import.meta.env.VITE_PAYFAST_SANDBOX === 'true' || true,
+    merchantId,
+    merchantKey,
+    passphrase,
+    sandbox: import.meta.env.VITE_PAYFAST_SANDBOX === 'true' || import.meta.env.DEV,
   };
 };
 

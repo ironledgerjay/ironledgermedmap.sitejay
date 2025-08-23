@@ -3,7 +3,7 @@
 
 interface PaymentRequest {
   paymentId: string;
-  provider: 'stripe' | 'payfast';
+  provider: 'payfast';
   amount: number;
   currency: string;
   description: string;
@@ -31,22 +31,6 @@ interface BookingConfirmRequest {
 
 // Simulated API responses for development
 export const paymentsAPI = {
-  // Create Stripe payment intent
-  createPaymentIntent: async (data: CreatePaymentIntentRequest) => {
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 500));
-    
-    if (Math.random() > 0.95) {
-      throw new Error('Failed to create payment intent');
-    }
-
-    return {
-      client_secret: `pi_mock_${Date.now()}_secret_${Math.random().toString(36).substr(2, 9)}`,
-      payment_intent_id: `pi_mock_${Date.now()}`,
-      amount: data.amount,
-      currency: data.currency,
-    };
-  },
 
   // Store payment record
   createPayment: async (data: PaymentRequest) => {
@@ -196,15 +180,6 @@ export const setupMockAPI = () => {
     const urlString = url.toString();
     
     // Handle payment API routes
-    if (urlString.includes('/api/create-payment-intent')) {
-      const body = JSON.parse(options?.body as string || '{}');
-      const result = await paymentsAPI.createPaymentIntent(body);
-      return new Response(JSON.stringify(result), {
-        status: 200,
-        headers: { 'Content-Type': 'application/json' }
-      });
-    }
-    
     if (urlString.includes('/api/payments') && options?.method === 'POST') {
       const body = JSON.parse(options?.body as string || '{}');
       const result = await paymentsAPI.createPayment(body);

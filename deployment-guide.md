@@ -21,10 +21,11 @@ Copy `.env.example` to `.env` and configure:
 VITE_SUPABASE_URL=https://your-project.supabase.co
 VITE_SUPABASE_ANON_KEY=your-supabase-anon-key
 
-# Payment Provider (Choose one)
-VITE_STRIPE_PUBLISHABLE_KEY=pk_live_your-stripe-key
-# OR
+# Payment Provider
 VITE_PAYFAST_MERCHANT_ID=your-merchant-id
+VITE_PAYFAST_MERCHANT_KEY=your-merchant-key
+VITE_PAYFAST_PASSPHRASE=your-passphrase
+VITE_PAYFAST_SANDBOX=false
 ```
 
 #### 2. Database Setup
@@ -35,15 +36,7 @@ VITE_PAYFAST_MERCHANT_ID=your-merchant-id
 
 #### 3. Payment Integration
 
-**Option A: Stripe (Recommended for Global)**
-```bash
-npm install @stripe/stripe-js
-```
-- Create Stripe account at https://stripe.com
-- Get publishable and secret keys
-- Update payment processing in `src/hooks/usePayment.ts`
-
-**Option B: PayFast (For South Africa)**
+**PayFast (For South Africa)**
 - Create PayFast account at https://payfast.co.za
 - Get merchant credentials
 - Implement PayFast API integration

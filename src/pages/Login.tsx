@@ -8,6 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { Stethoscope, Mail, Lock, Eye, EyeOff } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { loginSchema, validateFormData } from "@/lib/validation";
 
 export default function Login() {
   const [formData, setFormData] = useState({
@@ -50,21 +51,20 @@ export default function Login() {
     e.preventDefault();
     setIsLoading(true);
 
+    // Validate form data
+    const validation = validateFormData(loginSchema, formData);
+    if (!validation.success) {
+      const firstError = validation.errors?.[0];
+      toast({
+        title: "Validation Error",
+        description: firstError?.message || "Please check your input",
+        variant: "destructive"
+      });
+      setIsLoading(false);
+      return;
+    }
+
     try {
-      // Check for hardcoded admin credentials first
-      if (formData.email === 'admin@ironledgermedmap.com' && formData.password === 'Medm@p2025') {
-        toast({
-          title: "Welcome back, Admin!",
-          description: "You have been successfully logged in as administrator"
-        });
-
-        // Store admin session
-        localStorage.setItem('isAdmin', 'true');
-        localStorage.setItem('userEmail', formData.email);
-        navigate('/admin-dashboard');
-        return;
-      }
-
       const { data, error } = await supabase.auth.signInWithPassword({
         email: formData.email,
         password: formData.password
@@ -73,30 +73,16 @@ export default function Login() {
       if (error) throw error;
 
       if (data.user) {
-        // Check if this is the admin user and handle specially
-        if (data.user.email === 'admin@ironledgermedmap.com') {
-          localStorage.setItem('isAdmin', 'true');
-          localStorage.setItem('userEmail', data.user.email);
-
-          toast({
-            title: "Welcome back, Admin!",
-            description: "You have been successfully logged in as administrator"
-          });
-
-          navigate('/admin-dashboard');
-          return;
-        }
 
         // Get user profile to determine role-based navigation
         const { data: profile, error: profileError } = await supabase
           .from('user_profiles')
-          .select('role')
+          .select('role, email')
           .eq('id', data.user.id)
           .single();
 
         if (profileError) {
           console.error('Error fetching profile:', profileError);
-          console.error('Profile error details:', JSON.stringify(profileError, null, 2));
 
           // If user_profiles table doesn't exist or user has no profile, treat as regular user
           if (profileError.code === 'PGRST116' || profileError.message?.includes('relation "public.user_profiles" does not exist')) {
@@ -108,19 +94,37 @@ export default function Login() {
             navigate('/');
             return;
           }
+
+          // For other profile errors, still allow login but as regular user
+          toast({
+            title: "Welcome back!",
+            description: "You have been successfully logged in"
+          });
+          navigate('/');
+          return;
         }
 
-        toast({
-          title: "Welcome back!",
-          description: "You have been successfully logged in"
-        });
-
-        // Navigate based on user role
+        // Handle role-based navigation and admin setup
         if (profile?.role === 'admin') {
+          localStorage.setItem('isAdmin', 'true');
+          localStorage.setItem('userEmail', data.user.email || '');
+
+          toast({
+            title: "Welcome back, Admin!",
+            description: "You have been successfully logged in as administrator"
+          });
           navigate('/admin-dashboard');
         } else if (profile?.role === 'doctor') {
+          toast({
+            title: "Welcome back, Doctor!",
+            description: "You have been successfully logged in"
+          });
           navigate('/doctor-portal');
         } else {
+          toast({
+            title: "Welcome back!",
+            description: "You have been successfully logged in"
+          });
           navigate('/');
         }
       }

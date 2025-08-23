@@ -74,7 +74,7 @@ export const EMAIL_TEMPLATES = {
                     <div class="feature-icon">💳</div>
                     <div>
                         <strong>Secure Payments</strong><br>
-                        <small style="color: #64748b;">Safe and secure payment processing with Stripe and PayFast</small>
+                        <small style="color: #64748b;">Safe and secure payment processing with PayFast</small>
                     </div>
                 </div>
                 
@@ -127,7 +127,7 @@ ${verificationUrl}
 What you'll get access to:
 👨‍⚕️ Verified Doctors - Access to qualified medical professionals across South Africa
 📅 Easy Booking - Schedule appointments at your convenience with real-time availability  
-💳 Secure Payments - Safe and secure payment processing with Stripe and PayFast
+💳 Secure Payments - Safe and secure payment processing with PayFast
 ⭐ Premium Membership - Get 5 free bookings and save R39 quarterly with premium membership
 
 🔒 Security Notice: This verification link will expire in 24 hours for your security. If you didn't create this account, please ignore this email.

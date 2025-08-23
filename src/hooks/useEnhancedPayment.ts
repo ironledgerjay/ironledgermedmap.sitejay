@@ -1,9 +1,8 @@
 import { useState } from 'react';
 import { useToast } from './use-toast';
-import { stripePromise } from '../lib/stripe';
 import { payfastService, PayFastPaymentData } from '../lib/payfast';
 
-export type PaymentProvider = 'stripe' | 'payfast';
+export type PaymentProvider = 'payfast';
 
 interface PaymentDetails {
   amount: number;
@@ -43,69 +42,6 @@ export const useEnhancedPayment = () => {
     };
   };
 
-  const processStripePayment = async (
-    paymentDetails: PaymentDetails
-  ): Promise<PaymentResult> => {
-    try {
-      const stripe = await stripePromise;
-      if (!stripe) {
-        throw new Error('Stripe failed to initialize');
-      }
-
-      // Create payment intent on your backend
-      const response = await fetch('/api/create-payment-intent', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          amount: Math.round(paymentDetails.amount * 100), // Convert to cents
-          currency: paymentDetails.currency.toLowerCase(),
-          description: paymentDetails.description,
-          metadata: {
-            ...paymentDetails.metadata,
-            provider: 'stripe',
-            type: paymentDetails.type,
-          },
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to create payment intent');
-      }
-
-      const { client_secret, payment_intent_id } = await response.json();
-
-      // For now, return success with mock data
-      // In production, you'd confirm the payment with Stripe Elements
-      const paymentId = payment_intent_id || `stripe_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-
-      toast({
-        title: "Payment Processing",
-        description: "Redirecting to Stripe checkout...",
-      });
-
-      return {
-        success: true,
-        paymentId,
-        requiresRedirect: false, // Set to true when using Stripe Checkout
-      };
-    } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : 'Stripe payment failed';
-      console.error('Stripe payment error:', error);
-      
-      toast({
-        title: "Payment Failed",
-        description: errorMessage,
-        variant: "destructive",
-      });
-
-      return {
-        success: false,
-        error: errorMessage,
-      };
-    }
-  };
 
   const processPayFastPayment = async (
     paymentDetails: PaymentDetails
@@ -180,21 +116,17 @@ export const useEnhancedPayment = () => {
     try {
       let result: PaymentResult;
 
-      switch (paymentDetails.provider) {
-        case 'stripe':
-          result = await processStripePayment(paymentDetails);
-          break;
-        case 'payfast':
-          result = await processPayFastPayment(paymentDetails);
-          break;
-        default:
-          throw new Error(`Unsupported payment provider: ${paymentDetails.provider}`);
+      // Only PayFast is supported for South African payments
+      if (paymentDetails.provider !== 'payfast') {
+        throw new Error('Only PayFast payments are supported');
       }
+
+      result = await processPayFastPayment(paymentDetails);
 
       return result;
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Payment processing failed';
-      
+
       toast({
         title: "Payment Error",
         description: errorMessage,

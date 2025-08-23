@@ -24,7 +24,7 @@ export const usePayment = () => {
     setIsProcessing(true);
 
     try {
-      // TODO: In production, integrate with Stripe or PayFast
+      // TODO: In production, integrate with PayFast
       // For now, we'll simulate payment processing with enhanced validation
 
       console.log('Processing payment:', paymentDetails);
