@@ -68,20 +68,33 @@ const Index = () => {
     <div className="min-h-screen bg-background">
       <Header />
 
-      {/* Hero Section with Original Design */}
+      {/* Enhanced Hero Section */}
       <section className="relative min-h-[90vh] flex items-center bg-gradient-to-br from-teal-400 via-teal-500 to-cyan-600 overflow-hidden">
-        {/* Background Elements */}
+        {/* Animated Background Elements */}
         <div className="absolute inset-0 bg-black/10"></div>
-        <div className="absolute top-4 right-4">
-          <Badge variant="secondary" className="bg-white/20 text-white border-white/30">
-            <Shield className="h-4 w-4 mr-2" />
-            South Africa's Premier Medical Booking Platform
-          </Badge>
+
+        {/* Floating Elements */}
+        <div className="absolute top-20 left-10 animate-float">
+          <div className="w-20 h-20 bg-white/10 rounded-full blur-xl"></div>
         </div>
-        <div className="absolute top-4 right-20">
-          <Badge variant="secondary" className="bg-white/20 text-white border-white/30">
+        <div className="absolute bottom-20 right-20 animate-float" style={{animationDelay: '2s'}}>
+          <div className="w-32 h-32 bg-white/5 rounded-full blur-2xl"></div>
+        </div>
+        <div className="absolute top-1/2 left-20 animate-pulse-soft">
+          <Sparkles className="h-6 w-6 text-white/30" />
+        </div>
+
+        {/* Dynamic Status Badges */}
+        <div className="absolute top-6 right-6 space-y-3 animate-slide-in-from-top">
+          <Badge variant="secondary" className="bg-white/20 text-white border-white/30 backdrop-blur-sm hover:bg-white/30 transition-all duration-300">
             <Shield className="h-4 w-4 mr-2" />
-            Secure Platform
+            South Africa's Premier Medical Platform
+          </Badge>
+          <Badge variant="secondary" className="bg-white/20 text-white border-white/30 backdrop-blur-sm hover:bg-white/30 transition-all duration-300">
+            <TrendingUp className="h-4 w-4 mr-2" />
+            {animationPhase === 0 && "500+ Verified Doctors"}
+            {animationPhase === 1 && "24/7 Booking Available"}
+            {animationPhase === 2 && "Trusted by 10,000+ Patients"}
           </Badge>
         </div>
 
