@@ -239,29 +239,52 @@ const Index = () => {
             </Card>
           </div>
 
-          {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center mt-8">
+          {/* Enhanced CTA Buttons */}
+          <div className="flex flex-col sm:flex-row gap-4 justify-center mt-8 animate-fade-in-up" style={{animationDelay: '1.8s'}}>
             <Button
               size="lg"
               variant="outline"
-              className="bg-white/10 border-white/30 text-white hover:bg-white/20"
+              className="bg-white/10 border-white/30 text-white hover:bg-white/20 hover:scale-105 transition-all duration-300 group relative overflow-hidden"
               onClick={() => navigate('/doctor-enrollment')}
             >
-              <Users className="h-5 w-5 mr-2" />
-              Join as Doctor
+              <div className="absolute inset-0 bg-white/5 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
+              <Users className="h-5 w-5 mr-2 relative z-10" />
+              <span className="relative z-10">Join as Doctor</span>
+              <ArrowRight className="h-4 w-4 ml-2 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-300 relative z-10" />
             </Button>
             <Button
               size="lg"
               variant="outline"
-              className="bg-white/10 border-white/30 text-white hover:bg-white/20"
+              className="bg-white/10 border-white/30 text-white hover:bg-white/20 hover:scale-105 transition-all duration-300 group relative overflow-hidden"
               onClick={() => navigate('/emergency-doctors')}
             >
-              <Calendar className="h-5 w-5 mr-2" />
-              Emergency Booking
+              <div className="absolute inset-0 bg-white/5 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
+              <Calendar className="h-5 w-5 mr-2 relative z-10" />
+              <span className="relative z-10">Emergency Booking</span>
+              <ArrowRight className="h-4 w-4 ml-2 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-300 relative z-10" />
             </Button>
           </div>
         </div>
       </section>
+
+      {/* Floating Action Buttons */}
+      <div className="fixed bottom-6 right-6 z-50 flex flex-col gap-3 animate-fade-in" style={{animationDelay: '2s'}}>
+        <Button
+          size="lg"
+          className="rounded-full w-14 h-14 bg-gradient-primary hover:shadow-glow transition-all duration-300 hover:scale-110 group"
+          onClick={() => navigate('/emergency-doctors')}
+        >
+          <Phone className="h-6 w-6 group-hover:animate-pulse" />
+        </Button>
+        <Button
+          size="lg"
+          variant="outline"
+          className="rounded-full w-14 h-14 bg-white/90 backdrop-blur border-primary/20 hover:bg-white hover:shadow-lg transition-all duration-300 hover:scale-110 group"
+          onClick={() => navigate('/contact')}
+        >
+          <MessageCircle className="h-6 w-6 text-primary group-hover:animate-pulse" />
+        </Button>
+      </div>
 
       <SpecialtiesSection />
       <MembershipSection />
