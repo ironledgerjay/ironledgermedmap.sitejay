@@ -29,10 +29,18 @@ const Header = () => {
       setIsAdmin(adminStatus && adminEmail === 'admin@ironledgermedmap.com');
     };
 
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 10);
+    };
+
     checkAdminStatus();
-    // Listen for storage changes
+    window.addEventListener('scroll', handleScroll);
     window.addEventListener('storage', checkAdminStatus);
-    return () => window.removeEventListener('storage', checkAdminStatus);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('storage', checkAdminStatus);
+    };
   }, []);
 
   const handleLogout = () => {
