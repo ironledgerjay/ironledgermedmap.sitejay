@@ -14,6 +14,7 @@ import AdminDashboard from './pages/AdminDashboard';
 import BookAppointment from './pages/BookAppointment';
 import DoctorEnrollment from './pages/DoctorEnrollment';
 import EmergencyDoctors from './pages/EmergencyDoctors';
+import AdminSetupPage from './pages/AdminSetupPage';
 import NotFound from './pages/NotFound';
 
 function App() {
