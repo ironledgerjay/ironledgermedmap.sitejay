@@ -145,15 +145,33 @@ const Footer = () => {
 
         {/* Bottom Bar */}
         <div className="border-t border-background/20 mt-12 pt-8">
-          <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-            <div className="text-sm opacity-80">
-              © 2024 IronledgerMedMap. All rights reserved.
+          <div className="flex flex-col lg:flex-row justify-between items-center space-y-4 lg:space-y-0">
+            <div className="text-sm opacity-80 text-center lg:text-left">
+              © 2025 IronledgerMedMap. All rights reserved. | Ironledger (Pty) Ltd | Registration: [Company Registration Number]
             </div>
-            <div className="flex space-x-6 text-sm">
-              <a href="#" className="opacity-80 hover:opacity-100 transition-opacity">Privacy Policy</a>
-              <a href="#" className="opacity-80 hover:opacity-100 transition-opacity">Terms of Service</a>
-              <a href="#" className="opacity-80 hover:opacity-100 transition-opacity">Cookie Policy</a>
-              <a href="#" className="opacity-80 hover:opacity-100 transition-opacity">PAIA Manual</a>
+            <div className="flex flex-wrap justify-center lg:justify-end gap-4 lg:gap-6 text-sm">
+              <Link to="/privacy-policy" className="opacity-80 hover:opacity-100 transition-opacity">Privacy Policy</Link>
+              <Link to="/terms-of-service" className="opacity-80 hover:opacity-100 transition-opacity">Terms of Service</Link>
+              <Link to="/cookie-policy" className="opacity-80 hover:opacity-100 transition-opacity">Cookie Policy</Link>
+              <Link to="/medical-disclaimers" className="opacity-80 hover:opacity-100 transition-opacity">Medical Disclaimers</Link>
+              <Link to="/doctor-terms" className="opacity-80 hover:opacity-100 transition-opacity">Provider Terms</Link>
+            </div>
+          </div>
+          <div className="mt-4 pt-4 border-t border-background/20">
+            <div className="flex flex-col md:flex-row justify-between items-center space-y-2 md:space-y-0">
+              <div className="text-xs opacity-60 text-center md:text-left">
+                This platform complies with the Protection of Personal Information Act (POPI Act) and is approved by the Health Professions Council of South Africa (HPCSA).
+              </div>
+              <div className="flex items-center space-x-4 text-xs opacity-60">
+                <span className="flex items-center">
+                  <Shield className="h-3 w-3 mr-1" />
+                  POPI Compliant
+                </span>
+                <span className="flex items-center">
+                  <FileText className="h-3 w-3 mr-1" />
+                  HPCSA Approved
+                </span>
+              </div>
             </div>
           </div>
         </div>
