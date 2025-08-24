@@ -1,5 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Separator } from "@/components/ui/separator";
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import {
@@ -13,7 +15,11 @@ import {
   Sparkles,
   Crown,
   Search,
-  X
+  X,
+  Home,
+  Info,
+  Mail,
+  UserPlus
 } from "lucide-react";
 
 const Header = () => {
