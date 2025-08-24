@@ -15,6 +15,11 @@ import BookAppointment from './pages/BookAppointment';
 import DoctorEnrollment from './pages/DoctorEnrollment';
 import EmergencyDoctors from './pages/EmergencyDoctors';
 import AdminSetupPage from './pages/AdminSetupPage';
+import TermsOfService from './pages/TermsOfService';
+import PrivacyPolicy from './pages/PrivacyPolicy';
+import MedicalDisclaimers from './pages/MedicalDisclaimers';
+import DoctorTerms from './pages/DoctorTerms';
+import CookiePolicy from './pages/CookiePolicy';
 import NotFound from './pages/NotFound';
 
 function App() {
