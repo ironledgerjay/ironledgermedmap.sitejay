@@ -43,6 +43,8 @@ function App() {
         <Route path="/book-appointment" element={<BookAppointment />} />
         <Route path="/doctor-enrollment" element={<DoctorEnrollment />} />
         <Route path="/emergency-doctors" element={<EmergencyDoctors />} />
+        <Route path="/AdminSetupPage" element={<AdminSetupPage />} />
+        <Route path="/admin-setup" element={<AdminSetupPage />} />
         <Route path="/admin" element={
           <ProtectedRoute requiredRole="admin">
             <AdminDashboard />
