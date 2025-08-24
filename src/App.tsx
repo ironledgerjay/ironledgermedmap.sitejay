@@ -50,6 +50,11 @@ function App() {
         <Route path="/emergency-doctors" element={<EmergencyDoctors />} />
         <Route path="/AdminSetupPage" element={<AdminSetupPage />} />
         <Route path="/admin-setup" element={<AdminSetupPage />} />
+        <Route path="/terms-of-service" element={<TermsOfService />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+        <Route path="/medical-disclaimers" element={<MedicalDisclaimers />} />
+        <Route path="/doctor-terms" element={<DoctorTerms />} />
+        <Route path="/cookie-policy" element={<CookiePolicy />} />
         <Route path="/admin" element={
           <ProtectedRoute requiredRole="admin">
             <AdminDashboard />
