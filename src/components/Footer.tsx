@@ -1,14 +1,17 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { 
-  Stethoscope, 
-  Mail, 
-  Phone, 
-  MapPin, 
-  Facebook, 
-  Twitter, 
-  Instagram, 
-  Linkedin 
+import { Link } from "react-router-dom";
+import {
+  Stethoscope,
+  Mail,
+  Phone,
+  MapPin,
+  Facebook,
+  Twitter,
+  Instagram,
+  Linkedin,
+  Shield,
+  FileText
 } from "lucide-react";
 
 const Footer = () => {
