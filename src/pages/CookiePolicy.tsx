@@ -347,19 +347,19 @@ const CookiePolicy = () => {
                   <div>
                     <h4 className="font-medium mb-2 text-blue-700">Popular Browsers:</h4>
                     <ul className="list-disc list-inside space-y-1 text-sm">
-                      <li>Chrome: Settings > Privacy > Cookies</li>
-                      <li>Firefox: Options > Privacy > Cookies</li>
-                      <li>Safari: Preferences > Privacy</li>
-                      <li>Edge: Settings > Privacy > Cookies</li>
+                      <li>Chrome: Settings &gt; Privacy &gt; Cookies</li>
+                      <li>Firefox: Options &gt; Privacy &gt; Cookies</li>
+                      <li>Safari: Preferences &gt; Privacy</li>
+                      <li>Edge: Settings &gt; Privacy &gt; Cookies</li>
                     </ul>
                   </div>
                   <div>
                     <h4 className="font-medium mb-2 text-green-700">Mobile Browsers:</h4>
                     <ul className="list-disc list-inside space-y-1 text-sm">
-                      <li>Chrome Mobile: Menu > Settings > Privacy</li>
-                      <li>Safari iOS: Settings > Safari > Privacy</li>
-                      <li>Samsung Internet: Menu > Settings > Privacy</li>
-                      <li>Firefox Mobile: Menu > Settings > Privacy</li>
+                      <li>Chrome Mobile: Menu &gt; Settings &gt; Privacy</li>
+                      <li>Safari iOS: Settings &gt; Safari &gt; Privacy</li>
+                      <li>Samsung Internet: Menu &gt; Settings &gt; Privacy</li>
+                      <li>Firefox Mobile: Menu &gt; Settings &gt; Privacy</li>
                     </ul>
                   </div>
                 </div>
