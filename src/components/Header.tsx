@@ -95,17 +95,17 @@ const Header = () => {
             </Link>
           </nav>
 
-          {/* Action Buttons */}
-          <div className="flex items-center space-x-4">
+          {/* Desktop Action Buttons */}
+          <div className="hidden md:flex items-center space-x-4">
             {isAdmin ? (
               // Admin-specific buttons
               <>
-                <Badge variant="default" className="bg-red-100 text-red-800 hidden sm:flex">
+                <Badge variant="default" className="bg-red-100 text-red-800">
                   <Shield className="h-3 w-3 mr-1" />
                   Administrator
                 </Badge>
                 <Link to="/admin-dashboard">
-                  <Button variant="outline" className="hidden sm:inline-flex">
+                  <Button variant="outline">
                     <Users className="h-4 w-4 mr-2" />
                     Dashboard
                   </Button>
@@ -113,7 +113,6 @@ const Header = () => {
                 <Button
                   variant="ghost"
                   onClick={handleLogout}
-                  className="hidden sm:inline-flex"
                 >
                   <LogOut className="h-4 w-4 mr-2" />
                   Logout
@@ -122,18 +121,18 @@ const Header = () => {
             ) : (
               // Regular user buttons
               <>
-                <Badge variant="secondary" className="hidden sm:flex">
+                <Badge variant="secondary">
                   <Phone className="h-3 w-3 mr-1" />
                   24/7 Support
                 </Badge>
                 <Link to="/doctor-portal">
-                  <Button variant="outline" className="hidden sm:inline-flex">
+                  <Button variant="outline">
                     <Users className="h-4 w-4 mr-2" />
                     For Doctors
                   </Button>
                 </Link>
                 <Link to="/login">
-                  <Button variant="ghost" className="hidden sm:inline-flex">
+                  <Button variant="ghost">
                     Sign In
                   </Button>
                 </Link>
@@ -145,6 +144,10 @@ const Header = () => {
                 </Link>
               </>
             )}
+          </div>
+
+          {/* Mobile Menu */}
+          <div className="md:hidden">
             {/* Mobile Menu */}
             <Sheet>
               <SheetTrigger asChild>
