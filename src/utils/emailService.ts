@@ -1,5 +1,6 @@
 // Custom email service for IronledgerMedMap
 import { supabase } from '@/superbaseClient';
+import { createWelcomeEmailTemplate, createDoctorWelcomeEmailTemplate } from './welcomeEmailTemplate';
 
 interface EmailTemplate {
   type: 'welcome' | 'verification' | 'doctor_approved' | 'doctor_rejected' | 'appointment_confirmation';
