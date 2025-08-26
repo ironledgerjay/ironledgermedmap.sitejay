@@ -134,36 +134,17 @@ const AdminDashboard = () => {
         .order('created_at', { ascending: false });
 
       if (error) {
-        // Use sample data if table doesn't exist
-        const sampleUsers: User[] = [
-          {
-            id: '1',
-            email: 'john.doe@email.com',
-            full_name: 'John Doe',
-            phone: '+27 11 123 4567',
-            created_at: new Date().toISOString(),
-            email_confirmed_at: new Date().toISOString(),
-            last_sign_in_at: new Date().toISOString()
-          },
-          {
-            id: '2',
-            email: 'jane.smith@email.com',
-            full_name: 'Jane Smith',
-            phone: '+27 21 234 5678',
-            created_at: new Date(Date.now() - 86400000).toISOString(),
-            email_confirmed_at: new Date(Date.now() - 86400000).toISOString(),
-            last_sign_in_at: new Date(Date.now() - 3600000).toISOString()
-          },
-          {
-            id: '3',
-            email: 'mike.johnson@email.com',
-            full_name: 'Mike Johnson',
-            phone: '+27 31 345 6789',
-            created_at: new Date(Date.now() - 172800000).toISOString(),
-            email_confirmed_at: new Date(Date.now() - 172800000).toISOString(),
-            last_sign_in_at: new Date(Date.now() - 7200000).toISOString()
-          }
-        ];
+        // Use comprehensive sample data
+        const sampleUsers = getSampleUsers().map((user, index) => ({
+          id: (index + 1).toString(),
+          email: user.email,
+          full_name: user.full_name,
+          phone: user.phone,
+          created_at: user.created_at,
+          email_confirmed_at: user.email_confirmed ? user.created_at : undefined,
+          last_sign_in_at: new Date(Date.now() - Math.random() * 86400000).toISOString(),
+          user_metadata: { role: user.role }
+        }));
         setUsers(sampleUsers);
       } else {
         setUsers(profiles || []);
