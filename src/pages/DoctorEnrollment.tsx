@@ -66,6 +66,18 @@ const DoctorEnrollment = () => {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
+  // Pre-fill form with user data when component mounts
+  useEffect(() => {
+    if (user && user.email) {
+      setFormData(prev => ({
+        ...prev,
+        email: user.email,
+        fullName: user.profile?.full_name || '',
+        phone: user.profile?.phone || ''
+      }));
+    }
+  }, [user]);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
