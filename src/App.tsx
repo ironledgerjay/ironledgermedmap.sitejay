@@ -14,6 +14,12 @@ import AdminDashboard from './pages/AdminDashboard';
 import BookAppointment from './pages/BookAppointment';
 import DoctorEnrollment from './pages/DoctorEnrollment';
 import EmergencyDoctors from './pages/EmergencyDoctors';
+import AdminSetupPage from './pages/AdminSetupPage';
+import TermsOfService from './pages/TermsOfService';
+import PrivacyPolicy from './pages/PrivacyPolicy';
+import MedicalDisclaimers from './pages/MedicalDisclaimers';
+import DoctorTerms from './pages/DoctorTerms';
+import CookiePolicy from './pages/CookiePolicy';
 import NotFound from './pages/NotFound';
 
 function App() {
@@ -42,6 +48,13 @@ function App() {
         <Route path="/book-appointment" element={<BookAppointment />} />
         <Route path="/doctor-enrollment" element={<DoctorEnrollment />} />
         <Route path="/emergency-doctors" element={<EmergencyDoctors />} />
+        <Route path="/AdminSetupPage" element={<AdminSetupPage />} />
+        <Route path="/admin-setup" element={<AdminSetupPage />} />
+        <Route path="/terms-of-service" element={<TermsOfService />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+        <Route path="/medical-disclaimers" element={<MedicalDisclaimers />} />
+        <Route path="/doctor-terms" element={<DoctorTerms />} />
+        <Route path="/cookie-policy" element={<CookiePolicy />} />
         <Route path="/admin" element={
           <ProtectedRoute requiredRole="admin">
             <AdminDashboard />

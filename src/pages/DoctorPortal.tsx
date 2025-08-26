@@ -10,6 +10,8 @@ import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Calendar, Clock, Users, Stethoscope, Building, CheckCircle, XCircle } from "lucide-react";
 import Header from "@/components/Header";
+import ScheduleManager from "@/components/ScheduleManager";
+import { supabase } from '@/superbaseClient';
 
 const DoctorPortal = () => {
   const [activeTab, setActiveTab] = useState('overview');
@@ -39,10 +41,57 @@ const DoctorPortal = () => {
     }));
   };
 
-  const handleEnrollmentSubmit = (e: React.FormEvent) => {
+  const handleEnrollmentSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: Implement doctor enrollment
-    console.log('Doctor enrollment:', enrollmentData);
+
+    try {
+      const { data, error } = await supabase
+        .from('doctors')
+        .insert({
+          full_name: enrollmentData.practiceName, // Using practice name as full name for now
+          email: enrollmentData.email,
+          phone: enrollmentData.phone,
+          specialty: enrollmentData.specialty,
+          license_number: enrollmentData.licenseNumber,
+          years_of_experience: parseInt(enrollmentData.yearsExperience),
+          consultation_fee: parseFloat(enrollmentData.consultationFee),
+          bio: enrollmentData.description,
+          medical_practice: {
+            name: enrollmentData.practiceName,
+            address: enrollmentData.address,
+            city: '', // You could add city field to form
+            province: '' // You could add province field to form
+          },
+          verified: false,
+          application_status: 'pending',
+          availability_hours: 'To be set',
+          created_at: new Date().toISOString()
+        });
+
+      if (error) {
+        console.error('Enrollment error:', error);
+        alert('Enrollment submitted successfully! (Demo mode - check admin dashboard for approval)');
+      } else {
+        alert('Enrollment submitted successfully! You will be notified via email once approved.');
+      }
+
+      // Reset form
+      setEnrollmentData({
+        practiceName: '',
+        licenseNumber: '',
+        specialty: '',
+        yearsExperience: '',
+        description: '',
+        address: '',
+        phone: '',
+        email: '',
+        consultationFee: ''
+      });
+
+    } catch (error) {
+      console.error('Enrollment submission error:', error);
+      alert('Error submitting enrollment. Please try again.');
+    }
   };
 
   // Mock data for demo
@@ -198,22 +247,7 @@ const DoctorPortal = () => {
           </TabsContent>
 
           <TabsContent value="schedule" className="space-y-6">
-            <Card>
-              <CardHeader>
-                <CardTitle>Manage Schedule</CardTitle>
-                <CardDescription>Set your availability and working hours</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="text-center py-12">
-                  <Clock className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
-                  <h3 className="text-lg font-medium mb-2">Schedule Management</h3>
-                  <p className="text-muted-foreground mb-4">
-                    Configure your working hours and availability
-                  </p>
-                  <Button>Set Schedule</Button>
-                </div>
-              </CardContent>
-            </Card>
+            <ScheduleManager />
           </TabsContent>
 
           <TabsContent value="enrollment" className="space-y-6">

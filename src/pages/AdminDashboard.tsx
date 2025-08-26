@@ -29,6 +29,7 @@ import {
 import { supabase } from '@/superbaseClient';
 import { emailService } from '@/utils/emailService';
 import { useToast } from '@/hooks/use-toast';
+import AdminImpersonation from '@/components/AdminImpersonation';
 
 interface User {
   id: string;
@@ -62,6 +63,13 @@ interface Doctor {
   availability_hours: string;
 }
 
+interface ImpersonationSession {
+  doctorId: string;
+  doctorName: string;
+  startTime: string;
+  adminId: string;
+}
+
 const AdminDashboard = () => {
   const { toast } = useToast();
   const [users, setUsers] = useState<User[]>([]);
@@ -69,6 +77,7 @@ const AdminDashboard = () => {
   const [pendingDoctors, setPendingDoctors] = useState<Doctor[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
+  const [currentImpersonation, setCurrentImpersonation] = useState<ImpersonationSession | null>(null);
   const [stats, setStats] = useState({
     totalUsers: 0,
     newUsersToday: 0,
@@ -368,6 +377,22 @@ const AdminDashboard = () => {
     user.full_name?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  const handleImpersonation = (doctorId: string) => {
+    const doctor = doctors.find(d => d.id === doctorId);
+    if (doctor) {
+      setCurrentImpersonation({
+        doctorId: doctor.id,
+        doctorName: doctor.full_name,
+        startTime: new Date().toISOString(),
+        adminId: 'current-admin-id' // Replace with actual admin ID
+      });
+    }
+  };
+
+  const handleStopImpersonation = () => {
+    setCurrentImpersonation(null);
+  };
+
   const filteredDoctors = doctors.filter(doctor =>
     doctor.full_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
     doctor.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -474,10 +499,11 @@ const AdminDashboard = () => {
 
         {/* Main Content Tabs */}
         <Tabs defaultValue="users" className="animate-fade-in-up">
-          <TabsList className="grid w-full grid-cols-3">
+          <TabsList className="grid w-full grid-cols-4">
             <TabsTrigger value="users">Users ({stats.totalUsers})</TabsTrigger>
             <TabsTrigger value="doctors">Doctors ({stats.totalDoctors})</TabsTrigger>
             <TabsTrigger value="pending">Pending ({stats.pendingApprovals})</TabsTrigger>
+            <TabsTrigger value="impersonation">Impersonation</TabsTrigger>
           </TabsList>
 
           <TabsContent value="users" className="mt-6">
@@ -663,6 +689,14 @@ const AdminDashboard = () => {
                 </Card>
               )}
             </div>
+          </TabsContent>
+
+          <TabsContent value="impersonation" className="mt-6">
+            <AdminImpersonation
+              onImpersonate={handleImpersonation}
+              onStopImpersonation={handleStopImpersonation}
+              currentImpersonation={currentImpersonation}
+            />
           </TabsContent>
         </Tabs>
       </div>
