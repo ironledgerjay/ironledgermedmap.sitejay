@@ -30,6 +30,7 @@ import { supabase } from '@/superbaseClient';
 import { emailService } from '@/utils/emailService';
 import { useToast } from '@/hooks/use-toast';
 import AdminImpersonation from '@/components/AdminImpersonation';
+import DatabasePopulator from '@/components/DatabasePopulator';
 
 interface User {
   id: string;
