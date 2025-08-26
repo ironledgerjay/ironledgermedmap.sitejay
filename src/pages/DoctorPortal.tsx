@@ -211,42 +211,7 @@ const DoctorPortal = () => {
           </TabsContent>
 
           <TabsContent value="bookings" className="space-y-6">
-            <Card>
-              <CardHeader>
-                <CardTitle>All Bookings</CardTitle>
-                <CardDescription>Manage your patient appointments</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  {mockBookings.map((booking) => (
-                    <div key={booking.id} className="flex items-center justify-between p-4 border rounded-lg">
-                      <div className="flex items-center space-x-4">
-                        <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
-                          <Users className="h-6 w-6 text-primary" />
-                        </div>
-                        <div>
-                          <p className="font-medium">{booking.patient}</p>
-                          <p className="text-sm text-muted-foreground">
-                            {booking.date} at {booking.time}
-                          </p>
-                        </div>
-                      </div>
-                      <div className="flex items-center space-x-3">
-                        <Badge variant="secondary" className={getStatusColor(booking.status)}>
-                          {booking.status}
-                        </Badge>
-                        <div className="flex space-x-2">
-                          <Button variant="outline" size="sm">View</Button>
-                          {booking.status === 'pending' && (
-                            <Button size="sm">Confirm</Button>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
+            <RealTimeBookings />
           </TabsContent>
 
           <TabsContent value="schedule" className="space-y-6">
