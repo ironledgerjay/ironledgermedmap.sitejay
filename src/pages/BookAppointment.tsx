@@ -16,7 +16,7 @@ import { useToast } from "@/hooks/use-toast";
 
 const BookAppointment = () => {
   const [searchParams] = useSearchParams();
-  const doctorId = searchParams.get('doctor');
+  const doctorId = searchParams.get('doctor_id');
   
   const [doctor, setDoctor] = useState<any>(null);
   const [practice, setPractice] = useState<any>(null);
