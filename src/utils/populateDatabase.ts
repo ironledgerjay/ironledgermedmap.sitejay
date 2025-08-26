@@ -272,6 +272,132 @@ export const sampleDoctorsData: DoctorData[] = [
       province: 'Limpopo',
       medical_aid_providers: ['Discovery Health', 'Momentum Health', 'Gems']
     }
+  },
+
+  // Mpumalanga - 2 doctors
+  {
+    specialty: 'Family Medicine',
+    years_of_experience: 8,
+    consultation_fee: 650,
+    bio: '[TEST] Community-focused family physician serving rural and urban Mpumalanga.',
+    license_number: 'MP345672',
+    is_verified: true,
+    user_profile: {
+      full_name: 'Dr. Nomsa Sibanyoni [TEST]',
+      email: 'nomsa.sibanyoni.test@ironledgermedmap.com',
+      phone: '013 456 7890'
+    },
+    medical_practice: {
+      name: 'Mpumalanga Community Health Centre [TEST]',
+      address: '159 Healthcare Avenue, Riverside',
+      city: 'Nelspruit',
+      province: 'Mpumalanga',
+      medical_aid_providers: ['Discovery Health', 'Gems', 'Bonitas']
+    }
+  },
+  {
+    specialty: 'Occupational Health',
+    years_of_experience: 12,
+    consultation_fee: 900,
+    bio: '[TEST] Occupational health specialist focusing on workplace safety and industrial medicine.',
+    license_number: 'MP456783',
+    is_verified: true,
+    user_profile: {
+      full_name: 'Dr. Johan Pretorius [TEST]',
+      email: 'johan.pretorius.test@ironledgermedmap.com',
+      phone: '013 567 8901'
+    },
+    medical_practice: {
+      name: 'Industrial Health Solutions [TEST]',
+      address: '753 Mining Road, Witbank Extension',
+      city: 'Emalahleni',
+      province: 'Mpumalanga',
+      medical_aid_providers: ['Discovery Health', 'Momentum Health', 'Medihelp']
+    }
+  },
+
+  // North West - 2 doctors
+  {
+    specialty: 'General Practice',
+    years_of_experience: 6,
+    consultation_fee: 550,
+    bio: '[TEST] General practitioner providing comprehensive primary healthcare to North West communities.',
+    license_number: 'MP567894',
+    is_verified: true,
+    user_profile: {
+      full_name: 'Dr. Kgomotso Motsepe [TEST]',
+      email: 'kgomotso.motsepe.test@ironledgermedmap.com',
+      phone: '018 678 9012'
+    },
+    medical_practice: {
+      name: 'Mafikeng Primary Care Clinic [TEST]',
+      address: '486 Medical Street, Mafikeng Unit 5',
+      city: 'Mafikeng',
+      province: 'North West',
+      medical_aid_providers: ['Discovery Health', 'Gems', 'Polmed']
+    }
+  },
+  {
+    specialty: 'Pediatrics',
+    years_of_experience: 14,
+    consultation_fee: 850,
+    bio: '[TEST] Pediatric specialist dedicated to children\'s health in the North West province.',
+    license_number: 'MP678905',
+    is_verified: true,
+    user_profile: {
+      full_name: 'Dr. Lebohang Mokoena [TEST]',
+      email: 'lebohang.mokoena.test@ironledgermedmap.com',
+      phone: '014 789 0123'
+    },
+    medical_practice: {
+      name: 'Kids Care Centre North West [TEST]',
+      address: '297 Children\'s Health Boulevard, Ikageng',
+      city: 'Potchefstroom',
+      province: 'North West',
+      medical_aid_providers: ['Discovery Health', 'Momentum Health', 'Bonitas']
+    }
+  },
+
+  // Northern Cape - 2 doctors
+  {
+    specialty: 'General Practice',
+    years_of_experience: 10,
+    consultation_fee: 600,
+    bio: '[TEST] Rural medicine practitioner serving the vast Northern Cape communities.',
+    license_number: 'MP789016',
+    is_verified: true,
+    user_profile: {
+      full_name: 'Dr. Sarah Khoeshe [TEST]',
+      email: 'sarah.khoeshe.test@ironledgermedmap.com',
+      phone: '053 890 1234'
+    },
+    medical_practice: {
+      name: 'Northern Cape Family Practice [TEST]',
+      address: '842 Desert Healthcare Road, Hadison Park',
+      city: 'Kimberley',
+      province: 'Northern Cape',
+      medical_aid_providers: ['Discovery Health', 'Gems', 'Medihelp']
+    }
+  },
+  {
+    specialty: 'Family Medicine',
+    years_of_experience: 17,
+    consultation_fee: 750,
+    bio: '[TEST] Experienced family medicine doctor providing care across the Northern Cape region.',
+    license_number: 'MP890127',
+    is_verified: true,
+    user_profile: {
+      full_name: 'Dr. Willem Botha [TEST]',
+      email: 'willem.botha.test@ironledgermedmap.com',
+      phone: '027 901 2345'
+    },
+    medical_practice: {
+      name: 'Namaqualand Medical Centre [TEST]',
+      address: '635 Desert Rose Street, Central',
+      city: 'Upington',
+      province: 'Northern Cape',
+      medical_aid_providers: ['Discovery Health', 'Momentum Health', 'Fedhealth']
+    }
   }
 ];
 
