@@ -118,8 +118,15 @@ const DoctorPortal = () => {
       <Header />
       <div className="container mx-auto px-4 py-8">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-foreground mb-2">Doctor Portal</h1>
-          <p className="text-muted-foreground">Manage your practice and patient bookings</p>
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-3xl font-bold text-foreground mb-2">Doctor Portal</h1>
+              <p className="text-muted-foreground">Manage your practice and patient bookings</p>
+            </div>
+            <div className="flex items-center space-x-4">
+              <AppointmentNotifications userRole="doctor" />
+            </div>
+          </div>
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
