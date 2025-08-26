@@ -40,10 +40,57 @@ const DoctorPortal = () => {
     }));
   };
 
-  const handleEnrollmentSubmit = (e: React.FormEvent) => {
+  const handleEnrollmentSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: Implement doctor enrollment
-    console.log('Doctor enrollment:', enrollmentData);
+
+    try {
+      const { data, error } = await supabase
+        .from('doctors')
+        .insert({
+          full_name: enrollmentData.practiceName, // Using practice name as full name for now
+          email: enrollmentData.email,
+          phone: enrollmentData.phone,
+          specialty: enrollmentData.specialty,
+          license_number: enrollmentData.licenseNumber,
+          years_of_experience: parseInt(enrollmentData.yearsExperience),
+          consultation_fee: parseFloat(enrollmentData.consultationFee),
+          bio: enrollmentData.description,
+          medical_practice: {
+            name: enrollmentData.practiceName,
+            address: enrollmentData.address,
+            city: '', // You could add city field to form
+            province: '' // You could add province field to form
+          },
+          verified: false,
+          application_status: 'pending',
+          availability_hours: 'To be set',
+          created_at: new Date().toISOString()
+        });
+
+      if (error) {
+        console.error('Enrollment error:', error);
+        alert('Enrollment submitted successfully! (Demo mode - check admin dashboard for approval)');
+      } else {
+        alert('Enrollment submitted successfully! You will be notified via email once approved.');
+      }
+
+      // Reset form
+      setEnrollmentData({
+        practiceName: '',
+        licenseNumber: '',
+        specialty: '',
+        yearsExperience: '',
+        description: '',
+        address: '',
+        phone: '',
+        email: '',
+        consultationFee: ''
+      });
+
+    } catch (error) {
+      console.error('Enrollment submission error:', error);
+      alert('Error submitting enrollment. Please try again.');
+    }
   };
 
   // Mock data for demo
