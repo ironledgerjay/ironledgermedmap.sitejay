@@ -77,9 +77,12 @@ const About = () => {
               </div>
               <Card className="bg-gradient-subtle border-none shadow-medical">
                 <CardContent className="p-8 text-center">
-                  <div className="w-32 h-32 mx-auto mb-6 bg-gradient-primary rounded-full flex items-center justify-center">
-                    <Users className="h-16 w-16 text-white" />
-                    {/* Placeholder for CEO photo */}
+                  <div className="w-32 h-32 mx-auto mb-6 rounded-full overflow-hidden ring-4 ring-primary/20 shadow-medical">
+                    <img
+                      src="https://cdn.builder.io/api/v1/image/assets%2F4beb1a65c59a4717bcf4ed8127e58cae%2F5725684861c64b1395a9385eb77af747?format=webp&width=800"
+                      alt="Ofentse Mashau, CEO & Founder of IronledgerMedMap"
+                      className="w-full h-full object-cover"
+                    />
                   </div>
                   <h4 className="text-xl font-bold mb-2">Ofentse Mashau</h4>
                   <p className="text-muted-foreground mb-4">CEO & Founder</p>
