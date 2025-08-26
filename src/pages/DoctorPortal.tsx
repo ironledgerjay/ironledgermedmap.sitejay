@@ -12,6 +12,7 @@ import { Calendar, Clock, Users, Stethoscope, Building, CheckCircle, XCircle } f
 import Header from "@/components/Header";
 import ScheduleManager from "@/components/ScheduleManager";
 import DoctorVerificationWrapper from "@/components/DoctorVerificationWrapper";
+import RealTimeBookings from "@/components/RealTimeBookings";
 import { supabase } from '@/superbaseClient';
 
 const DoctorPortal = () => {
