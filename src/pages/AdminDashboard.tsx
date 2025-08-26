@@ -29,6 +29,7 @@ import {
 import { supabase } from '@/superbaseClient';
 import { emailService } from '@/utils/emailService';
 import { useToast } from '@/hooks/use-toast';
+import AdminImpersonation from '@/components/AdminImpersonation';
 
 interface User {
   id: string;
