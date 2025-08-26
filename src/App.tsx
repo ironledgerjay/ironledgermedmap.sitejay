@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Toaster } from '@/components/ui/toaster';
 import ProtectedRoute from './components/ProtectedRoute';
+import DoctorPortalProtection from './components/DoctorPortalProtection';
 import Index from './pages/Index';
 import About from './pages/About';
 import Contact from './pages/Contact';
