@@ -21,7 +21,7 @@ import {
   DollarSign,
   MessageSquare,
   Bell,
-  Refresh
+  RefreshCw
 } from 'lucide-react';
 
 interface Booking {
