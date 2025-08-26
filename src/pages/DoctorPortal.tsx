@@ -13,6 +13,8 @@ import Header from "@/components/Header";
 import ScheduleManager from "@/components/ScheduleManager";
 import AppointmentNotifications from "@/components/AppointmentNotifications";
 import { supabase } from '@/superbaseClient';
+import { realTimeBookingService, type Booking } from '@/utils/realTimeBookingService';
+import { useToast } from '@/hooks/use-toast';
 
 const DoctorPortal = () => {
   const [activeTab, setActiveTab] = useState('overview');
