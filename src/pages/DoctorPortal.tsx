@@ -32,6 +32,65 @@ const DoctorPortal = () => {
     consultationFee: ''
   });
 
+  // Set up real-time booking subscriptions
+  useEffect(() => {
+    const doctorId = 'current-doctor-id'; // Replace with actual doctor ID
+
+    // Load initial bookings
+    const loadBookings = async () => {
+      const bookings = await realTimeBookingService.getDoctorBookings(doctorId);
+      setRealTimeBookings(bookings);
+    };
+
+    loadBookings();
+
+    // Subscribe to real-time updates
+    const bookingSubscription = realTimeBookingService.subscribeToBookings(
+      doctorId,
+      (updatedBooking) => {
+        setRealTimeBookings(prev => {
+          const existingIndex = prev.findIndex(b => b.id === updatedBooking.id);
+          if (existingIndex >= 0) {
+            // Update existing booking
+            const updated = [...prev];
+            updated[existingIndex] = updatedBooking;
+            return updated;
+          } else {
+            // Add new booking
+            toast({
+              title: "New Appointment Request! 🎉",
+              description: `${updatedBooking.patient_name} has requested an appointment for ${updatedBooking.appointment_date} at ${updatedBooking.appointment_time}`,
+              duration: 5000,
+            });
+            return [updatedBooking, ...prev];
+          }
+        });
+      }
+    );
+
+    // Subscribe to notifications
+    const notificationSubscription = realTimeBookingService.subscribeToNotifications(
+      doctorId,
+      (notification) => {
+        toast({
+          title: "New Notification",
+          description: notification.message,
+          duration: 4000,
+        });
+      }
+    );
+
+    // Simulate a new booking after 5 seconds for demo
+    const demoTimeout = setTimeout(() => {
+      realTimeBookingService.simulateNewBooking(doctorId);
+    }, 5000);
+
+    return () => {
+      realTimeBookingService.unsubscribeAll();
+      clearTimeout(demoTimeout);
+    };
+  }, [toast]);
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setEnrollmentData(prev => ({
       ...prev,
