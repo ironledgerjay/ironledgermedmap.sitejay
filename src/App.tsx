@@ -61,6 +61,8 @@ function App() {
         <Route path="/medical-disclaimers" element={<MedicalDisclaimers />} />
         <Route path="/doctor-terms" element={<DoctorTerms />} />
         <Route path="/cookie-policy" element={<CookiePolicy />} />
+        <Route path="/payment/success" element={<PaymentSuccess />} />
+        <Route path="/payment/cancelled" element={<PaymentCancelled />} />
         <Route path="/admin" element={
           <ProtectedRoute requiredRole="admin">
             <AdminDashboard />
