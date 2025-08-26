@@ -77,7 +77,7 @@ export default function Signup() {
       // Create user profile
       if (authData.user) {
         const { error: profileError } = await supabase
-          .from('user_profiles')
+          .from('profiles')
           .insert({
             id: authData.user.id,
             email: formData.email,
