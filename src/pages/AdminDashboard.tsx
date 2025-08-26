@@ -625,6 +625,10 @@ const AdminDashboard = () => {
               currentImpersonation={currentImpersonation}
             />
           </TabsContent>
+
+          <TabsContent value="testing" className="mt-6">
+            <RealTimeTestingComponent />
+          </TabsContent>
         </Tabs>
       </div>
     </div>
