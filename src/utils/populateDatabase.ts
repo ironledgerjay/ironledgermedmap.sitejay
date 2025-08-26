@@ -27,12 +27,12 @@ export const sampleDoctorsData: DoctorData[] = [
     specialty: 'Cardiology',
     years_of_experience: 15,
     consultation_fee: 1200,
-    bio: 'Experienced cardiologist specializing in heart disease prevention and treatment.',
+    bio: '[TEST] Experienced cardiologist specializing in heart disease prevention and treatment.',
     license_number: 'MP123456',
     is_verified: true,
     user_profile: {
-      full_name: 'Dr. Sarah Johnson',
-      email: 'sarah.johnson@ironledgermedmap.com',
+      full_name: 'Dr. Sarah Johnson [TEST]',
+      email: 'sarah.johnson.test@ironledgermedmap.com',
       phone: '021 123 4567'
     },
     medical_practice: {
