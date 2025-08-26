@@ -52,15 +52,15 @@ export const usePayment = () => {
       // 3. Backend creates PayFast payment request
       // 4. Frontend redirects to PayFast or opens PayFast widget
 
-      // For demo purposes, we'll create a PayFast form and auto-submit it
+      // Create PayFast form and redirect to payment
       const payfastForm = createPayFastForm(paymentData);
 
-      // In production, you'd redirect to PayFast
-      // document.body.appendChild(payfastForm);
-      // payfastForm.submit();
+      // Redirect to PayFast for actual payment processing
+      document.body.appendChild(payfastForm);
+      payfastForm.submit();
 
-      // For demo, simulate successful payment after validation
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      // Note: User will be redirected to PayFast, payment result will come via webhook
+      await new Promise(resolve => setTimeout(resolve, 1000));
 
       const paymentId = paymentData.m_payment_id;
 
