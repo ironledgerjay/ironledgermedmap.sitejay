@@ -93,9 +93,9 @@ const AdminDashboard = () => {
     
     // Set up real-time subscriptions
     const usersSubscription = supabase
-      .channel('users_changes')
-      .on('postgres_changes', 
-        { event: '*', schema: 'auth', table: 'users' }, 
+      .channel('profiles_changes')
+      .on('postgres_changes',
+        { event: '*', schema: 'public', table: 'profiles' },
         handleUsersChange
       )
       .subscribe();
