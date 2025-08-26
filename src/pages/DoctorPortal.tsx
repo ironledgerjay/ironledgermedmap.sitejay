@@ -175,13 +175,20 @@ const DoctorPortal = () => {
     }
   };
 
-  // Mock data for demo
-  const mockBookings = [
-    { id: 1, patient: 'John Doe', time: '09:00 AM', date: '2024-01-15', status: 'confirmed' },
-    { id: 2, patient: 'Jane Smith', time: '10:30 AM', date: '2024-01-15', status: 'pending' },
-    { id: 3, patient: 'Mike Johnson', time: '02:00 PM', date: '2024-01-15', status: 'completed' },
-    { id: 4, patient: 'Sarah Wilson', time: '03:30 PM', date: '2024-01-16', status: 'confirmed' }
-  ];
+  // Convert real-time bookings to display format
+  const displayBookings = realTimeBookings.map(booking => ({
+    id: booking.id,
+    patient: booking.patient_name,
+    email: booking.patient_email,
+    phone: booking.patient_phone,
+    time: booking.appointment_time,
+    date: booking.appointment_date,
+    status: booking.status,
+    notes: booking.notes,
+    fee: booking.consultation_fee,
+    paymentStatus: booking.payment_status,
+    duration: booking.duration_minutes
+  }));
 
   const getStatusColor = (status: string) => {
     switch (status) {
