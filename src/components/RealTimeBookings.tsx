@@ -368,7 +368,7 @@ export default function RealTimeBookings({ doctorId }: RealTimeBookingsProps) {
       <div className="flex items-center justify-between">
         <h2 className="text-2xl font-bold text-gray-900">Patient Bookings</h2>
         <Button variant="outline" onClick={fetchBookings}>
-          <Refresh className="h-4 w-4 mr-2" />
+          <RefreshCw className="h-4 w-4 mr-2" />
           Refresh
         </Button>
       </div>
