@@ -189,6 +189,43 @@ const DoctorEnrollment = () => {
     }
   };
 
+  // Show loading state
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-teal-50 to-cyan-100 flex items-center justify-center">
+        <div className="text-center">
+          <Loader2 className="h-12 w-12 animate-spin text-teal-600 mx-auto mb-4" />
+          <p className="text-lg text-gray-600">Loading...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Redirect to login if not authenticated
+  if (!isAuthenticated) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-teal-50 to-cyan-100 flex items-center justify-center">
+        <Card className="max-w-md mx-auto">
+          <CardHeader>
+            <CardTitle className="text-center">Login Required</CardTitle>
+          </CardHeader>
+          <CardContent className="text-center space-y-4">
+            <AlertTriangle className="h-12 w-12 text-orange-500 mx-auto" />
+            <p className="text-gray-600">
+              You need to be logged in to access doctor enrollment.
+            </p>
+            <Button
+              onClick={() => window.location.href = '/login'}
+              className="bg-teal-600 hover:bg-teal-700"
+            >
+              Go to Login
+            </Button>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-teal-50 to-cyan-100 py-8">
       <div className="max-w-4xl mx-auto px-4">
