@@ -693,6 +693,10 @@ const AdminDashboard = () => {
             </div>
           </TabsContent>
 
+          <TabsContent value="setup" className="mt-6">
+            <DatabasePopulator />
+          </TabsContent>
+
           <TabsContent value="impersonation" className="mt-6">
             <AdminImpersonation
               onImpersonate={handleImpersonation}
