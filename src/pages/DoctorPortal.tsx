@@ -199,22 +199,7 @@ const DoctorPortal = () => {
           </TabsContent>
 
           <TabsContent value="schedule" className="space-y-6">
-            <Card>
-              <CardHeader>
-                <CardTitle>Manage Schedule</CardTitle>
-                <CardDescription>Set your availability and working hours</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="text-center py-12">
-                  <Clock className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
-                  <h3 className="text-lg font-medium mb-2">Schedule Management</h3>
-                  <p className="text-muted-foreground mb-4">
-                    Configure your working hours and availability
-                  </p>
-                  <Button>Set Schedule</Button>
-                </div>
-              </CardContent>
-            </Card>
+            <ScheduleManager />
           </TabsContent>
 
           <TabsContent value="enrollment" className="space-y-6">
