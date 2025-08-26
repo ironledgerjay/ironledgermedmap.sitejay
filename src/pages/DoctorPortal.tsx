@@ -105,6 +105,23 @@ const DoctorPortal = () => {
     }));
   };
 
+  const handleBookingAction = async (bookingId: string, action: string) => {
+    const success = await realTimeBookingService.updateBookingStatus(bookingId, action as any);
+    if (success) {
+      toast({
+        title: "Booking Updated",
+        description: `Appointment has been ${action}.`,
+        duration: 3000,
+      });
+    } else {
+      toast({
+        title: "Update Failed",
+        description: "Failed to update booking. Please try again.",
+        variant: "destructive"
+      });
+    }
+  };
+
   const handleEnrollmentSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
