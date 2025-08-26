@@ -690,6 +690,14 @@ const AdminDashboard = () => {
               )}
             </div>
           </TabsContent>
+
+          <TabsContent value="impersonation" className="mt-6">
+            <AdminImpersonation
+              onImpersonate={handleImpersonation}
+              onStopImpersonation={handleStopImpersonation}
+              currentImpersonation={currentImpersonation}
+            />
+          </TabsContent>
         </Tabs>
       </div>
     </div>
