@@ -415,7 +415,7 @@ const AppointmentNotifications = ({ userRole = 'patient', userId }: AppointmentN
               <div className="flex items-center justify-between">
                 <span className="text-sm text-gray-600">{unreadCount} unread</span>
                 <Button variant="outline" size="sm" onClick={markAllAsRead}>
-                  <MarkAsRead className="h-4 w-4 mr-2" />
+                  <CheckCheck className="h-4 w-4 mr-2" />
                   Mark all read
                 </Button>
               </div>
