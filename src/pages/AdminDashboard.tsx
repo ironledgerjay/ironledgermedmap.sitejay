@@ -500,10 +500,11 @@ const AdminDashboard = () => {
 
         {/* Main Content Tabs */}
         <Tabs defaultValue="users" className="animate-fade-in-up">
-          <TabsList className="grid w-full grid-cols-4">
+          <TabsList className="grid w-full grid-cols-5">
             <TabsTrigger value="users">Users ({stats.totalUsers})</TabsTrigger>
             <TabsTrigger value="doctors">Doctors ({stats.totalDoctors})</TabsTrigger>
             <TabsTrigger value="pending">Pending ({stats.pendingApprovals})</TabsTrigger>
+            <TabsTrigger value="setup">Database Setup</TabsTrigger>
             <TabsTrigger value="impersonation">Impersonation</TabsTrigger>
           </TabsList>
 
