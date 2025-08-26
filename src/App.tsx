@@ -35,7 +35,11 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/auth/callback" element={<AuthCallback />} />
         <Route path="/membership" element={<Membership />} />
-        <Route path="/doctor-portal" element={<DoctorPortal />} />
+        <Route path="/doctor-portal" element={
+          <DoctorPortalProtection>
+            <DoctorPortal />
+          </DoctorPortalProtection>
+        } />
         <Route path="/admin-dashboard" element={
           <ProtectedRoute requiredRole="admin">
             <AdminDashboard />
