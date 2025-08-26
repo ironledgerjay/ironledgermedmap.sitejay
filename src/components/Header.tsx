@@ -98,6 +98,7 @@ const Header = () => {
 
           {/* Desktop Action Buttons */}
           <div className="hidden md:flex items-center space-x-4">
+            <AppointmentNotifications />
             {isAdmin ? (
               // Admin-specific buttons
               <>
