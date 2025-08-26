@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -7,12 +7,14 @@ import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { useToast } from '@/hooks/use-toast';
+import { useAuth } from '@/hooks/useAuth';
 import { supabase } from '@/superbaseClient';
 import { emailService } from '@/utils/emailService';
 import { Shield, Stethoscope, Award, CheckCircle, Loader2, AlertTriangle } from 'lucide-react';
 
 const DoctorEnrollment = () => {
   const { toast } = useToast();
+  const { user, isAuthenticated, isLoading } = useAuth();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     fullName: '',
@@ -64,6 +66,18 @@ const DoctorEnrollment = () => {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
+  // Pre-fill form with user data when component mounts
+  useEffect(() => {
+    if (user && user.email) {
+      setFormData(prev => ({
+        ...prev,
+        email: user.email,
+        fullName: user.profile?.full_name || '',
+        phone: user.profile?.phone || ''
+      }));
+    }
+  }, [user]);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
@@ -72,28 +86,44 @@ const DoctorEnrollment = () => {
       // Generate unique application ID
       const applicationId = `DOC_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
 
+      // Check if user is authenticated
+      if (!user?.id) {
+        throw new Error('User must be logged in to submit doctor enrollment');
+      }
+
+      // First, create or update medical practice
+      const { data: practiceData, error: practiceError } = await supabase
+        .from('medical_practices')
+        .insert({
+          name: formData.practiceName,
+          address: formData.practiceAddress,
+          city: formData.city,
+          province: formData.province,
+          phone: formData.phone,
+          email: formData.email,
+          is_verified: false,
+          specialties: [formData.specialization]
+        })
+        .select()
+        .single();
+
+      if (practiceError) throw practiceError;
+
       // Insert doctor data with application tracking
       const { data: doctorData, error } = await supabase
         .from('doctors')
         .insert({
-          full_name: formData.fullName,
-          email: formData.email,
-          phone: formData.phone,
-          specialty: formData.specialization,
+          user_id: user.id, // Connect to authenticated user
+          practice_id: practiceData.id,
           license_number: formData.licenseNumber,
+          specialty: formData.specialization,
           years_of_experience: parseInt(formData.yearsOfExperience),
           consultation_fee: parseFloat(formData.consultationFee),
           bio: formData.bio,
-          medical_practice: {
-            name: formData.practiceName,
-            address: formData.practiceAddress,
-            city: formData.city,
-            province: formData.province
-          },
-          availability_hours: formData.availabilityHours,
-          verified: false, // Will be verified by admin
-          application_id: applicationId,
+          is_verified: false, // Will be verified by admin
+          is_accepting_patients: false, // Will be enabled after approval
           application_status: 'pending',
+          application_id: applicationId,
           submitted_at: new Date().toISOString()
         })
         .select()
@@ -158,6 +188,43 @@ const DoctorEnrollment = () => {
       setIsSubmitting(false);
     }
   };
+
+  // Show loading state
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-teal-50 to-cyan-100 flex items-center justify-center">
+        <div className="text-center">
+          <Loader2 className="h-12 w-12 animate-spin text-teal-600 mx-auto mb-4" />
+          <p className="text-lg text-gray-600">Loading...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Redirect to login if not authenticated
+  if (!isAuthenticated) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-teal-50 to-cyan-100 flex items-center justify-center">
+        <Card className="max-w-md mx-auto">
+          <CardHeader>
+            <CardTitle className="text-center">Login Required</CardTitle>
+          </CardHeader>
+          <CardContent className="text-center space-y-4">
+            <AlertTriangle className="h-12 w-12 text-orange-500 mx-auto" />
+            <p className="text-gray-600">
+              You need to be logged in to access doctor enrollment.
+            </p>
+            <Button
+              onClick={() => window.location.href = '/login'}
+              className="bg-teal-600 hover:bg-teal-700"
+            >
+              Go to Login
+            </Button>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-teal-50 to-cyan-100 py-8">

@@ -20,6 +20,8 @@ import PrivacyPolicy from './pages/PrivacyPolicy';
 import MedicalDisclaimers from './pages/MedicalDisclaimers';
 import DoctorTerms from './pages/DoctorTerms';
 import CookiePolicy from './pages/CookiePolicy';
+import PaymentSuccess from './pages/PaymentSuccess';
+import PaymentCancelled from './pages/PaymentCancelled';
 import NotFound from './pages/NotFound';
 
 function App() {
@@ -34,7 +36,11 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/auth/callback" element={<AuthCallback />} />
         <Route path="/membership" element={<Membership />} />
-        <Route path="/doctor-portal" element={<DoctorPortal />} />
+        <Route path="/doctor-portal" element={
+          <ProtectedRoute requiredRole="doctor">
+            <DoctorPortal />
+          </ProtectedRoute>
+        } />
         <Route path="/admin-dashboard" element={
           <ProtectedRoute requiredRole="admin">
             <AdminDashboard />
@@ -55,6 +61,8 @@ function App() {
         <Route path="/medical-disclaimers" element={<MedicalDisclaimers />} />
         <Route path="/doctor-terms" element={<DoctorTerms />} />
         <Route path="/cookie-policy" element={<CookiePolicy />} />
+        <Route path="/payment/success" element={<PaymentSuccess />} />
+        <Route path="/payment/cancelled" element={<PaymentCancelled />} />
         <Route path="/admin" element={
           <ProtectedRoute requiredRole="admin">
             <AdminDashboard />

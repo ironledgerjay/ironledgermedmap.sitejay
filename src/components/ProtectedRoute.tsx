@@ -68,7 +68,8 @@ export default function ProtectedRoute({ children, requiredRole }: ProtectedRout
           setIsAuthorized(false);
         }
       } else {
-        const hasAccess = profile.role === requiredRole;
+        // Admin users can access any role
+        const hasAccess = profile.role === requiredRole || profile.role === 'admin';
         setIsAuthorized(hasAccess);
 
         if (!hasAccess) {

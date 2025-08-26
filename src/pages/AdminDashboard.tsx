@@ -30,6 +30,7 @@ import { supabase } from '@/superbaseClient';
 import { emailService } from '@/utils/emailService';
 import { useToast } from '@/hooks/use-toast';
 import AdminImpersonation from '@/components/AdminImpersonation';
+import DatabasePopulator from '@/components/DatabasePopulator';
 
 interface User {
   id: string;
@@ -499,10 +500,11 @@ const AdminDashboard = () => {
 
         {/* Main Content Tabs */}
         <Tabs defaultValue="users" className="animate-fade-in-up">
-          <TabsList className="grid w-full grid-cols-4">
+          <TabsList className="grid w-full grid-cols-5">
             <TabsTrigger value="users">Users ({stats.totalUsers})</TabsTrigger>
             <TabsTrigger value="doctors">Doctors ({stats.totalDoctors})</TabsTrigger>
             <TabsTrigger value="pending">Pending ({stats.pendingApprovals})</TabsTrigger>
+            <TabsTrigger value="setup">Database Setup</TabsTrigger>
             <TabsTrigger value="impersonation">Impersonation</TabsTrigger>
           </TabsList>
 
@@ -689,6 +691,10 @@ const AdminDashboard = () => {
                 </Card>
               )}
             </div>
+          </TabsContent>
+
+          <TabsContent value="setup" className="mt-6">
+            <DatabasePopulator />
           </TabsContent>
 
           <TabsContent value="impersonation" className="mt-6">
