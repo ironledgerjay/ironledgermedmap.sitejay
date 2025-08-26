@@ -181,69 +181,12 @@ const AdminDashboard = () => {
         .order('created_at', { ascending: false });
 
       if (error) {
-        // Use sample data if table doesn't exist
-        const sampleDoctors: Doctor[] = [
-          {
-            id: '1',
-            full_name: 'Dr. Sarah Johnson',
-            email: 'sarah.johnson@medical.co.za',
-            phone: '+27 11 456 7890',
-            specialty: 'Cardiology',
-            license_number: 'MP123456',
-            years_of_experience: 15,
-            consultation_fee: 1200,
-            bio: 'Experienced cardiologist with expertise in interventional procedures.',
-            medical_practice: {
-              name: 'Heart Care Centre',
-              address: '123 Medical Street',
-              city: 'Johannesburg',
-              province: 'Gauteng'
-            },
-            verified: true,
-            created_at: new Date(Date.now() - 86400000).toISOString(),
-            availability_hours: 'Mon-Fri: 8AM-5PM'
-          },
-          {
-            id: '2',
-            full_name: 'Dr. Michael Chen',
-            email: 'michael.chen@clinic.co.za',
-            phone: '+27 21 567 8901',
-            specialty: 'General Practice',
-            license_number: 'MP234567',
-            years_of_experience: 10,
-            consultation_fee: 800,
-            bio: 'Family medicine practitioner focusing on preventive care.',
-            medical_practice: {
-              name: 'Family Health Clinic',
-              address: '456 Health Avenue',
-              city: 'Cape Town',
-              province: 'Western Cape'
-            },
-            verified: false,
-            created_at: new Date().toISOString(),
-            availability_hours: 'Mon-Sat: 7AM-7PM'
-          },
-          {
-            id: '3',
-            full_name: 'Dr. Amara Ndlovu',
-            email: 'amara.ndlovu@dermatology.co.za',
-            phone: '+27 31 678 9012',
-            specialty: 'Dermatology',
-            license_number: 'MP345678',
-            years_of_experience: 12,
-            consultation_fee: 950,
-            bio: 'Dermatologist specializing in skin cancer prevention.',
-            medical_practice: {
-              name: 'Skin Health Institute',
-              address: '789 Skin Care Road',
-              city: 'Durban',
-              province: 'KwaZulu-Natal'
-            },
-            verified: false,
-            created_at: new Date(Date.now() - 3600000).toISOString(),
-            availability_hours: 'Tue-Fri: 9AM-4PM'
-          }
-        ];
+        // Use comprehensive sample data from all provinces
+        const sampleDoctors = getSampleDoctors().map((doctor, index) => ({
+          ...doctor,
+          id: (index + 1).toString()
+        }));
+
         setDoctors(sampleDoctors);
         setPendingDoctors(sampleDoctors.filter(d => !d.verified));
       } else {
