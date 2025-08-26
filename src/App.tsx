@@ -20,6 +20,8 @@ import PrivacyPolicy from './pages/PrivacyPolicy';
 import MedicalDisclaimers from './pages/MedicalDisclaimers';
 import DoctorTerms from './pages/DoctorTerms';
 import CookiePolicy from './pages/CookiePolicy';
+import PaymentSuccess from './pages/PaymentSuccess';
+import PaymentCancelled from './pages/PaymentCancelled';
 import NotFound from './pages/NotFound';
 
 function App() {
