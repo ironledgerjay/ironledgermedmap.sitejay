@@ -323,22 +323,43 @@ const DoctorPortal = () => {
           <TabsContent value="bookings" className="space-y-6">
             <Card>
               <CardHeader>
-                <CardTitle>All Bookings</CardTitle>
-                <CardDescription>Manage your patient appointments</CardDescription>
+                <CardTitle>All Bookings ({displayBookings.length})</CardTitle>
+                <CardDescription>Manage your patient appointments - Updates in real-time</CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  {mockBookings.map((booking) => (
-                    <div key={booking.id} className="flex items-center justify-between p-4 border rounded-lg">
+                  {displayBookings.map((booking) => (
+                    <div key={booking.id} className="flex items-center justify-between p-4 border rounded-lg hover:bg-gray-50 transition-colors">
                       <div className="flex items-center space-x-4">
                         <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
                           <Users className="h-6 w-6 text-primary" />
                         </div>
-                        <div>
-                          <p className="font-medium">{booking.patient}</p>
+                        <div className="flex-1">
+                          <div className="flex items-center space-x-2">
+                            <p className="font-medium">{booking.patient}</p>
+                            {booking.status === 'pending' && (
+                              <Badge variant="outline" className="text-xs bg-orange-100 text-orange-800">
+                                NEW
+                              </Badge>
+                            )}
+                          </div>
                           <p className="text-sm text-muted-foreground">
-                            {booking.date} at {booking.time}
+                            {booking.date} at {booking.time} ({booking.duration} minutes)
                           </p>
+                          <p className="text-xs text-muted-foreground">
+                            📧 {booking.email} • 📞 {booking.phone}
+                          </p>
+                          {booking.notes && (
+                            <p className="text-xs text-blue-600 italic mt-1">
+                              Note: {booking.notes}
+                            </p>
+                          )}
+                          <div className="flex items-center space-x-2 mt-1">
+                            <span className="text-sm font-medium text-green-600">R{booking.fee}</span>
+                            <Badge variant={booking.paymentStatus === 'paid' ? 'default' : 'secondary'} className="text-xs">
+                              {booking.paymentStatus}
+                            </Badge>
+                          </div>
                         </div>
                       </div>
                       <div className="flex items-center space-x-3">
@@ -346,14 +367,58 @@ const DoctorPortal = () => {
                           {booking.status}
                         </Badge>
                         <div className="flex space-x-2">
-                          <Button variant="outline" size="sm">View</Button>
                           {booking.status === 'pending' && (
-                            <Button size="sm">Confirm</Button>
+                            <>
+                              <Button
+                                size="sm"
+                                onClick={() => handleBookingAction(booking.id, 'confirmed')}
+                                className="bg-green-600 hover:bg-green-700"
+                              >
+                                ✓ Confirm
+                              </Button>
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={() => handleBookingAction(booking.id, 'cancelled')}
+                                className="text-red-600 border-red-300 hover:bg-red-50"
+                              >
+                                ✗ Decline
+                              </Button>
+                            </>
                           )}
+                          {booking.status === 'confirmed' && (
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              onClick={() => handleBookingAction(booking.id, 'completed')}
+                              className="text-blue-600 border-blue-300 hover:bg-blue-50"
+                            >
+                              ✓ Complete
+                            </Button>
+                          )}
+                          <Button variant="ghost" size="sm" className="text-gray-600">
+                            👁 View
+                          </Button>
                         </div>
                       </div>
                     </div>
                   ))}
+                  {displayBookings.length === 0 && (
+                    <div className="text-center py-12">
+                      <Calendar className="h-16 w-16 text-muted-foreground mx-auto mb-4 opacity-50" />
+                      <h3 className="text-lg font-medium text-gray-900 mb-2">No Appointments Yet</h3>
+                      <p className="text-muted-foreground mb-4">
+                        New patient bookings will appear here automatically.
+                        A demo booking will be created in a few seconds!
+                      </p>
+                      <Button
+                        variant="outline"
+                        onClick={() => realTimeBookingService.simulateNewBooking('current-doctor-id')}
+                      >
+                        📅 Simulate New Booking (Demo)
+                      </Button>
+                    </div>
+                  )}
                 </div>
               </CardContent>
             </Card>
