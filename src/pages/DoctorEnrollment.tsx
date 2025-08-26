@@ -86,28 +86,44 @@ const DoctorEnrollment = () => {
       // Generate unique application ID
       const applicationId = `DOC_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
 
+      // Check if user is authenticated
+      if (!user?.id) {
+        throw new Error('User must be logged in to submit doctor enrollment');
+      }
+
+      // First, create or update medical practice
+      const { data: practiceData, error: practiceError } = await supabase
+        .from('medical_practices')
+        .insert({
+          name: formData.practiceName,
+          address: formData.practiceAddress,
+          city: formData.city,
+          province: formData.province,
+          phone: formData.phone,
+          email: formData.email,
+          is_verified: false,
+          specialties: [formData.specialization]
+        })
+        .select()
+        .single();
+
+      if (practiceError) throw practiceError;
+
       // Insert doctor data with application tracking
       const { data: doctorData, error } = await supabase
         .from('doctors')
         .insert({
-          full_name: formData.fullName,
-          email: formData.email,
-          phone: formData.phone,
-          specialty: formData.specialization,
+          user_id: user.id, // Connect to authenticated user
+          practice_id: practiceData.id,
           license_number: formData.licenseNumber,
+          specialty: formData.specialization,
           years_of_experience: parseInt(formData.yearsOfExperience),
           consultation_fee: parseFloat(formData.consultationFee),
           bio: formData.bio,
-          medical_practice: {
-            name: formData.practiceName,
-            address: formData.practiceAddress,
-            city: formData.city,
-            province: formData.province
-          },
-          availability_hours: formData.availabilityHours,
-          verified: false, // Will be verified by admin
-          application_id: applicationId,
+          is_verified: false, // Will be verified by admin
+          is_accepting_patients: false, // Will be enabled after approval
           application_status: 'pending',
+          application_id: applicationId,
           submitted_at: new Date().toISOString()
         })
         .select()
