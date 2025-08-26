@@ -114,7 +114,8 @@ const DoctorPortal = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <DoctorVerificationWrapper>
+      <div className="min-h-screen bg-background">
       <Header />
       <div className="container mx-auto px-4 py-8">
         <div className="mb-8">
@@ -384,6 +385,7 @@ const DoctorPortal = () => {
         </Tabs>
       </div>
     </div>
+    </DoctorVerificationWrapper>
   );
 };
 
