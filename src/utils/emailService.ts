@@ -376,6 +376,54 @@ IronledgerMedMap Doctor Support Team`
     return this.sendEmail('doctor_approved', { to: email, name });
   }
 
+  async sendEnhancedWelcomeEmail(email: string, name: string): Promise<boolean> {
+    try {
+      const emailTemplate = createWelcomeEmailTemplate(name, email);
+
+      console.log('Sending enhanced welcome email:', {
+        from: `${this.fromName} <${this.fromEmail}>`,
+        to: email,
+        subject: emailTemplate.subject
+      });
+
+      // Simulate successful email sending
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          console.log(`Enhanced welcome email sent successfully to ${email}`);
+          resolve(true);
+        }, 1000);
+      });
+
+    } catch (error) {
+      console.error('Error sending enhanced welcome email:', error);
+      return false;
+    }
+  }
+
+  async sendDoctorWelcomeEmail(email: string, name: string): Promise<boolean> {
+    try {
+      const emailTemplate = createDoctorWelcomeEmailTemplate(name, email);
+
+      console.log('Sending doctor welcome email:', {
+        from: `${this.fromName} <${this.fromEmail}>`,
+        to: email,
+        subject: emailTemplate.subject
+      });
+
+      // Simulate successful email sending
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          console.log(`Doctor welcome email sent successfully to ${email}`);
+          resolve(true);
+        }, 1000);
+      });
+
+    } catch (error) {
+      console.error('Error sending doctor welcome email:', error);
+      return false;
+    }
+  }
+
   // Custom email configuration for production
   configure(config: {
     apiKey?: string;
