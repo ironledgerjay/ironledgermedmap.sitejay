@@ -14,6 +14,7 @@ import { Shield, Stethoscope, Award, CheckCircle, Loader2, AlertTriangle } from 
 
 const DoctorEnrollment = () => {
   const { toast } = useToast();
+  const { user, isAuthenticated, isLoading } = useAuth();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     fullName: '',
