@@ -63,6 +63,13 @@ interface Doctor {
   availability_hours: string;
 }
 
+interface ImpersonationSession {
+  doctorId: string;
+  doctorName: string;
+  startTime: string;
+  adminId: string;
+}
+
 const AdminDashboard = () => {
   const { toast } = useToast();
   const [users, setUsers] = useState<User[]>([]);
@@ -70,6 +77,7 @@ const AdminDashboard = () => {
   const [pendingDoctors, setPendingDoctors] = useState<Doctor[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
+  const [currentImpersonation, setCurrentImpersonation] = useState<ImpersonationSession | null>(null);
   const [stats, setStats] = useState({
     totalUsers: 0,
     newUsersToday: 0,
