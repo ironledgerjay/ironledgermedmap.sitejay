@@ -17,7 +17,9 @@ import { realTimeBookingService, type Booking } from '@/utils/realTimeBookingSer
 import { useToast } from '@/hooks/use-toast';
 
 const DoctorPortal = () => {
+  const { toast } = useToast();
   const [activeTab, setActiveTab] = useState('overview');
+  const [realTimeBookings, setRealTimeBookings] = useState<Booking[]>([]);
   const [enrollmentData, setEnrollmentData] = useState({
     practiceName: '',
     licenseNumber: '',
