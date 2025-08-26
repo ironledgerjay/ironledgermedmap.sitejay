@@ -21,6 +21,7 @@ import {
   Mail,
   UserPlus
 } from "lucide-react";
+import AppointmentNotifications from "./AppointmentNotifications";
 
 const Header = () => {
   const [isAdmin, setIsAdmin] = useState(false);
