@@ -11,6 +11,7 @@ import { Separator } from "@/components/ui/separator";
 import { Calendar, Clock, Users, Stethoscope, Building, CheckCircle, XCircle } from "lucide-react";
 import Header from "@/components/Header";
 import ScheduleManager from "@/components/ScheduleManager";
+import DoctorVerificationWrapper from "@/components/DoctorVerificationWrapper";
 import { supabase } from '@/superbaseClient';
 
 const DoctorPortal = () => {
