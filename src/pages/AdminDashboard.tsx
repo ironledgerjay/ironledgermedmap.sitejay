@@ -377,6 +377,22 @@ const AdminDashboard = () => {
     user.full_name?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  const handleImpersonation = (doctorId: string) => {
+    const doctor = doctors.find(d => d.id === doctorId);
+    if (doctor) {
+      setCurrentImpersonation({
+        doctorId: doctor.id,
+        doctorName: doctor.full_name,
+        startTime: new Date().toISOString(),
+        adminId: 'current-admin-id' // Replace with actual admin ID
+      });
+    }
+  };
+
+  const handleStopImpersonation = () => {
+    setCurrentImpersonation(null);
+  };
+
   const filteredDoctors = doctors.filter(doctor =>
     doctor.full_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
     doctor.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
