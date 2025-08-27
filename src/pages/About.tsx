@@ -80,7 +80,7 @@ const About = () => {
                 <CardContent className="p-8 text-center">
                   <Avatar className="w-32 h-32 mx-auto mb-6 border-4 border-white shadow-lg">
                     <AvatarImage
-                      src="/placeholder.svg"
+                      src="/ceo-placeholder.jpg"
                       alt="Ofentse Mashau - CEO & Founder of IronLedger Group"
                       className="object-cover"
                     />
@@ -209,7 +209,7 @@ const About = () => {
                     <li>• Long waiting times for appointments</li>
                     <li>• Difficulty finding specialists</li>
                     <li>• Limited access to doctor information</li>
-                    <li>• Complex booking processes</li>
+                    <li>��� Complex booking processes</li>
                     <li>• Lack of price transparency</li>
                     <li>• Geographic limitations</li>
                   </ul>
