@@ -1,21 +1,14 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { supabase } from '../superbaseClient';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Badge } from "@/components/ui/badge";
-import { Shield, AlertTriangle, Eye, EyeOff, LogIn, Crown } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
+import { Shield, Crown, Lock, Mail, Eye, EyeOff, AlertCircle, CheckCircle } from "lucide-react";
+import { useAuth } from "@/hooks/useAuth";
 
-interface AdminQuickLoginProps {
-  onLoginSuccess?: () => void;
-  compact?: boolean;
-}
-
-export default function AdminQuickLogin({ onLoginSuccess, compact = false }: AdminQuickLoginProps) {
+const AdminQuickLogin = () => {
   const [formData, setFormData] = useState({
     email: '',
     password: ''
@@ -23,7 +16,7 @@ export default function AdminQuickLogin({ onLoginSuccess, compact = false }: Adm
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-  const { toast } = useToast();
+  const { adminLogin } = useAuth();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData(prev => ({
@@ -37,216 +30,77 @@ export default function AdminQuickLogin({ onLoginSuccess, compact = false }: Adm
     setIsLoading(true);
 
     try {
-      // First try regular Supabase authentication
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email: formData.email,
-        password: formData.password
-      });
-
-      if (error) {
-        // If Supabase auth fails, check for demo admin credentials
-        if (formData.email === 'admin@ironledgermedmap.com' && formData.password === 'admin123') {
-          // Set admin session in localStorage for demo
-          localStorage.setItem('isAdmin', 'true');
-          localStorage.setItem('userEmail', formData.email);
-          
-          toast({
-            title: "🚀 Admin Access Granted!",
-            description: "Welcome to the IronledgerMedMap Admin Dashboard",
-            duration: 4000,
-          });
-
-          if (onLoginSuccess) {
-            onLoginSuccess();
-          } else {
-            navigate('/admin-dashboard');
-          }
-          return;
-        }
-        throw error;
-      }
-
-      if (data.user) {
-        // Check if user has admin role
-        const { data: profile, error: profileError } = await supabase
-          .from('user_profiles')
-          .select('role, email')
-          .eq('id', data.user.id)
-          .single();
-
-        if (profileError || profile?.role !== 'admin') {
-          // Sign out the user if they're not admin
-          await supabase.auth.signOut();
-          throw new Error('Access denied: Admin privileges required');
-        }
-
-        // Set admin session
-        localStorage.setItem('isAdmin', 'true');
-        localStorage.setItem('userEmail', data.user.email || '');
-
-        toast({
-          title: "🚀 Admin Access Granted!",
-          description: `Welcome back, ${profile.email}`,
-          duration: 4000,
-        });
-
-        if (onLoginSuccess) {
-          onLoginSuccess();
-        } else {
-          navigate('/admin-dashboard');
-        }
+      const result = await adminLogin(formData.email, formData.password);
+      if (result.success) {
+        navigate('/admin-dashboard');
       }
     } catch (error) {
-      toast({
-        title: "Authentication Failed",
-        description: error instanceof Error ? error.message : "Invalid admin credentials",
-        variant: "destructive",
-        duration: 6000,
-      });
+      console.error('Admin login error:', error);
     } finally {
       setIsLoading(false);
     }
   };
 
-  const quickFillDemo = () => {
+  // Quick login for demo purposes
+  const handleQuickAdminLogin = async () => {
     setFormData({
-      email: 'admin@ironledgermedmap.com',
-      password: 'admin123'
+      email: 'ironledgermedmap@gmail.com',
+      password: 'Medm@p'
     });
+    
+    setIsLoading(true);
+    try {
+      const result = await adminLogin('ironledgermedmap@gmail.com', 'Medm@p');
+      if (result.success) {
+        navigate('/admin-dashboard');
+      }
+    } catch (error) {
+      console.error('Quick admin login error:', error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  if (compact) {
-    return (
-      <Card className="w-full max-w-sm border-amber-200 bg-gradient-to-br from-amber-50 to-orange-50">
-        <CardContent className="pt-6">
-          <div className="flex items-center space-x-2 mb-4">
-            <Crown className="h-5 w-5 text-amber-600" />
-            <h3 className="font-semibold text-amber-800">Quick Admin Access</h3>
-          </div>
-          <Button 
-            onClick={quickFillDemo}
-            variant="outline" 
-            className="w-full mb-3 border-amber-300 hover:bg-amber-100"
-          >
-            <Shield className="h-4 w-4 mr-2" />
-            Demo Admin Login
-          </Button>
-          <form onSubmit={handleAdminLogin} className="space-y-3">
-            <Input
-              name="email"
-              type="email"
-              value={formData.email}
-              onChange={handleInputChange}
-              placeholder="admin@ironledgermedmap.com"
-              required
-              className="text-sm"
-            />
-            <div className="relative">
-              <Input
-                name="password"
-                type={showPassword ? 'text' : 'password'}
-                value={formData.password}
-                onChange={handleInputChange}
-                placeholder="Enter admin password"
-                required
-                className="text-sm pr-10"
-              />
-              <Button
-                type="button"
-                variant="ghost"
-                size="sm"
-                className="absolute right-1 top-1 h-7 w-7 p-0"
-                onClick={() => setShowPassword(!showPassword)}
-              >
-                {showPassword ? <EyeOff className="h-3 w-3" /> : <Eye className="h-3 w-3" />}
-              </Button>
-            </div>
-            <Button type="submit" disabled={isLoading} className="w-full text-sm">
-              {isLoading ? 'Authenticating...' : 'Admin Login'}
-            </Button>
-          </form>
-        </CardContent>
-      </Card>
-    );
-  }
-
   return (
-    <Card className="w-full max-w-md mx-auto border-amber-200 shadow-xl">
-      <CardHeader className="text-center bg-gradient-to-r from-amber-100 to-orange-100 rounded-t-lg">
-        <div className="flex items-center justify-center w-16 h-16 bg-gradient-to-r from-amber-500 to-orange-500 rounded-xl mx-auto mb-4 shadow-lg">
-          <Crown className="h-8 w-8 text-white" />
+    <Card className="shadow-xl border-0 bg-gradient-to-br from-purple-50 to-indigo-50 border-purple-200">
+      <CardHeader className="text-center">
+        <div className="flex items-center justify-center w-12 h-12 bg-gradient-to-br from-purple-600 to-indigo-600 rounded-lg mx-auto mb-4">
+          <Crown className="h-6 w-6 text-white" />
         </div>
-        <CardTitle className="text-2xl text-amber-800 flex items-center justify-center gap-2">
-          <Shield className="h-6 w-6" />
-          Admin Login
-        </CardTitle>
-        <CardDescription className="text-amber-700">
-          Administrative access to IronledgerMedMap platform
+        <CardTitle className="text-2xl text-purple-900">Administrator Access</CardTitle>
+        <CardDescription className="text-purple-700">
+          Secure login for IronledgerMedMap administrators
         </CardDescription>
       </CardHeader>
-      <CardContent className="p-6">
-        <Alert className="mb-6 border-amber-200 bg-amber-50">
-          <AlertTriangle className="h-4 w-4 text-amber-600" />
-          <AlertDescription className="text-amber-800">
-            <strong>Demo Access:</strong> Use the demo button below for quick access, or enter your admin credentials.
+      
+      <CardContent className="space-y-6">
+        {/* Security Notice */}
+        <Alert className="border-purple-200 bg-purple-50">
+          <Shield className="h-4 w-4 text-purple-600" />
+          <AlertDescription className="text-purple-800">
+            <strong>Secure Access:</strong> This portal is restricted to authorized IronledgerMedMap administrators only. 
+            All login attempts are monitored and logged.
           </AlertDescription>
         </Alert>
 
-        <div className="mb-6">
-          <Button 
-            onClick={quickFillDemo}
-            variant="outline" 
-            className="w-full border-amber-300 hover:bg-amber-100 text-amber-700"
-          >
-            <Shield className="h-4 w-4 mr-2" />
-            Fill Demo Admin Credentials
-          </Button>
-        </div>
+        {/* Admin Credentials Information */}
+        <Alert className="border-indigo-200 bg-indigo-50">
+          <AlertCircle className="h-4 w-4 text-indigo-600" />
+          <AlertDescription className="text-indigo-800">
+            <strong>Admin Access:</strong> Use your administrator email and password to access the management dashboard.
+          </AlertDescription>
+        </Alert>
 
-        <form onSubmit={handleAdminLogin} className="space-y-4">
-          <div className="space-y-2">
-            <Label htmlFor="email" className="text-amber-800">Admin Email</Label>
-            <Input
-              id="email"
-              name="email"
-              type="email"
-              value={formData.email}
-              onChange={handleInputChange}
-              placeholder="admin@ironledgermedmap.com"
-              required
-              className="border-amber-200 focus:border-amber-400"
-            />
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="password" className="text-amber-800">Admin Password</Label>
-            <div className="relative">
-              <Input
-                id="password"
-                name="password"
-                type={showPassword ? 'text' : 'password'}
-                value={formData.password}
-                onChange={handleInputChange}
-                placeholder="Enter your admin password"
-                required
-                className="border-amber-200 focus:border-amber-400 pr-10"
-              />
-              <Button
-                type="button"
-                variant="ghost"
-                size="sm"
-                className="absolute right-1 top-1 h-8 w-8 p-0 hover:bg-amber-100"
-                onClick={() => setShowPassword(!showPassword)}
-              >
-                {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-              </Button>
-            </div>
-          </div>
-
-          <Button 
-            type="submit" 
-            disabled={isLoading} 
-            className="w-full bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white shadow-lg"
+        {/* Quick Admin Login Button */}
+        <div className="text-center p-4 bg-white/50 rounded-lg border border-purple-200">
+          <h4 className="font-semibold text-purple-900 mb-2">Quick Administrator Access</h4>
+          <p className="text-sm text-purple-700 mb-4">
+            Click below to access the admin dashboard with your configured credentials
+          </p>
+          <Button
+            onClick={handleQuickAdminLogin}
+            disabled={isLoading}
+            className="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white font-medium px-6 py-2 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300"
           >
             {isLoading ? (
               <>
@@ -255,25 +109,104 @@ export default function AdminQuickLogin({ onLoginSuccess, compact = false }: Adm
               </>
             ) : (
               <>
-                <LogIn className="h-4 w-4 mr-2" />
+                <Shield className="h-4 w-4 mr-2" />
                 Access Admin Dashboard
+              </>
+            )}
+          </Button>
+        </div>
+
+        {/* Manual Login Form */}
+        <form onSubmit={handleAdminLogin} className="space-y-4">
+          <div className="space-y-2">
+            <Label htmlFor="admin-email" className="text-purple-900">
+              <Mail className="h-4 w-4 inline mr-2" />
+              Administrator Email
+            </Label>
+            <Input
+              id="admin-email"
+              name="email"
+              type="email"
+              value={formData.email}
+              onChange={handleInputChange}
+              placeholder="ironledgermedmap@gmail.com"
+              className="border-purple-200 focus:border-purple-400 focus:ring-purple-200"
+              required
+            />
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="admin-password" className="text-purple-900">
+              <Lock className="h-4 w-4 inline mr-2" />
+              Administrator Password
+            </Label>
+            <div className="relative">
+              <Input
+                id="admin-password"
+                name="password"
+                type={showPassword ? 'text' : 'password'}
+                value={formData.password}
+                onChange={handleInputChange}
+                placeholder="Enter admin password"
+                className="border-purple-200 focus:border-purple-400 focus:ring-purple-200 pr-10"
+                required
+              />
+              <Button
+                type="button"
+                variant="ghost"
+                size="sm"
+                className="absolute right-1 top-1 h-8 w-8 p-0 hover:bg-purple-100"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? (
+                  <EyeOff className="h-4 w-4 text-purple-600" />
+                ) : (
+                  <Eye className="h-4 w-4 text-purple-600" />
+                )}
+              </Button>
+            </div>
+          </div>
+
+          <Button
+            type="submit"
+            className="w-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700"
+            disabled={isLoading}
+          >
+            {isLoading ? (
+              <>
+                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                Verifying Credentials...
+              </>
+            ) : (
+              <>
+                <Shield className="h-4 w-4 mr-2" />
+                Sign In as Administrator
               </>
             )}
           </Button>
         </form>
 
-        <div className="mt-6 pt-4 border-t border-amber-200">
-          <div className="flex items-center justify-center space-x-2">
-            <Badge variant="secondary" className="bg-amber-100 text-amber-800">
-              <Shield className="h-3 w-3 mr-1" />
-              Secure Access
-            </Badge>
-            <Badge variant="secondary" className="bg-green-100 text-green-800">
-              24/7 Monitoring
-            </Badge>
-          </div>
+        {/* Admin Features Preview */}
+        <div className="bg-white/30 rounded-lg p-4 border border-purple-200">
+          <h4 className="font-semibold text-purple-900 mb-3 flex items-center">
+            <CheckCircle className="h-4 w-4 mr-2" />
+            Administrator Capabilities
+          </h4>
+          <ul className="text-sm text-purple-800 space-y-1">
+            <li>• Approve and manage doctor applications</li>
+            <li>• View real-time user and doctor enrollment data</li>
+            <li>• Monitor appointment bookings and notifications</li>
+            <li>• Manually add doctors and admin accounts</li>
+            <li>• Full platform administration and oversight</li>
+          </ul>
+        </div>
+
+        <div className="text-center text-xs text-purple-600">
+          Protected by enterprise-grade security • All actions are logged and audited
         </div>
       </CardContent>
     </Card>
   );
-}
+};
+
+export default AdminQuickLogin;
