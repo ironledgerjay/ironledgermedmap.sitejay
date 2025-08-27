@@ -27,13 +27,16 @@ const Header = () => {
   const [isAdmin, setIsAdmin] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [userEmail, setUserEmail] = useState('');
   const navigate = useNavigate();
 
   useEffect(() => {
     const checkAdminStatus = () => {
       const adminStatus = localStorage.getItem('isAdmin') === 'true';
+      const adminSession = localStorage.getItem('adminSession') === 'true';
       const adminEmail = localStorage.getItem('userEmail');
-      setIsAdmin(adminStatus && adminEmail === 'admin@ironledgermedmap.com');
+      setIsAdmin(adminStatus && adminSession && adminEmail === 'ironledgermedmap@gmail.com');
+      setUserEmail(adminEmail || '');
     };
 
     const handleScroll = () => {
@@ -53,7 +56,9 @@ const Header = () => {
   const handleLogout = () => {
     localStorage.removeItem('isAdmin');
     localStorage.removeItem('userEmail');
+    localStorage.removeItem('adminSession');
     setIsAdmin(false);
+    setUserEmail('');
     navigate('/');
   };
   return (
@@ -127,10 +132,11 @@ const Header = () => {
                   <Phone className="h-3 w-3 mr-1" />
                   24/7 Support
                 </Badge>
-                <Link to="/doctor-portal">
-                  <Button variant="outline">
-                    <Users className="h-4 w-4 mr-2" />
-                    For Doctors
+                <Link to="/doctor-enrollment">
+                  <Button variant="outline" className="relative group">
+                    <Users className="h-4 w-4 mr-2 group-hover:animate-pulse" />
+                    Join as Doctor
+                    <div className="absolute -top-2 -right-2 w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
                   </Button>
                 </Link>
                 <Link to="/login">
@@ -245,10 +251,11 @@ const Header = () => {
                     ) : (
                       // Regular user mobile menu
                       <>
-                        <Link to="/doctor-portal" className="w-full">
-                          <Button variant="outline" className="w-full justify-start">
-                            <Users className="h-4 w-4 mr-2" />
-                            For Doctors
+                        <Link to="/doctor-enrollment" className="w-full">
+                          <Button variant="outline" className="w-full justify-start relative group">
+                            <Users className="h-4 w-4 mr-2 group-hover:animate-pulse" />
+                            Join as Doctor
+                            <div className="absolute -top-1 -right-1 w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
                           </Button>
                         </Link>
                         <Link to="/login" className="w-full">
