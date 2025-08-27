@@ -31,18 +31,64 @@ export const useAuth = () => {
   });
   const { toast } = useToast();
 
+  // Admin login function for specified credentials
+  const adminLogin = useCallback(async (email: string, password: string) => {
+    // Check for specific admin credentials
+    if (email === 'ironledgermedmap@gmail.com' && password === 'Medm@p') {
+      // Set admin session in localStorage
+      localStorage.setItem('isAdmin', 'true');
+      localStorage.setItem('userEmail', email);
+      localStorage.setItem('adminSession', 'true');
+
+      setAuthState({
+        user: {
+          id: 'admin-main',
+          email: email,
+          role: 'admin',
+          profile: {
+            full_name: 'Main Administrator',
+            verified: true,
+          }
+        },
+        isLoading: false,
+        isAuthenticated: true,
+        isAdmin: true,
+        isDoctor: false,
+      });
+
+      toast({
+        title: "Admin Login Successful",
+        description: "Welcome back, Administrator!",
+      });
+
+      return { success: true };
+    } else {
+      toast({
+        title: "Invalid Admin Credentials",
+        description: "Please check your email and password.",
+        variant: "destructive",
+      });
+      return { success: false, error: "Invalid credentials" };
+    }
+  }, [toast]);
+
   const updateAuthState = useCallback(async (supabaseUser: any) => {
     if (!supabaseUser) {
-      // Check localStorage for admin session (demo mode)
+      // Check localStorage for admin session
       const isAdminStored = localStorage.getItem('isAdmin') === 'true';
       const adminEmail = localStorage.getItem('userEmail');
-      
-      if (isAdminStored && adminEmail) {
+      const adminSession = localStorage.getItem('adminSession') === 'true';
+
+      if (isAdminStored && adminEmail && adminSession) {
         setAuthState({
           user: {
-            id: 'demo-admin',
+            id: 'admin-main',
             email: adminEmail,
             role: 'admin',
+            profile: {
+              full_name: 'Main Administrator',
+              verified: true,
+            }
           },
           isLoading: false,
           isAuthenticated: true,
@@ -148,6 +194,7 @@ export const useAuth = () => {
       await supabase.auth.signOut();
       localStorage.removeItem('isAdmin');
       localStorage.removeItem('userEmail');
+      localStorage.removeItem('adminSession');
     } catch (error) {
       console.error('Error signing out:', error);
       toast({
@@ -168,5 +215,6 @@ export const useAuth = () => {
     ...authState,
     signOut,
     refreshProfile,
+    adminLogin,
   };
 };
