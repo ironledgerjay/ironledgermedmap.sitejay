@@ -80,7 +80,7 @@ const About = () => {
                 <CardContent className="p-8 text-center">
                   <Avatar className="w-32 h-32 mx-auto mb-6 border-4 border-white shadow-lg">
                     <AvatarImage
-                      src="/ceo-placeholder.jpg"
+                      src="https://cdn.builder.io/api/v1/image/assets%2F4beb1a65c59a4717bcf4ed8127e58cae%2Fafd096ded3ea4ebe8003f5faba9c41c9?format=webp&width=800"
                       alt="Ofentse Mashau - CEO & Founder of IronLedger Group"
                       className="object-cover"
                     />
