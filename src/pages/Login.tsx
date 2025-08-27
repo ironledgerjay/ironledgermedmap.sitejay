@@ -261,6 +261,10 @@ export default function Login() {
                   </div>
                   <div className="text-sm text-muted-foreground">
                     Are you a doctor?{' '}
+                    <Link to="/doctor-enrollment" className="text-primary hover:underline font-medium">
+                      Join as a Provider
+                    </Link>
+                    {' or '}
                     <Link to="/doctor-portal" className="text-primary hover:underline font-medium">
                       Doctor Portal
                     </Link>
