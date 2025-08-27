@@ -32,7 +32,7 @@ export const sampleDoctorsData: DoctorData[] = [
     is_verified: true,
     user_profile: {
       full_name: 'Dr. Sarah Johnson [TEST]',
-      email: 'sarah.johnson.test@ironledgermedmap.com',
+      email: 'sarah.johnson.test@gmail.com',
       phone: '021 123 4567'
     },
     medical_practice: {
@@ -52,7 +52,7 @@ export const sampleDoctorsData: DoctorData[] = [
     is_verified: true,
     user_profile: {
       full_name: 'Dr. Michael Chen [TEST]',
-      email: 'michael.chen.test@ironledgermedmap.com',
+      email: 'michael.chen.test@gmail.com',
       phone: '021 987 6543'
     },
     medical_practice: {
@@ -74,7 +74,7 @@ export const sampleDoctorsData: DoctorData[] = [
     is_verified: true,
     user_profile: {
       full_name: 'Dr. Amina Patel [TEST]',
-      email: 'amina.patel.test@ironledgermedmap.com',
+      email: 'amina.patel.test@gmail.com',
       phone: '011 234 5678'
     },
     medical_practice: {
@@ -94,7 +94,7 @@ export const sampleDoctorsData: DoctorData[] = [
     is_verified: true,
     user_profile: {
       full_name: 'Dr. James Mthembu [TEST]',
-      email: 'james.mthembu.test@ironledgermedmap.com',
+      email: 'james.mthembu.test@gmail.com',
       phone: '012 345 6789'
     },
     medical_practice: {
@@ -116,7 +116,7 @@ export const sampleDoctorsData: DoctorData[] = [
     is_verified: true,
     user_profile: {
       full_name: 'Dr. Robert Singh [TEST]',
-      email: 'robert.singh.test@ironledgermedmap.com',
+      email: 'robert.singh.test@gmail.com',
       phone: '031 456 7890'
     },
     medical_practice: {
@@ -136,7 +136,7 @@ export const sampleDoctorsData: DoctorData[] = [
     is_verified: true,
     user_profile: {
       full_name: 'Dr. Lisa Naidoo [TEST]',
-      email: 'lisa.naidoo.test@ironledgermedmap.com',
+      email: 'lisa.naidoo.test@gmail.com',
       phone: '031 567 8901'
     },
     medical_practice: {
@@ -158,7 +158,7 @@ export const sampleDoctorsData: DoctorData[] = [
     is_verified: true,
     user_profile: {
       full_name: 'Dr. Kevin Williams [TEST]',
-      email: 'kevin.williams.test@ironledgermedmap.com',
+      email: 'kevin.williams.test@gmail.com',
       phone: '041 678 9012'
     },
     medical_practice: {
@@ -178,7 +178,7 @@ export const sampleDoctorsData: DoctorData[] = [
     is_verified: true,
     user_profile: {
       full_name: 'Dr. Michelle van der Merwe [TEST]',
-      email: 'michelle.vandermerwe.test@ironledgermedmap.com',
+      email: 'michelle.vandermerwe.test@gmail.com',
       phone: '043 789 0123'
     },
     medical_practice: {
@@ -200,7 +200,7 @@ export const sampleDoctorsData: DoctorData[] = [
     is_verified: true,
     user_profile: {
       full_name: 'Dr. Thabo Molefe [TEST]',
-      email: 'thabo.molefe.test@ironledgermedmap.com',
+      email: 'thabo.molefe.test@gmail.com',
       phone: '051 890 1234'
     },
     medical_practice: {
@@ -220,7 +220,7 @@ export const sampleDoctorsData: DoctorData[] = [
     is_verified: true,
     user_profile: {
       full_name: 'Dr. Sandra Kruger [TEST]',
-      email: 'sandra.kruger.test@ironledgermedmap.com',
+      email: 'sandra.kruger.test@gmail.com',
       phone: '051 901 2345'
     },
     medical_practice: {
@@ -242,7 +242,7 @@ export const sampleDoctorsData: DoctorData[] = [
     is_verified: true,
     user_profile: {
       full_name: 'Dr. Grace Mashaba [TEST]',
-      email: 'grace.mashaba.test@ironledgermedmap.com',
+      email: 'grace.mashaba.test@gmail.com',
       phone: '015 234 5678'
     },
     medical_practice: {
@@ -262,7 +262,7 @@ export const sampleDoctorsData: DoctorData[] = [
     is_verified: true,
     user_profile: {
       full_name: 'Dr. Peter Makwakwa [TEST]',
-      email: 'peter.makwakwa.test@ironledgermedmap.com',
+      email: 'peter.makwakwa.test@gmail.com',
       phone: '015 345 6789'
     },
     medical_practice: {
@@ -284,7 +284,7 @@ export const sampleDoctorsData: DoctorData[] = [
     is_verified: true,
     user_profile: {
       full_name: 'Dr. Nomsa Sibanyoni [TEST]',
-      email: 'nomsa.sibanyoni.test@ironledgermedmap.com',
+      email: 'nomsa.sibanyoni.test@gmail.com',
       phone: '013 456 7890'
     },
     medical_practice: {
@@ -304,7 +304,7 @@ export const sampleDoctorsData: DoctorData[] = [
     is_verified: true,
     user_profile: {
       full_name: 'Dr. Johan Pretorius [TEST]',
-      email: 'johan.pretorius.test@ironledgermedmap.com',
+      email: 'johan.pretorius.test@gmail.com',
       phone: '013 567 8901'
     },
     medical_practice: {
@@ -326,7 +326,7 @@ export const sampleDoctorsData: DoctorData[] = [
     is_verified: true,
     user_profile: {
       full_name: 'Dr. Kgomotso Motsepe [TEST]',
-      email: 'kgomotso.motsepe.test@ironledgermedmap.com',
+      email: 'kgomotso.motsepe.test@gmail.com',
       phone: '018 678 9012'
     },
     medical_practice: {
@@ -346,7 +346,7 @@ export const sampleDoctorsData: DoctorData[] = [
     is_verified: true,
     user_profile: {
       full_name: 'Dr. Lebohang Mokoena [TEST]',
-      email: 'lebohang.mokoena.test@ironledgermedmap.com',
+      email: 'lebohang.mokoena.test@gmail.com',
       phone: '014 789 0123'
     },
     medical_practice: {
@@ -368,7 +368,7 @@ export const sampleDoctorsData: DoctorData[] = [
     is_verified: true,
     user_profile: {
       full_name: 'Dr. Sarah Khoeshe [TEST]',
-      email: 'sarah.khoeshe.test@ironledgermedmap.com',
+      email: 'sarah.khoeshe.test@gmail.com',
       phone: '053 890 1234'
     },
     medical_practice: {
@@ -388,7 +388,7 @@ export const sampleDoctorsData: DoctorData[] = [
     is_verified: true,
     user_profile: {
       full_name: 'Dr. Willem Botha [TEST]',
-      email: 'willem.botha.test@ironledgermedmap.com',
+      email: 'willem.botha.test@gmail.com',
       phone: '027 901 2345'
     },
     medical_practice: {
