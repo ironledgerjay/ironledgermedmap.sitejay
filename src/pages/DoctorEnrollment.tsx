@@ -205,21 +205,40 @@ const DoctorEnrollment = () => {
   if (!isAuthenticated) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-teal-50 to-cyan-100 flex items-center justify-center">
-        <Card className="max-w-md mx-auto">
+        <Card className="max-w-lg mx-auto">
           <CardHeader>
-            <CardTitle className="text-center">Login Required</CardTitle>
+            <CardTitle className="text-center text-2xl">Doctor Enrollment - Login Required</CardTitle>
           </CardHeader>
-          <CardContent className="text-center space-y-4">
-            <AlertTriangle className="h-12 w-12 text-orange-500 mx-auto" />
-            <p className="text-gray-600">
-              You need to be logged in to access doctor enrollment.
+          <CardContent className="text-center space-y-6">
+            <AlertTriangle className="h-16 w-16 text-orange-500 mx-auto" />
+            <div className="space-y-4">
+              <h3 className="text-lg font-semibold">Join IronledgerMedMap as a Healthcare Provider</h3>
+              <p className="text-gray-600">
+                To complete your doctor enrollment and join our platform, you need to create an account first.
+              </p>
+              <p className="text-sm text-gray-500">
+                This helps us verify your identity and maintain the security of our platform.
+              </p>
+            </div>
+            <div className="flex flex-col space-y-3">
+              <Button
+                onClick={() => window.location.href = '/signup'}
+                className="bg-teal-600 hover:bg-teal-700"
+                size="lg"
+              >
+                Create Account & Enroll
+              </Button>
+              <Button
+                onClick={() => window.location.href = '/login'}
+                variant="outline"
+                size="lg"
+              >
+                Already have an account? Login
+              </Button>
+            </div>
+            <p className="text-xs text-gray-400">
+              After creating your account, you'll be able to complete the full doctor enrollment process.
             </p>
-            <Button
-              onClick={() => window.location.href = '/login'}
-              className="bg-teal-600 hover:bg-teal-700"
-            >
-              Go to Login
-            </Button>
           </CardContent>
         </Card>
       </div>

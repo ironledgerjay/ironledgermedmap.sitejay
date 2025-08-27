@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { 
@@ -77,10 +78,16 @@ const About = () => {
               </div>
               <Card className="bg-gradient-subtle border-none shadow-medical">
                 <CardContent className="p-8 text-center">
-                  <div className="w-32 h-32 mx-auto mb-6 bg-gradient-primary rounded-full flex items-center justify-center">
-                    <Users className="h-16 w-16 text-white" />
-                    {/* Placeholder for CEO photo */}
-                  </div>
+                  <Avatar className="w-32 h-32 mx-auto mb-6 border-4 border-white shadow-lg">
+                    <AvatarImage
+                      src="https://cdn.builder.io/api/v1/image/assets%2F4beb1a65c59a4717bcf4ed8127e58cae%2Fafd096ded3ea4ebe8003f5faba9c41c9?format=webp&width=800"
+                      alt="Ofentse Mashau - CEO & Founder of IronLedger Group"
+                      className="object-cover"
+                    />
+                    <AvatarFallback className="bg-gradient-primary text-white text-2xl font-bold">
+                      OM
+                    </AvatarFallback>
+                  </Avatar>
                   <h4 className="text-xl font-bold mb-2">Ofentse Mashau</h4>
                   <p className="text-muted-foreground mb-4">CEO & Founder</p>
                   <Badge variant="secondary" className="mb-4">Visionary Leader</Badge>
@@ -202,7 +209,7 @@ const About = () => {
                     <li>• Long waiting times for appointments</li>
                     <li>• Difficulty finding specialists</li>
                     <li>• Limited access to doctor information</li>
-                    <li>• Complex booking processes</li>
+                    <li>��� Complex booking processes</li>
                     <li>• Lack of price transparency</li>
                     <li>• Geographic limitations</li>
                   </ul>
