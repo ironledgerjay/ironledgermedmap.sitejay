@@ -10,6 +10,7 @@ import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import { Calendar, Clock, User, MapPin, Phone, Mail, CreditCard } from "lucide-react";
 import Header from "@/components/Header";
+import HomeButton from "@/components/HomeButton";
 import { usePayment } from "@/hooks/usePayment";
 import { supabase } from "../superbaseClient";
 import { useToast } from "@/hooks/use-toast";
