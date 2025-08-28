@@ -106,6 +106,24 @@ export default function Signup() {
         setTimeout(async () => {
           await emailService.sendWelcomeEmail(formData.email, formData.fullName);
         }, 2000);
+
+        // Send user data to CRM
+        try {
+          const userData = prepareUserDataForCRM(
+            authData.user,
+            {
+              full_name: formData.fullName,
+              phone: formData.phone,
+              date_of_birth: formData.dateOfBirth,
+              gender: formData.gender,
+              role: formData.role
+            }
+          );
+          await CRMService.recordUserRegistration(userData);
+        } catch (crmError) {
+          console.warn('CRM integration error:', crmError);
+          // Don't block user signup if CRM fails
+        }
       }
 
       toast({
