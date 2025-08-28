@@ -144,6 +144,19 @@ const Membership = () => {
       const paymentResult = await processMembershipPayment(selectedPlan, currentUser.id);
 
       if (paymentResult.success) {
+        // Send membership data to CRM
+        try {
+          const selectedPlanDetails = membershipPlans.find(plan => plan.id === selectedPlan);
+          await CRMService.updateUserMembership(
+            formData.email,
+            selectedPlan,
+            selectedPlanDetails?.price || 0
+          );
+        } catch (crmError) {
+          console.warn('CRM integration error:', crmError);
+          // Don't block membership if CRM fails
+        }
+
         toast({
           title: "Membership activated!",
           description: `Your ${selectedPlan} membership has been activated successfully.`
