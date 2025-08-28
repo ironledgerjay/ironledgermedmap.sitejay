@@ -194,6 +194,7 @@ const DoctorEnrollment = () => {
   if (isLoading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-teal-50 to-cyan-100 flex items-center justify-center">
+        <HomeButton />
         <div className="text-center">
           <Loader2 className="h-12 w-12 animate-spin text-teal-600 mx-auto mb-4" />
           <p className="text-lg text-gray-600">Loading...</p>
