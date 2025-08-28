@@ -154,14 +154,10 @@ export default function Login() {
         </div>
 
         <Tabs defaultValue="user" className="w-full animate-fade-in-scale">
-          <TabsList className="grid w-full grid-cols-2 mb-6">
+          <TabsList className="grid w-full grid-cols-1 mb-6">
             <TabsTrigger value="user" className="flex items-center space-x-2">
               <Users className="h-4 w-4" />
               <span>User Login</span>
-            </TabsTrigger>
-            <TabsTrigger value="admin" className="flex items-center space-x-2">
-              <Crown className="h-4 w-4" />
-              <span>Admin Access</span>
             </TabsTrigger>
           </TabsList>
 
