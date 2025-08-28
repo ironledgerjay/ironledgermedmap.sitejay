@@ -12,6 +12,7 @@ import HomeButton from "@/components/HomeButton";
 import { usePayment } from "@/hooks/usePayment";
 import { supabase } from "../superbaseClient";
 import { useToast } from "@/hooks/use-toast";
+import { CRMService } from "@/utils/crmService";
 
 const membershipPlans = [
   {
