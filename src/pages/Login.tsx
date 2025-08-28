@@ -11,6 +11,7 @@ import { Stethoscope, Mail, Lock, Eye, EyeOff, Shield, Users, Crown } from "luci
 import { useToast } from "@/hooks/use-toast";
 import { loginSchema, validateFormData } from "@/lib/validation";
 import AdminQuickLogin from "@/components/AdminQuickLogin";
+import HomeButton from "@/components/HomeButton";
 
 export default function Login() {
   const [formData, setFormData] = useState({
