@@ -10,6 +10,7 @@ import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Calendar, Clock, Users, Stethoscope, Building, CheckCircle, XCircle } from "lucide-react";
 import Header from "@/components/Header";
+import HomeButton from "@/components/HomeButton";
 import ScheduleManager from "@/components/ScheduleManager";
 import DoctorVerificationWrapper from "@/components/DoctorVerificationWrapper";
 import RealTimeBookings from "@/components/RealTimeBookings";
