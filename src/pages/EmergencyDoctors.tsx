@@ -19,6 +19,7 @@ import {
 } from 'lucide-react';
 import { supabase } from '@/superbaseClient';
 import { useToast } from '@/hooks/use-toast';
+import HomeButton from '@/components/HomeButton';
 
 interface Doctor {
   id: string;
