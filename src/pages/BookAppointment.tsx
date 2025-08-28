@@ -12,7 +12,7 @@ import { Calendar, Clock, User, MapPin, Phone, Mail, CreditCard } from "lucide-r
 import Header from "@/components/Header";
 import HomeButton from "@/components/HomeButton";
 import { usePayment } from "@/hooks/usePayment";
-import { supabase } from "../superbaseClient";
+import { supabase } from "@/superbaseClient";
 import { CRMService, prepareBookingDataForCRM } from "@/utils/crmService";
 import { useToast } from "@/hooks/use-toast";
 

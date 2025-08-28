@@ -10,7 +10,7 @@ import { Check, Star, Users, Phone, Shield } from "lucide-react";
 import Header from "@/components/Header";
 import HomeButton from "@/components/HomeButton";
 import { usePayment } from "@/hooks/usePayment";
-import { supabase } from "../superbaseClient";
+import { supabase } from "@/superbaseClient";
 import { useToast } from "@/hooks/use-toast";
 import { CRMService } from "@/utils/crmService";
 
