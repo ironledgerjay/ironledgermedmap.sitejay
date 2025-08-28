@@ -26,6 +26,7 @@ import {
 const About = () => {
   return (
     <div className="min-h-screen bg-background">
+      <HomeButton />
       <Header />
       
       {/* Hero Section */}
