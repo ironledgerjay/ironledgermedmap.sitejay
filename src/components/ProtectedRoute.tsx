@@ -19,18 +19,6 @@ export default function ProtectedRoute({ children, requiredRole }: ProtectedRout
 
   const checkAuth = async () => {
     try {
-      // Check for admin session in localStorage first
-      if (requiredRole === 'admin') {
-        const isAdmin = localStorage.getItem('isAdmin') === 'true';
-        const adminEmail = localStorage.getItem('userEmail');
-
-        if (isAdmin && adminEmail === 'admin@ironledgermedmap.com') {
-          setIsAuthorized(true);
-          setIsLoading(false);
-          return;
-        }
-      }
-
       const { data: { user } } = await supabase.auth.getUser();
 
       if (!user) {
