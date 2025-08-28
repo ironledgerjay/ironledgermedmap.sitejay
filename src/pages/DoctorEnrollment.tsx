@@ -207,6 +207,7 @@ const DoctorEnrollment = () => {
   if (!isAuthenticated) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-teal-50 to-cyan-100 flex items-center justify-center">
+        <HomeButton />
         <Card className="max-w-lg mx-auto">
           <CardHeader>
             <CardTitle className="text-center text-2xl">Doctor Enrollment - Login Required</CardTitle>
