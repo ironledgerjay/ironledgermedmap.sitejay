@@ -39,21 +39,9 @@ function App() {
             <DoctorPortal />
           </ProtectedRoute>
         } />
-        <Route path="/admin-dashboard" element={
-          <ProtectedRoute requiredRole="admin">
-            <AdminDashboard />
-          </ProtectedRoute>
-        } />
-        <Route path="/AdminDashboard" element={
-          <ProtectedRoute requiredRole="admin">
-            <AdminDashboard />
-          </ProtectedRoute>
-        } />
         <Route path="/book-appointment" element={<BookAppointment />} />
         <Route path="/doctor-enrollment" element={<DoctorEnrollment />} />
         <Route path="/emergency-doctors" element={<EmergencyDoctors />} />
-        <Route path="/AdminSetupPage" element={<AdminSetupPage />} />
-        <Route path="/admin-setup" element={<AdminSetupPage />} />
         <Route path="/terms-of-service" element={<TermsOfService />} />
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/medical-disclaimers" element={<MedicalDisclaimers />} />
