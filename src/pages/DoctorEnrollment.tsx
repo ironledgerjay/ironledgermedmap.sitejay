@@ -156,6 +156,18 @@ const DoctorEnrollment = () => {
         console.error('Failed to create admin notification:', notificationError);
       }
 
+      // Send doctor data to CRM
+      try {
+        const doctorData = prepareDoctorDataForCRM(formData, {
+          email: formData.email,
+          full_name: formData.fullName
+        });
+        await CRMService.recordDoctorEnrollment(doctorData);
+      } catch (crmError) {
+        console.warn('CRM integration error:', crmError);
+        // Don't block doctor enrollment if CRM fails
+      }
+
       toast({
         title: "Application Submitted Successfully! 🎉",
         description: `Your application (#${applicationId.split('_')[1]}) has been submitted. You'll receive updates via email from IronledgerMedMap within 48 hours.`,
