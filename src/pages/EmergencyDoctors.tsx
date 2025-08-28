@@ -217,6 +217,7 @@ const EmergencyDoctors = () => {
   if (loading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-red-50 to-orange-100 flex items-center justify-center">
+        <HomeButton />
         <div className="text-center">
           <Heart className="h-8 w-8 text-red-500 animate-pulse mx-auto mb-4" />
           <p className="text-lg text-gray-600">Loading emergency doctors...</p>
@@ -227,6 +228,7 @@ const EmergencyDoctors = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-red-50 to-orange-100 py-8">
+      <HomeButton />
       <div className="max-w-7xl mx-auto px-4">
         {/* Emergency Header */}
         <div className="text-center mb-8">
