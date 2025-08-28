@@ -250,6 +250,7 @@ const DoctorEnrollment = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-teal-50 to-cyan-100 py-8">
+      <HomeButton />
       <div className="max-w-4xl mx-auto px-4">
         <div className="text-center mb-8">
           <div className="inline-flex items-center justify-center w-16 h-16 bg-teal-500 rounded-full mb-4">
