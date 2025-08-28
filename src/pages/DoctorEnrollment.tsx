@@ -11,6 +11,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { supabase } from '@/superbaseClient';
 import { emailService } from '@/utils/emailService';
 import { Shield, Stethoscope, Award, CheckCircle, Loader2, AlertTriangle } from 'lucide-react';
+import HomeButton from '@/components/HomeButton';
 
 const DoctorEnrollment = () => {
   const { toast } = useToast();
