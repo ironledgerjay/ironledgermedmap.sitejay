@@ -154,6 +154,26 @@ const BookAppointment = () => {
       );
 
       if (paymentResult.success) {
+        // Send booking data to CRM
+        try {
+          const bookingData = prepareBookingDataForCRM(
+            {
+              appointmentDate: bookingData.appointmentDate,
+              appointmentTime: bookingData.appointmentTime,
+              reasonForVisit: bookingData.reasonForVisit,
+              status: 'confirmed',
+              paymentAmount: getBookingCost().total,
+              paymentStatus: 'completed'
+            },
+            { email: currentUser.email },
+            { email: doctor.user_profiles?.email }
+          );
+          await CRMService.recordBooking(bookingData);
+        } catch (crmError) {
+          console.warn('CRM integration error:', crmError);
+          // Don't block booking if CRM fails
+        }
+
         toast({
           title: "Appointment booked!",
           description: "Your appointment has been successfully booked and confirmed."
