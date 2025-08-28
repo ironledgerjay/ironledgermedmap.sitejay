@@ -11,6 +11,7 @@ import { Separator } from "@/components/ui/separator";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Stethoscope, User, Mail, Lock, Phone, Calendar, CheckCircle, Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import HomeButton from "@/components/HomeButton";
 
 export default function Signup() {
   const [formData, setFormData] = useState({
