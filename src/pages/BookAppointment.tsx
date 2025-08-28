@@ -13,6 +13,7 @@ import Header from "@/components/Header";
 import HomeButton from "@/components/HomeButton";
 import { usePayment } from "@/hooks/usePayment";
 import { supabase } from "../superbaseClient";
+import { CRMService, prepareBookingDataForCRM } from "@/utils/crmService";
 import { useToast } from "@/hooks/use-toast";
 
 const BookAppointment = () => {
