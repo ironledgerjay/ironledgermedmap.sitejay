@@ -4,6 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import HomeButton from "@/components/HomeButton";
 import { 
   Globe, 
   Heart, 
