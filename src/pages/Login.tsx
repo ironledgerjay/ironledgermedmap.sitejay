@@ -106,17 +106,8 @@ export default function Login() {
           return;
         }
 
-        // Handle role-based navigation and admin setup
-        if (profile?.role === 'admin') {
-          localStorage.setItem('isAdmin', 'true');
-          localStorage.setItem('userEmail', data.user.email || '');
-
-          toast({
-            title: "Welcome back, Admin!",
-            description: "You have been successfully logged in as administrator"
-          });
-          navigate('/admin-dashboard');
-        } else if (profile?.role === 'doctor') {
+        // Handle role-based navigation
+        if (profile?.role === 'doctor') {
           toast({
             title: "Welcome back, Doctor!",
             description: "You have been successfully logged in"
