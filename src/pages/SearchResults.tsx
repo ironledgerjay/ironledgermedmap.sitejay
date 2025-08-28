@@ -214,6 +214,7 @@ const SearchResults = () => {
   if (loading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-teal-50 to-cyan-100 flex items-center justify-center">
+        <HomeButton />
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-teal-600 mx-auto mb-4"></div>
           <p className="text-lg text-gray-600">Searching for doctors...</p>
@@ -224,6 +225,7 @@ const SearchResults = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-teal-50 to-cyan-100">
+      <HomeButton />
       {/* Enhanced Hero Section with Animation */}
       <section className="relative bg-gradient-to-br from-teal-400 via-teal-500 to-cyan-600 py-16 overflow-hidden">
         <div className="absolute inset-0 bg-black/10"></div>
