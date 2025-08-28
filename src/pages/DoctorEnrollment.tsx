@@ -12,6 +12,7 @@ import { supabase } from '@/superbaseClient';
 import { emailService } from '@/utils/emailService';
 import { Shield, Stethoscope, Award, CheckCircle, Loader2, AlertTriangle } from 'lucide-react';
 import HomeButton from '@/components/HomeButton';
+import { CRMService, prepareDoctorDataForCRM } from '@/utils/crmService';
 
 const DoctorEnrollment = () => {
   const { toast } = useToast();
