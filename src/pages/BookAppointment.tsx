@@ -187,6 +187,7 @@ const BookAppointment = () => {
   if (!doctor) {
     return (
       <div className="min-h-screen bg-background">
+        <HomeButton />
         <Header />
         <div className="container mx-auto px-4 py-12 text-center">
           <div className="text-lg">Doctor not found</div>
