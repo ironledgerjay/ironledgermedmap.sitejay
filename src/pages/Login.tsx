@@ -270,10 +270,6 @@ export default function Login() {
               </CardContent>
             </Card>
           </TabsContent>
-
-          <TabsContent value="admin" className="animate-fade-in-up">
-            <AdminQuickLogin />
-          </TabsContent>
         </Tabs>
       </div>
     </div>
